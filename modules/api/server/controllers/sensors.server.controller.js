@@ -24,3 +24,11 @@ exports.delete = function(req, res){
     ]);
 };
 
+exports.sensorByID = function (req, res, next, id) {
+    res.send([
+        {
+            status: "id: " + id
+        }
+    ]);
+};
+
