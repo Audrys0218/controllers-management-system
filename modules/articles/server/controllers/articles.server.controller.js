@@ -34,7 +34,7 @@ exports.read = function (req, res) {
 };
 
 /**
- * Update a article
+ *  a article
  */
 exports.update = function (req, res) {
   var article = req.article;

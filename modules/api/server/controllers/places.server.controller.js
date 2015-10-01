@@ -30,3 +30,69 @@ exports.list = function (req, res) {
         }
     });
 };
+
+
+exports.articleByID = function (req, res, id) {
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({
+            message: 'Place is invalid'
+        });
+    }
+
+    Place.findById(id).exec(function (err, places) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.json(places);
+        }
+    });
+};
+
+
+
+exports.delete = function (req, res, next, id) {
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({
+            message: 'Place is invalid'
+        });
+    }
+
+    Place.findById(id).exec(function (err, places) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.json(places);
+        }
+    });
+};
+
+exports.update = function (req, res) {
+
+    var id = req.body.id;
+
+    Place.findById(id).exec(function (err, place) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            place.title = req.body.title;
+            place.save(function(){
+                if (err) {
+                    return res.status(400).send({
+                        message: errorHandler.getErrorMessage(err)
+                    });
+                } else {
+                    res.json(place);
+                }
+            });
+        }
+    });
+};
+
