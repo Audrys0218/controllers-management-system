@@ -5,4 +5,4 @@ module.exports = function (app) {
   var places = require('../controllers/places.server.controller');
 
   app.route('/places').get(places.places);
-}
+};

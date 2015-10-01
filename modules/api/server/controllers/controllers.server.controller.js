@@ -12,4 +12,4 @@ exports.places = function(req, res){
         }
 
     ]);
-}
+};
