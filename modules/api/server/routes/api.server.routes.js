@@ -7,11 +7,17 @@ module.exports = function (app) {
 
   app.route('/api/places').post(places.create);
   app.route('/api/places').get(places.list);
-  app.route('/api/places/:placeId').get(places.articleByID);
-  app.route('/api/places').put(places.update);
 
+  app.route('/api/places/:id')
+      .get(places.read)
+      .put(places.update)
+      .delete(places.delete);
 
-  app.route('/api/sensors').get(sensors.list);
-  app.route('/api/sensors').post(sensors.create);
-  app.route('/api/sensors').delete(sensors.delete);
+    app.route('/api/sensors').post(sensors.create);
+    app.route('/api/sensors').get(sensors.list);
+
+    app.route('/api/sensors/:id')
+        .get(sensors.read)
+        .put(sensors.update)
+        .delete(sensors.delete);
 };

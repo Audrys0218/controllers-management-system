@@ -32,56 +32,46 @@ exports.list = function (req, res) {
 };
 
 
-exports.articleByID = function (req, res, id) {
+exports.read = function (req, res) {
+    var id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).send({
             message: 'Place is invalid'
         });
     }
-
-    Place.findById(id).exec(function (err, places) {
-        if (err) {
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-            });
-        } else {
-            res.json(places);
-        }
-    });
-};
-
-
-
-exports.delete = function (req, res, next, id) {
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).send({
-            message: 'Place is invalid'
-        });
-    }
-
-    Place.findById(id).exec(function (err, places) {
-        if (err) {
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-            });
-        } else {
-            res.json(places);
-        }
-    });
-};
-
-exports.update = function (req, res) {
-
-    var id = req.body.id;
 
     Place.findById(id).exec(function (err, place) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
+        } else if (place) {
+            res.json(place);
         } else {
+            return res.status(400).send({
+                message: 'Place is invalid'
+            });
+        }
+    });
+};
+
+exports.update = function (req, res) {
+    var id = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({
+            message: 'Place is invalid'
+        });
+    }
+
+    Place.findById(id).exec(function (err, place) {
+        console.log('update: ' + err);
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else if (place) {
             place.title = req.body.title;
             place.save(function(){
                 if (err) {
@@ -92,7 +82,44 @@ exports.update = function (req, res) {
                     res.json(place);
                 }
             });
+        } else {
+            return res.status(400).send({
+                message: 'Place is invalid'
+            });
         }
     });
 };
 
+exports.delete = function (req, res) {
+    var id = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({
+            message: 'Place is invalid'
+        });
+    }
+
+    Place.findById(id).exec(function (err, place) {
+        console.log(place);
+        if (err) {
+            console.log('error');
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else if (place) {
+            place.remove(function (err) {
+                if (err) {
+                    return res.status(400).send({
+                        message: errorHandler.getErrorMessage(err)
+                    });
+                } else {
+                    res.json(place);
+                }
+            });
+        } else {
+            return res.status(400).send({
+                message: 'Place is invalid'
+            });
+        }
+    });
+};
