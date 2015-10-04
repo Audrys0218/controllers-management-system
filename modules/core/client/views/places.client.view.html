@@ -1,10 +1,14 @@
-<section ng-controller="PlacesController" class="home-module">
+<div class="row" ng-controller="PlacesController" class="home-module">
     <table class="table table-bordered">
+      <tr>
+        <th>Title</th>
+        <th>Created On</th>
+        <th>Actions</th>
+      </tr>
       <tr class="" ng-repeat="place in places">
         <td>{{place.title}} </td>
         <td>{{place.created | date:'yyyy-MM-dd'}} </td>
-        <td>Edit</td>
-        <td>Delete</td>
+        <td>Edit | Delete</td>
       </tr>
     </table>
-</section>
+</div>
