@@ -13,6 +13,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 
     // Home state routing
     $stateProvider
+      .state('places', {
+        url: '/places',
+        templateUrl: 'modules/core/client/views/places.client.view.html'
+      })
     .state('home', {
       url: '/',
       templateUrl: 'modules/core/client/views/home.client.view.html'

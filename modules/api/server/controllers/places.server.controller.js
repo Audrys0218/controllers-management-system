@@ -3,6 +3,7 @@
 var path = require('path'),
     mongoose = require('mongoose'),
     Place = mongoose.model('Place'),
+    RestResponse = require(path.resolve('./modules/api/server/common/restResponse')).RestResponse,
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 exports.create = function (req, res) {
@@ -26,7 +27,7 @@ exports.list = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(places);
+            res.json(new RestResponse(true, places));
         }
     });
 };

@@ -23,7 +23,6 @@ exports.list = function (req, res) {
     Sensor.find().sort('-created').exec(function (err, sensors) {
         if (err) {
             return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
             });
         } else {
             res.json(sensors);
