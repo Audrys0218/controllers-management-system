@@ -5,7 +5,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
   function ($stateProvider, $urlRouterProvider) {
 
     // Redirect to 404 when route not found
-    $urlRouterProvider.otherwise(function ($injector, $location) {
+    $urlRouterProvider.otherwise(function ($injector) {
       $injector.get('$state').transitionTo('not-found', null, {
         location: false
       });
@@ -15,7 +15,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
     $stateProvider
       .state('places', {
         url: '/places',
-        templateUrl: 'modules/core/client/views/places.client.view.html'
+        templateUrl: 'modules/core/client/views/places/places.client.view.html'
       })
     .state('home', {
       url: '/',

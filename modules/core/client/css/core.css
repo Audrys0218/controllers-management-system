@@ -91,3 +91,8 @@ body {
 /* Sign in form end */
 /* Home screen end*/
 /* General end*/
+
+
+.controls .btn {
+  margin-bottom: 15px;
+}
