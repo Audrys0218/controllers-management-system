@@ -25,7 +25,7 @@ angular.module('core').controller('PlacesController', ['$scope', '$http', '$moda
     }).then(successCallback, errorCallback);
 
     function successCallback(response) {
-        console.log(response);
+        console.log(response)
         if(response.data.success){
             $scope.places = response.data.data;
         }else{

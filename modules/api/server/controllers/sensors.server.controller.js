@@ -3,6 +3,7 @@
 var path = require('path'),
     mongoose = require('mongoose'),
     Sensor = mongoose.model('Sensor'),
+    RestResponse = require(path.resolve('./modules/api/server/common/restResponse')).RestResponse,
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 exports.create = function (req, res) {
@@ -23,9 +24,10 @@ exports.list = function (req, res) {
     Sensor.find().sort('-created').exec(function (err, sensors) {
         if (err) {
             return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(sensors);
+            res.json(new RestResponse(true, sensors));
         }
     });
 };
