@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core').controller('SensorsController', ['$scope', '$http', '$modal', function ($scope, $http, $modal) {
+angular.module('core').controller('SensorsController', ['$scope', '$http', '$modal', '$log', function ($scope, $http, $modal, $log) {
     $scope.sensors = [];
 
     $scope.add = function(){

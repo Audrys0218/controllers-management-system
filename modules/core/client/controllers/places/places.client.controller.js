@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core').controller('PlacesController', ['$scope', '$http', '$modal', function ($scope, $http, $modal) {
+angular.module('core').controller('PlacesController', ['$scope', '$http', '$modal', '$log', function ($scope, $http, $modal, $log) {
     $scope.places = [];
 
     $scope.edit = function(place){
@@ -25,11 +25,11 @@ angular.module('core').controller('PlacesController', ['$scope', '$http', '$moda
     }).then(successCallback, errorCallback);
 
     function successCallback(response) {
-        console.log(response)
+        window.console.log(response);
         if(response.data.success){
             $scope.places = response.data.data;
         }else{
-            console.log('Error:' + response.data.message);
+            window.console.log('Error:' + response.data.message);
         }
     }
 
