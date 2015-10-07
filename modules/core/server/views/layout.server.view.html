@@ -33,24 +33,14 @@
 
   <!-- Application CSS Files -->
   {% for cssFile in cssFiles %}<link rel="stylesheet" href="{{cssFile}}">{% endfor %}
+  <link rel="stylesheet" href="http://css-spinners.com/css/spinner/spinner.css" type="text/css">
 </head>
 
-<body class="ng-cloak">
+<body class="ng-cloak" >
   <header ng-include="'/modules/core/client/views/header.client.view.html'" class="navbar navbar-inverse" >
 
   </header>
   <section class="content">
-    <!--<div class="container">-->
-      <!--<div class="row">-->
-          <!--<ul class="nav nav-tabs">-->
-            <!--<li class="active"><a href="#">Places</a></li>-->
-            <!--<li><a href="#">Sensors</a></li>-->
-            <!--<li><a href="#">Controllers</a></li>-->
-            <!--<li><a href="#">Rules</a></li>-->
-          <!--</ul>-->
-      <!--</div>-->
-    <!--</div>-->
-
     <section class="container">
       {% block content %}{% endblock %}
     </section>

@@ -73,7 +73,7 @@ exports.update = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else if (place) {
-            place.title = req.body.title;
+            place.title = req.body.place.title;
             place.save(function(){
                 if (err) {
                     return res.status(400).send({

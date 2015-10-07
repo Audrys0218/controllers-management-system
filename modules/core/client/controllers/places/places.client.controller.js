@@ -1,22 +1,29 @@
 'use strict';
 
-angular.module('core').controller('PlacesController', ['$scope', '$http', '$modal', '$log', function ($scope, $http, $modal, $log) {
+angular.module('core').controller('PlacesController', ['$scope', '$http', '$modal', '$log', function ($scope, $http, $modal) {
     $scope.places = [];
 
     $scope.edit = function(place){
-        $scope.editModel = place;
+
+        var editPlace = function (p) {
+            var index = $scope.places.indexOf(place);
+            if(index > -1) {
+                $scope.places[index] = p;
+            }
+        };
+
         var modalInstance = $modal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'modules/core/client/views/places/places.edit.client.view.html',
+            templateUrl: 'modules/core/client/views/places/place.add-edit.client.view.html',
+            controller: 'AddEditPlaceController',
             size: 'lg',
-            scope: $scope
+            resolve: {
+                place: function() {
+                    return place;
+                }
+            }
         });
 
-        modalInstance.result.then(function (selectedItem) {
-            $scope.selected = selectedItem;
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
+        modalInstance.result.then(editPlace);
     };
 
     $http({
