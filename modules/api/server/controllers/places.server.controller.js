@@ -7,10 +7,11 @@ var path = require('path'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 exports.create = function (req, res) {
-    var place = new Place(req.body);
-    console.log(req.body);
+    var place = new Place(req.body.place);
+
     place.save(function (err) {
         if (err) {
+            console.log(err);
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });

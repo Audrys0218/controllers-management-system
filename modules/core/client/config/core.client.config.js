@@ -6,13 +6,13 @@ angular.module('core').run(['Menus',
     Menus.addMenuItem('topbar', {
       title: 'Places',
       state: 'places',
-      roles: ['*']
+      roles: ['user']
     });
 
     Menus.addMenuItem('topbar', {
       title: 'Sensors',
       state: 'sensors',
-      roles: ['*']
+      roles: ['user']
     });
 
   }

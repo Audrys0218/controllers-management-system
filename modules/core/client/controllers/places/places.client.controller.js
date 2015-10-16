@@ -26,6 +26,25 @@ angular.module('core').controller('PlacesController', ['$scope', '$http', '$moda
         modalInstance.result.then(editPlace);
     };
 
+    $scope.add = function(){
+        var add = function (p) {
+            $scope.places.push(p);
+        };
+
+        var modalInstance = $modal.open({
+            templateUrl: 'modules/core/client/views/places/place.add-edit.client.view.html',
+            controller: 'AddEditPlaceController',
+            size: 'lg',
+            resolve: {
+                place: function() {
+                    return void(0);
+                }
+            }
+        });
+
+        modalInstance.result.then(add);
+    };
+
     $http({
         method: 'GET',
         url: '/api/places'
