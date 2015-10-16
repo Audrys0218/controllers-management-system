@@ -5,9 +5,9 @@ angular.module('core').controller('AddEditPlaceController', ['$scope', '$modalIn
 
     $scope.save = function () {
         if(typeof  $scope.place._id !== 'undefined'){
-            $http.put('/api/places/' + $scope.place._id, {place: $scope.place}).then(successCallback);
+            $http.put('/api/v1/places/' + $scope.place._id, {place: $scope.place}).then(successCallback);
         } else {
-            $http.post('/api/places/', {place: $scope.place}).then(successCallback);
+            $http.post('/api/v1/places/', {place: $scope.place}).then(successCallback);
         }
     };
 

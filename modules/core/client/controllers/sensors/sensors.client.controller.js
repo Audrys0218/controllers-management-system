@@ -48,7 +48,7 @@ angular.module('core')
 
     $http({
         method: 'GET',
-        url: '/api/sensors'
+        url: '/api/v1/sensors'
     }).then(successCallback, errorCallback);
 
     function successCallback(response) {

@@ -47,7 +47,7 @@ angular.module('core').controller('PlacesController', ['$scope', '$http', '$moda
 
     $http({
         method: 'GET',
-        url: '/api/places'
+        url: '/api/v1/places'
     }).then(successCallback, errorCallback);
 
     function successCallback(response) {
