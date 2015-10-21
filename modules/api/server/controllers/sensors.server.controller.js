@@ -27,7 +27,12 @@ exports.list = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(new RestResponse(true, sensors));
+            res.json(new RestResponse(true, sensors.map(function(s) {
+                return {
+                    id: s._id,
+                    title: s.title
+                };
+            })));
         }
     });
 };
