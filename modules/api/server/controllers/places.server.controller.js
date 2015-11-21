@@ -7,7 +7,7 @@ var path = require('path'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 exports.create = function (req, res) {
-    var place = new Place(req.body.place);
+    var place = new Place(req.body.model);
 
     place.save(function (err) {
         if (err) {
@@ -16,7 +16,7 @@ exports.create = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(place);
+            res.json(new RestResponse(true, place));
         }
     });
 };
@@ -74,14 +74,14 @@ exports.update = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else if (place) {
-            place.title = req.body.place.title;
+            place.title = req.body.model.title;
             place.save(function(){
                 if (err) {
                     return res.status(400).send({
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
-                    res.json(place);
+                    res.json(new RestResponse(true, place));
                 }
             });
         } else {

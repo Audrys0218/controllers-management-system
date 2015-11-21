@@ -1,48 +1,39 @@
 'use strict';
 
-angular.module('core').controller('PlacesController', ['$scope', '$http', '$modal', '$log', function ($scope, $http, $modal) {
+angular.module('core').controller('PlacesController', ['$scope', '$http', '$modal', 'confirmation', 'addEditService', function ($scope, $http, $modal, confirmation, addEditService) {
     $scope.places = [];
 
-    $scope.edit = function(place){
-
-        var editPlace = function (p) {
-            var index = $scope.places.indexOf(place);
-            if(index > -1) {
-                $scope.places[index] = p;
-            }
-        };
-
-        var modalInstance = $modal.open({
+    $scope.addEdit = function (place) {
+        addEditService.open({
             templateUrl: 'modules/core/client/views/places/place.add-edit.client.view.html',
-            controller: 'AddEditPlaceController',
-            size: 'lg',
-            resolve: {
-                place: function() {
-                    return place;
-                }
-            }
-        });
+            apiUrl: '/api/v1/places/',
+            model: place,
+            editTitle: 'Edit place',
+            addTitle: 'Add place'
+        }).then(addOrEdit);
 
-        modalInstance.result.then(editPlace);
+        function addOrEdit(response) {
+            var elementIndex = $scope.places.map(function(p){
+                return p._id;
+            }).indexOf(response.data._id);
+
+            if (elementIndex > -1){
+                $scope.places[elementIndex] = response.data;
+            } else {
+                $scope.places.push(response.data);
+            }
+        }
     };
 
-    $scope.add = function(){
-        var add = function (p) {
-            $scope.places.push(p);
-        };
-
-        var modalInstance = $modal.open({
-            templateUrl: 'modules/core/client/views/places/place.add-edit.client.view.html',
-            controller: 'AddEditPlaceController',
-            size: 'lg',
-            resolve: {
-                place: function() {
-                    return void(0);
-                }
-            }
+    $scope.delete = function (place, index) {
+        confirmation.confirm('Warning!', 'Do you really want to delete this item?', function () {
+            $http({
+                method: 'DELETE',
+                url: '/api/v1/places/' + place._id
+            }).then(function () {
+                $scope.places.splice(index, 1);
+            }, errorCallback);
         });
-
-        modalInstance.result.then(add);
     };
 
     $http({
@@ -51,15 +42,14 @@ angular.module('core').controller('PlacesController', ['$scope', '$http', '$moda
     }).then(successCallback, errorCallback);
 
     function successCallback(response) {
-        window.console.log(response);
-        if(response.data.success){
+        if (response.data.success) {
             $scope.places = response.data.data;
-        }else{
+        } else {
             window.console.log('Error:' + response.data.message);
         }
     }
 
-    function errorCallback(response) {
+    function errorCallback() {
         console.log('Internal server error');
     }
 
