@@ -115,7 +115,7 @@ exports.delete = function (req, res) {
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
-                    res.json(place);
+                    res.json(new RestResponse(true, place));
                 }
             });
         } else {

@@ -4,36 +4,7 @@ angular.module('core')
     .controller('SensorsController', ['$scope', '$http', '$modal', '$log', 'confirmation', function ($scope, $http, $modal, $log, confirmation) {
     $scope.sensors = [];
 
-    $scope.add = function(){
-        var modalInstance = $modal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'modules/core/client/views/sensors/sensors.add.client.view.html',
-            size: 'lg',
-            scope: $scope
-        });
 
-        modalInstance.result.then(function (selectedItem) {
-            $scope.selected = selectedItem;
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-    };
-
-    $scope.edit = function(sensor){
-        $scope.editModel = sensor;
-        var modalInstance = $modal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'modules/core/client/views/sensors/sensors.edit.client.view.html',
-            size: 'lg',
-            scope: $scope
-        });
-
-        modalInstance.result.then(function (selectedItem) {
-            $scope.selected = selectedItem;
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-    };
 
     $scope.delete = function(sensor, index) {
         confirmation.confirm('Warning!', 'Do you really want to delete this item?', function() {
@@ -60,7 +31,7 @@ angular.module('core')
         }
     }
 
-    function errorCallback(response) {
+    function errorCallback() {
         console.log('Internal server error');
     }
 
