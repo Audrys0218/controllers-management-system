@@ -8,7 +8,7 @@ angular.module('core')
         };
 
         var load = function () {
-            $http({
+            return $http({
                 method: 'GET',
                 url: '/api/v1/places'
             }).then(successCallback);

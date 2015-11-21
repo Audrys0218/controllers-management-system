@@ -1,7 +1,11 @@
 <tb-add-edit>
-  <div class="form-group">
-    <label for="title">Title:</label>
-    <input ng-model="model.title" type="text" class="form-control" id="title">
-  </div>
+  <form name="form">
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <input ng-model="model.title" type="text" class="form-control" id="title" name="title" required
+               tooltip="{{form.title.$touched && form.title.$error.required ? 'Field is required' : ''}}"
+               tooltip-append-to-body="true">
+    </div>
+  </form>
 </tb-add-edit>
 

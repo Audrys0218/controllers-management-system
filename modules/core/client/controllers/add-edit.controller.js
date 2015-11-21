@@ -3,6 +3,10 @@
 angular.module('core').controller('AddEditController', ['$scope', '$modalInstance', '$http', 'data', function ($scope, $modalInstance, $http, data) {
     $scope.model = data.model ? angular.copy(data.model) : {};
 
+    window.audrius = $scope.model;
+
+    $scope.dataModel = data.dataModel;
+
     $scope.title = data.title;
 
     $scope.save = function () {

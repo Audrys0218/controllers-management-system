@@ -7,15 +7,13 @@ var path = require('path'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 exports.create = function (req, res) {
-    var sensor = new Sensor(req.body);
+    var sensor = new Sensor(req.body.model);
     console.log(req.body);
     sensor.save(function (err) {
         if (err) {
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-            });
+            return res.status(400).send(new RestResponse(false, null, [errorHandler.getErrorMessage(err)]));
         } else {
-            res.json(sensor);
+            res.json(new RestResponse(true, sensor));
         }
     });
 };

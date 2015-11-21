@@ -1,9 +1,9 @@
 'use strict';
 
-exports.RestResponse = function(success, data, message){
+exports.RestResponse = function(success, data, messages){
     return {
         success: success,
         data: data,
-        message: message
+        messages: messages
     };
 };
