@@ -16,6 +16,7 @@ angular.module('core')
             function successCallback(response) {
                 if (response.data.success) {
                     model.sensors = response.data.data;
+                    window.console.log(model.sensors);
                 } else {
                     window.console.log('Error:' + response.data.message);
                 }

@@ -17,8 +17,9 @@ var SensorSchema = new Schema({
         trim: true,
         required: 'Title cannot be blank'
     },
-    placeId:{
+    place:{
         type: Schema.Types.ObjectId,
+        ref: 'Place',
         required: 'Place should be selected'
     },
     type: {
