@@ -4,12 +4,12 @@ angular.module('core')
     .controller('PlacesController', ['$scope', 'placesModel', function ($scope, placesModel) {
     $scope.model = placesModel.model;
 
-    $scope.addEdit = function(place){
-        placesModel.addEdit(place);
+    $scope.addEdit = function(placeId){
+        placesModel.addEdit(placeId);
     };
 
-    $scope.delete = function(place){
-        placesModel.delete(place);
+    $scope.delete = function(placeId){
+        placesModel.delete(placeId);
     };
 
     placesModel.load();

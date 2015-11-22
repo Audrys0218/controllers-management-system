@@ -5,7 +5,7 @@
   </div>
   <label for="place">Place:</label>
   <select class="form-control" id="place" ng-model="model.placeId"
-          ng-options="place._id as place.title for place in dataModel.places track by place._id">
+          ng-options="place.id as place.title for place in dataModel.places track by place.id">
   </select>
   <label for="type">Type:</label>
   <select class="form-control" id="type" ng-model="model.type">
@@ -25,6 +25,6 @@
   <input type="text" class="form-control" id="com-type-loc" ng-model="model.communicationPath">
 
   <div class="checkbox">
-    <label><input type="checkbox" ng-model="model.active">Active</label>
+    <label><input type="checkbox" ng-model="model.isActive">Active</label>
   </div>
 </tb-add-edit>

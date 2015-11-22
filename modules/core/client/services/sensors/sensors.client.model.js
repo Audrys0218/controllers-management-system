@@ -22,7 +22,7 @@ angular.module('core')
             }
         };
 
-        var addEdit = function (sensor) {
+        var addEdit = function (sensorId) {
             placesModel.load().then(callAddEditModal);
 
             function callAddEditModal(){
@@ -33,37 +33,20 @@ angular.module('core')
                 addEditService.open({
                     templateUrl: 'modules/core/client/views/sensors/sensors.add-edit.client.view.html',
                     apiUrl: '/api/v1/sensors/',
-                    model: sensor,
+                    modelId: sensorId,
                     dataModel: dataModel,
                     editTitle: 'Edit sensor',
                     addTitle: 'Add new sensor'
-                }).then(addOrEdit);
-
-                function addOrEdit(response) {
-                    var elementIndex = model.sensors.map(function (p) {
-                        return p._id;
-                    }).indexOf(response.data._id);
-
-                    if (elementIndex > -1) {
-                        model.sensors[elementIndex] = response.data;
-                    } else {
-                        model.sensors.push(response.data);
-                    }
-                }
+                }).then(load);
             }
         };
 
-        var deleteSensor = function (sensor) {
+        var deleteSensor = function (sensorId) {
             confirmation.confirm('Warning!', 'Do you really want to delete this item?', function () {
                 $http({
                     method: 'DELETE',
-                    url: '/api/v1/sensors/' + sensor._id
-                }).then(function (response) {
-                    var index = model.sensors.indexOf(sensor);
-                    if(response.data.success){
-                        model.sensors.splice(index, 1);
-                    }
-                });
+                    url: '/api/v1/sensors/' + sensorId
+                }).then(load);
             });
         };
 

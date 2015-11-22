@@ -22,39 +22,22 @@ angular.module('core')
             }
         };
 
-        var addEdit = function (place) {
+        var addEdit = function (placeId) {
             addEditService.open({
                 templateUrl: 'modules/core/client/views/places/place.add-edit.client.view.html',
                 apiUrl: '/api/v1/places/',
-                model: place,
+                modelId: placeId,
                 editTitle: 'Edit place',
                 addTitle: 'Add place'
-            }).then(addOrEdit);
-
-            function addOrEdit(response) {
-                var elementIndex = model.places.map(function (p) {
-                    return p._id;
-                }).indexOf(response.data._id);
-
-                if (elementIndex > -1) {
-                    model.places[elementIndex] = response.data;
-                } else {
-                    model.places.push(response.data);
-                }
-            }
+            }).then(load);
         };
 
-        var deletePlace = function (place) {
+        var deletePlace = function (placeId) {
             confirmation.confirm('Warning!', 'Do you really want to delete this item?', function () {
                 $http({
                     method: 'DELETE',
-                    url: '/api/v1/places/' + place._id
-                }).then(function (response) {
-                    var index = model.places.indexOf(place);
-                    if(response.data.success){
-                        model.places.splice(index, 1);
-                    }
-                });
+                    url: '/api/v1/places/' + placeId
+                }).then(load);
             });
         };
 

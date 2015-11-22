@@ -16,6 +16,27 @@ var SensorSchema = new Schema({
         default: '',
         trim: true,
         required: 'Title cannot be blank'
+    },
+    placeId:{
+        type: Schema.Types.ObjectId,
+        required: 'Place should be selected'
+    },
+    type: {
+        type: String
+    },
+    communicationType: {
+        type: String,
+        default: 'file',
+        trim: true,
+        required: 'Communication type cannot be blank'
+    },
+    communicationPath: {
+        type: String,
+        trim: true
+    },
+    isActive: {
+        type: Schema.Types.Boolean,
+        default: false
     }
 });
 

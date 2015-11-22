@@ -16,7 +16,10 @@ exports.create = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(new RestResponse(true, place));
+            res.json(new RestResponse(true, {
+                id: place._id,
+                title: place.title
+            }));
         }
     });
 };
@@ -28,7 +31,12 @@ exports.list = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(new RestResponse(true, places));
+            res.json(new RestResponse(true, places.map(function (p) {
+                return {
+                    id: p._id,
+                    title: p.title
+                };
+            })));
         }
     });
 };
@@ -49,7 +57,10 @@ exports.read = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else if (place) {
-            res.json(place);
+            res.json(new RestResponse(true, {
+                id: place._id,
+                title: place.title
+            }));
         } else {
             return res.status(400).send({
                 message: 'Place is invalid'
@@ -75,13 +86,16 @@ exports.update = function (req, res) {
             });
         } else if (place) {
             place.title = req.body.model.title;
-            place.save(function(){
+            place.save(function () {
                 if (err) {
                     return res.status(400).send({
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
-                    res.json(new RestResponse(true, place));
+                    res.json(new RestResponse(true, {
+                        id: place._id,
+                        title: place.title
+                    }));
                 }
             });
         } else {
@@ -102,7 +116,6 @@ exports.delete = function (req, res) {
     }
 
     Place.findById(id).exec(function (err, place) {
-        console.log(place);
         if (err) {
             console.log('error');
             return res.status(400).send({
@@ -115,7 +128,10 @@ exports.delete = function (req, res) {
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
-                    res.json(new RestResponse(true, place));
+                    res.json(new RestResponse(true, {
+                        id: place._id,
+                        title: place.title
+                    }));
                 }
             });
         } else {

@@ -6,14 +6,25 @@ var path = require('path'),
     RestResponse = require(path.resolve('./modules/api/server/common/restResponse')).RestResponse,
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
+function mapToResponseModel(sensor){
+    return {
+        id: sensor._id,
+        title: sensor.title,
+        placeId: sensor.placeId,
+        type: sensor.type,
+        communicationType: sensor.communicationType,
+        communicationPath: sensor.communicationPath,
+        isActive: sensor.isActive
+    };
+}
+
 exports.create = function (req, res) {
     var sensor = new Sensor(req.body.model);
-    console.log(req.body);
     sensor.save(function (err) {
         if (err) {
             return res.status(400).send(new RestResponse(false, null, [errorHandler.getErrorMessage(err)]));
         } else {
-            res.json(new RestResponse(true, sensor));
+            res.json(new RestResponse(true, mapToResponseModel(sensor)));
         }
     });
 };
@@ -25,12 +36,7 @@ exports.list = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(new RestResponse(true, sensors.map(function(s) {
-                return {
-                    id: s._id,
-                    title: s.title
-                };
-            })));
+            res.json(new RestResponse(true, sensors.map(mapToResponseModel)));
         }
     });
 };
@@ -51,7 +57,7 @@ exports.read = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else if (sensor) {
-            res.json(sensor);
+            res.json(new RestResponse(true, mapToResponseModel(sensor)));
         } else {
             return res.status(400).send({
                 message: 'Sensor is invalid'
@@ -70,20 +76,19 @@ exports.update = function (req, res) {
     }
 
     Sensor.findById(id).exec(function (err, sensor) {
-        console.log('update: ' + err);
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
         } else if (sensor) {
-            sensor.title = req.body.title;
-            sensor.save(function(){
+            updateSensor(sensor);
+            sensor.save(function () {
                 if (err) {
                     return res.status(400).send({
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
-                    res.json(sensor);
+                    res.json(new RestResponse(true, mapToResponseModel(sensor)));
                 }
             });
         } else {
@@ -92,6 +97,15 @@ exports.update = function (req, res) {
             });
         }
     });
+
+    function updateSensor(sensor){
+        sensor.title = req.body.model.title;
+        sensor.placeId = req.body.model.placeId;
+        sensor.type = req.body.model.type;
+        sensor.communicationType = req.body.model.communicationType;
+        sensor.communicationPath = req.body.model.communicationPath;
+        sensor.isActive = req.body.model.isActive;
+    }
 };
 
 exports.delete = function (req, res) {
@@ -117,7 +131,7 @@ exports.delete = function (req, res) {
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
-                    res.json(sensor);
+                    res.json(new RestResponse(true, mapToResponseModel(sensor)));
                 }
             });
         } else {
