@@ -5,17 +5,11 @@
   </div>
   <label for="place">Place:</label>
   <select class="form-control" id="place" ng-model="model.place"
-          ng-options="place.id as place.title for place in dataModel.places track by place.id">
+          ng-options="place.id as place.title for place in dataModel.places">
   </select>
   <label for="type">Type:</label>
-  <select class="form-control" id="type" ng-model="model.type">
-    <option>Light sensor</option>
-    <option>Motion sensor</option>
-    <option>Temperature sensor</option>
-    <option>Humidity sensor</option>
-    <option>Sound sensor</option>
-    <option>Smoke sensor</option>
-    <option>Speech recognition sensor</option>
+  <select class="form-control" id="type" ng-model="model.type"
+          ng-options="key as value for (key , value) in dataModel.sensorsTypes">
   </select>
   <label for="com-type-loc">Communication path:</label>
 

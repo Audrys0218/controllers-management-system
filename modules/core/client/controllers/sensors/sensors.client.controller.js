@@ -15,7 +15,7 @@ angular.module('core')
         };
 
         $scope.ping = function () {
-            pingService.ping(model.communicationPath).then(function (success) {
+            pingService.ping($scope.model.communicationPath).then(function (success) {
                 $scope.pingSuccess = success;
                 $scope.showPingResult = true;
                 $window.$timeout(function () {

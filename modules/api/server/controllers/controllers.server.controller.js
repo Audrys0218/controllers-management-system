@@ -3,18 +3,30 @@
 var path = require('path'),
     mongoose = require('mongoose'),
     Controller = mongoose.model('Controller'),
+    RestResponse = require(path.resolve('./modules/api/server/common/restResponse')).RestResponse,
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
+function mapToResponseModel(controller){
+    return {
+        id: controller._id,
+        title: controller.title,
+        placeTitle: controller.place.title,
+        type: controller.type,
+        communicationType: controller.communicationType,
+        communicationPath: controller.communicationPath,
+        isActive: controller.isActive
+    };
+}
+
 exports.create = function (req, res) {
-    var controller = new Controller(req.body);
-    console.log(req.body);
+    var controller = new Controller(req.body.model);
     controller.save(function (err) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(controller);
+            res.json(new RestResponse(true, mapToResponseModel(controller)));
         }
     });
 };
@@ -26,7 +38,7 @@ exports.list = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(controllers);
+            res.json(new RestResponse(true, controllers.map(mapToResponseModel)));
         }
     });
 };
@@ -47,7 +59,7 @@ exports.read = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else if (controller) {
-            res.json(controller);
+            res.json(new RestResponse(true, mapToResponseModel(controller)));
         } else {
             return res.status(400).send({
                 message: 'Controller is invalid'
@@ -79,7 +91,7 @@ exports.update = function (req, res) {
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
-                    res.json(controller);
+                    res.json(new RestResponse(true, mapToResponseModel(controller)));
                 }
             });
         } else {
@@ -113,7 +125,7 @@ exports.delete = function (req, res) {
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
-                    res.json(controller);
+                    res.json(new RestResponse(true, mapToResponseModel(controller)));
                 }
             });
         } else {

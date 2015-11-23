@@ -15,5 +15,11 @@ angular.module('core').run(['Menus',
       roles: ['user']
     });
 
+    Menus.addMenuItem('topbar', {
+      title: 'Controllers',
+      state: 'controllers',
+      roles: ['user']
+    });
+
   }
 ]);
