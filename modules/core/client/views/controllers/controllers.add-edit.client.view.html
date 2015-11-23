@@ -18,18 +18,7 @@
     <option>Speech recognition sensor</option>
   </select>
   <label for="com-type-loc">Communication path:</label>
-
-  <div class="input-group">
-    <input type="text" class="form-control" id="com-type-loc" ng-model="model.communicationPath">
-    <div class="input-group-btn">
-      <button class="btn btn-primary" type="button" ng-click="ping()">
-        Ping
-      </button>
-    </div>
-  </div>
-
-  <span ng-if="showPingResult && pingSuccess" class="label label-success">Success</span>
-  <span ng-if="showPingResult && !pingSuccess" class="label label-danger">No Response</span>
+  <input type="text" class="form-control" id="com-type-loc" ng-model="model.communicationPath">
 
   <div class="checkbox">
     <label><input type="checkbox" ng-model="model.isActive">Active</label>
