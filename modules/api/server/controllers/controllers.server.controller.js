@@ -6,18 +6,6 @@ var path = require('path'),
     RestResponse = require(path.resolve('./modules/api/server/common/restResponse')).RestResponse,
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
-function mapToResponseModel(controller){
-    return {
-        id: controller._id,
-        title: controller.title,
-        placeTitle: controller.place.title,
-        type: controller.type,
-        communicationType: controller.communicationType,
-        communicationPath: controller.communicationPath,
-        isActive: controller.isActive
-    };
-}
-
 exports.create = function (req, res) {
     var controller = new Controller(req.body.model);
     controller.save(function (err) {
@@ -26,19 +14,28 @@ exports.create = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(new RestResponse(true, mapToResponseModel(controller)));
+            res.json(new RestResponse(true, null));
         }
     });
 };
 
 exports.list = function (req, res) {
-    Controller.find().sort('-created').exec(function (err, controllers) {
+    Controller.find().sort('-created').populate('place').exec(function (err, controllers) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(new RestResponse(true, controllers.map(mapToResponseModel)));
+            res.json(new RestResponse(true, controllers.map(function(controller){
+                return {
+                    id: controller._id,
+                    title: controller.title,
+                    placeTitle: controller.place.title,
+                    type: controller.type,
+                    communicationPath: controller.communicationPath,
+                    isActive: controller.isActive
+                };
+            })));
         }
     });
 };
@@ -59,7 +56,15 @@ exports.read = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else if (controller) {
-            res.json(new RestResponse(true, mapToResponseModel(controller)));
+            res.json(new RestResponse(true, {
+                id: controller._id,
+                title: controller.title,
+                place: controller.place,
+                type: controller.type,
+                communicationType: controller.communicationType,
+                communicationPath: controller.communicationPath,
+                isActive: controller.isActive
+            }));
         } else {
             return res.status(400).send({
                 message: 'Controller is invalid'
@@ -84,20 +89,28 @@ exports.update = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else if (controller) {
-            controller.title = req.body.title;
-            controller.save(function(){
+            updateController(controller);
+            controller.save(function () {
                 if (err) {
                     return res.status(400).send({
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
-                    res.json(new RestResponse(true, mapToResponseModel(controller)));
+                    res.json(new RestResponse(true, null));
                 }
             });
         } else {
             return res.status(400).send({
                 message: 'Controller is invalid'
             });
+        }
+
+        function updateController(controller) {
+            controller.title = req.body.model.title;
+            controller.place = req.body.model.place;
+            controller.type = req.body.model.type;
+            controller.communicationPath = req.body.model.communicationPath;
+            controller.isActive = req.body.model.isActive;
         }
     });
 };
@@ -125,7 +138,7 @@ exports.delete = function (req, res) {
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
-                    res.json(new RestResponse(true, mapToResponseModel(controller)));
+                    res.json(new RestResponse(true));
                 }
             });
         } else {

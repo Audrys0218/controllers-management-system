@@ -41,4 +41,4 @@ var SensorSchema = new Schema({
     }
 });
 
-mongoose.model('Sensor', SensorSchema);
+module.exports = mongoose.model('Sensor', SensorSchema);

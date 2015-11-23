@@ -6,25 +6,13 @@ var path = require('path'),
     RestResponse = require(path.resolve('./modules/api/server/common/restResponse')).RestResponse,
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
-function mapToResponseModel(sensor){
-    return {
-        id: sensor._id,
-        title: sensor.title,
-        placeTitle: sensor.place.title,
-        type: sensor.type,
-        communicationType: sensor.communicationType,
-        communicationPath: sensor.communicationPath,
-        isActive: sensor.isActive
-    };
-}
-
 exports.create = function (req, res) {
     var sensor = new Sensor(req.body.model);
     sensor.save(function (err) {
         if (err) {
             return res.status(400).send(new RestResponse(false, null, [errorHandler.getErrorMessage(err)]));
         } else {
-            res.json(new RestResponse(true, mapToResponseModel(sensor)));
+            res.json(new RestResponse(true));
         }
     });
 };
@@ -36,7 +24,17 @@ exports.list = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(new RestResponse(true, sensors.map(mapToResponseModel)));
+            res.json(new RestResponse(true, sensors.map(function(sensor){
+                return {
+                    id: sensor._id,
+                    title: sensor.title,
+                    placeTitle: sensor.place.title,
+                    type: sensor.type,
+                    communicationType: sensor.communicationType,
+                    communicationPath: sensor.communicationPath,
+                    isActive: sensor.isActive
+                };
+            })));
         }
     });
 };
@@ -57,7 +55,15 @@ exports.read = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else if (sensor) {
-            res.json(new RestResponse(true, mapToResponseModel(sensor)));
+            res.json(new RestResponse(true, {
+                id: sensor._id,
+                title: sensor.title,
+                place: sensor.place,
+                type: sensor.type,
+                communicationType: sensor.communicationType,
+                communicationPath: sensor.communicationPath,
+                isActive: sensor.isActive
+            }));
         } else {
             return res.status(400).send({
                 message: 'Sensor is invalid'
@@ -88,7 +94,7 @@ exports.update = function (req, res) {
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
-                    res.json(new RestResponse(true, mapToResponseModel(sensor)));
+                    res.json(new RestResponse(true));
                 }
             });
         } else {
@@ -100,9 +106,8 @@ exports.update = function (req, res) {
 
     function updateSensor(sensor){
         sensor.title = req.body.model.title;
-        sensor.placeId = req.body.model.placeId;
+        sensor.place = req.body.model.place;
         sensor.type = req.body.model.type;
-        sensor.communicationType = req.body.model.communicationType;
         sensor.communicationPath = req.body.model.communicationPath;
         sensor.isActive = req.body.model.isActive;
     }
@@ -131,7 +136,7 @@ exports.delete = function (req, res) {
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
-                    res.json(new RestResponse(true, mapToResponseModel(sensor)));
+                    res.json(new RestResponse(true));
                 }
             });
         } else {

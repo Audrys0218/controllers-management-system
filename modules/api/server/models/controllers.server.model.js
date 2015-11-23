@@ -31,4 +31,4 @@ var ControllerSchema = new Schema({
     }
 });
 
-mongoose.model('Controller', ControllerSchema);
+module.exports = mongoose.model('Controller', ControllerSchema);
