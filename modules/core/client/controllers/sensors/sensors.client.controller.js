@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('core')
-    .controller('SensorsController', ['$scope', 'sensorsModel', function ($scope, sensorsModel, pingService, $window) {
+    .controller('SensorsController', ['$scope', 'sensorsTypesModel', 'sensorsModel', 'pingService', '$window', function ($scope, sensorsTypesModel, sensorsModel, pingService, $window) {
         $scope.model = sensorsModel.model;
         $scope.showPingResult = false;
         $scope.pingSuccess = false;
+
+        $scope.sensorTypesModel = sensorsTypesModel.model;
 
         $scope.addEdit = function (sensorId) {
             sensorsModel.addEdit(sensorId);

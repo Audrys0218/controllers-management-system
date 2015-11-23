@@ -6,7 +6,7 @@ angular.module('core')
         var model = {
             'light': 'Light',
             'motion': 'Motion',
-            'temperature': 'Hemperature',
+            'temperature': 'Temperature',
             'humidity': 'Humidity',
             'sound': 'Sound',
             'smoke': 'Smoke'

@@ -13,4 +13,8 @@ angular.module('core')
             return deferred.promise;
         };
 
+        return {
+            ping: ping
+        };
+
     }]);
