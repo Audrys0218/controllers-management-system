@@ -93,3 +93,12 @@ body {
 .controls .btn {
   margin-bottom: 15px;
 }
+
+
+.add-edit-rule .form-group{
+  position: relative;
+}
+
+.add-edit-rule .glyphicon-remove-circle {
+  font-size: 2em;
+}
