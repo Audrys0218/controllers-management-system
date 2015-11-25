@@ -17,12 +17,12 @@
       <div class="form-group" ng-repeat="trigger in rule.triggers">
         <div class="row">
           <div class="col-md-6">
-            <select class="form-control" ng-model="trigger.sensorId"
+            <select class="form-control" ng-model="trigger.sensor"
                     ng-options="sensor.id as sensor.label for sensor in sensors">
             </select>
           </div>
           <div class="col-md-2">
-            <select class="form-control" ng-model="trigger.operator"
+            <select class="form-control" ng-model="trigger.compareType"
                     ng-options="key as value for (key, value) in operators">
             </select>
           </div>
@@ -36,7 +36,7 @@
 
       </div>
 
-      <div class="form-group" ng-repeat="outcomes in rule.triggersOutcomes">
+      <div class="form-group" ng-repeat="outcome in rule.outcomes">
         <div class="row">
           <div class="col-md-2">
             Controllers
@@ -44,7 +44,7 @@
         </div>
         <div class="row">
           <div class="col-md-6">
-            <select class="form-control" ng-model="outcomes.controllerId"
+            <select class="form-control" ng-model="outcome.controller"
                     ng-options="controller.id as controller.label for controller in controllers">
             </select>
           </div>

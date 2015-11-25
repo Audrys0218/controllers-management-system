@@ -6,7 +6,7 @@ angular.module('core')
             var model = {
                 rule: {
                     triggers: [{}],
-                    triggersOutcomes: [{}]
+                    outcomes: [{}]
                 }
             };
 
@@ -15,22 +15,22 @@ angular.module('core')
                     id: '1',
                     'title': 'Title1',
                     triggers: [{
-                        sensorId: null,
-                        operator: '>',
+                        sensor: null,
+                        compareType: '>',
                         value: '25'
 
                     }, {
-                        sensorId: null,
-                        operator: '>',
+                        sensor: null,
+                        compareType: '>',
                         value: '25'
 
                     }],
-                    triggersOutcomes: [{
-                        controllerId: null,
+                    outcomes: [{
+                        controller: null,
                         value: '25'
 
                     }, {
-                        controllerId: null,
+                        controller: null,
                         value: '25'
 
                     }]
