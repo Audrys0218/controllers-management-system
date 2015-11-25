@@ -25,6 +25,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             url: '/controllers',
             templateUrl: 'modules/core/client/views/controllers/controllers.client.view.html'
         })
+        .state('rules', {
+            url: '/rules',
+            templateUrl: 'modules/core/client/views/rules/rules.client.view.html'
+        })
         .state('home', {
           url: '/',
           templateUrl: 'modules/core/client/views/home.client.view.html'

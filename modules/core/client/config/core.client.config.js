@@ -21,5 +21,11 @@ angular.module('core').run(['Menus',
       roles: ['user']
     });
 
+    Menus.addMenuItem('topbar', {
+      title: 'Rules',
+      state: 'rules',
+      roles: ['user']
+    });
+
   }
 ]);
