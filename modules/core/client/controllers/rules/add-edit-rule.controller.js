@@ -1,14 +1,13 @@
 'use strict';
 
 angular.module('core')
-    .controller('AddEditRuleController', ['$scope', '$modalInstance', 'sensorsModel', 'controllersModel', '$q', 'operatorsModel', 'conjunctionsTypes',
-          function ($scope, $modalInstance, sensorsModel, controllersModel, $q, operatorsModel, conjunctionsTypes) {
+    .controller('AddEditRuleController', ['$scope', '$modalInstance', 'sensorsModel', 'controllersModel', '$q', 'operatorsModel', 'conjunctionsTypes', 'rulesModel',
+          function ($scope, $modalInstance, sensorsModel, controllersModel, $q, operatorsModel, conjunctionsTypes, rulesModel) {
 
         $scope.conjunctionsTypes = conjunctionsTypes.model;
         $scope.operators = operatorsModel.model;
-        $scope.rule = {};
-        $scope.triggers = [{}];
-        $scope.triggersOutcomes = [{}];
+          rulesModel.load();
+        $scope.rule = rulesModel.model.rule;
 
         $q.when([sensorsModel.load(), controllersModel.load()]).then(function(){
                 $scope.sensors = sensorsModel.model.sensors.map(function(s){

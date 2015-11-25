@@ -14,7 +14,7 @@
           </select>
         </div>
       </div>
-      <div class="form-group" ng-repeat="trigger in triggers">
+      <div class="form-group" ng-repeat="trigger in rule.triggers">
         <div class="row">
           <div class="col-md-6">
             <select class="form-control" ng-model="trigger.sensorId"
@@ -36,7 +36,7 @@
 
       </div>
 
-      <div class="form-group" ng-repeat="outcomes in triggersOutcomes">
+      <div class="form-group" ng-repeat="outcomes in rule.triggersOutcomes">
         <div class="row">
           <div class="col-md-2">
             Controllers
