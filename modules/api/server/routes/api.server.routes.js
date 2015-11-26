@@ -28,6 +28,12 @@ module.exports = function (app) {
         .put(rules.update)
         .delete(rules.delete);
 
+    app.route('/api/v1/rules/:id/triggers');
+    app.route('/api/v1/rules/:id/triggers/:triggerId');
+
+    app.route('/api/v1/rules/:id/sensors');
+    app.route('/api/v1/rules/:id/sensors/:sensorId');
+
     app.route('/api/v1/sensors').post(sensors.create);
     app.route('/api/v1/sensors').get(sensors.list);
     app.route('/api/v1/sensors/:id')
