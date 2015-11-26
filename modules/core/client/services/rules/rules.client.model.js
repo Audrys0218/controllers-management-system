@@ -1,10 +1,16 @@
 'use strict';
 
 angular.module('core')
-    .factory('rulesModel', ['$http',
-        function ($http) {
+    .factory('rulesModel', ['$http', 'confirmation',
+        function ($http, confirmation) {
             var model = {
-                rules: []
+                rules: [],
+                defaultRuleObject: {
+                    title: '',
+                    type: '&&',
+                    triggers: [{}],
+                    outcomes: [{}]
+                }
             };
 
             var load = function () {
@@ -29,11 +35,21 @@ angular.module('core')
                 return $http.get('/api/v1/rules/' + id);
             };
 
+            var deleteRule = function (ruleId) {
+                confirmation.confirm('Warning!', 'Do you really want to delete this item?', function () {
+                    $http({
+                        method: 'DELETE',
+                        url: '/api/v1/rules/' + ruleId
+                    }).then(load);
+                });
+            };
+
             return {
                 model: model,
                 load: load,
                 save: save,
-                get: get
+                get: get,
+                delete: deleteRule
             };
 
         }]);

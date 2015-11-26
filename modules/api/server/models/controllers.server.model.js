@@ -34,7 +34,11 @@ var ControllerSchema = new Schema({
     communicationPath: {
         type: String,
         trim: true
-    }
+    },
+    value:{
+        type: Number,
+        default: -999
+    },
 });
 
 module.exports = mongoose.model('Controller', ControllerSchema);

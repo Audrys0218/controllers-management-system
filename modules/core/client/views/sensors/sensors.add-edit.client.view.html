@@ -9,7 +9,7 @@
   </select>
   <label for="type">Type:</label>
   <select class="form-control" id="type" ng-model="model.type"
-          ng-options="key as value for (key , value) in dataModel.sensorsTypes">
+          ng-options="key as value.label for (key , value) in dataModel.sensorsTypes">
   </select>
   <label for="com-type-loc">Communication path:</label>
 

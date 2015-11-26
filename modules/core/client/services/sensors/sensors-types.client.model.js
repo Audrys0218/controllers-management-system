@@ -4,12 +4,34 @@ angular.module('core')
     .factory('sensorsTypesModel', [function () {
 
         var model = {
-            'light': 'Light',
-            'motion': 'Motion',
-            'temperature': 'Temperature',
-            'humidity': 'Humidity',
-            'sound': 'Sound',
-            'smoke': 'Smoke'
+            'light': {
+                label: 'Light',
+                min: 0,
+                max: 100
+            },
+            'motion': {
+                label: 'Motion',
+                min: 0,
+                max: 1
+            },
+            'temperature': {
+                label: 'Temperature',
+                min: 0,
+                max: 100
+            },
+            'humidity': {
+                label: 'Humidity'
+            },
+            'sound': {
+                label: 'Sound',
+                min: 0,
+                max: 1000
+            },
+            'smoke': {
+                label: 'Smoke',
+                min: 0,
+                max: 1
+            }
         };
 
         return {

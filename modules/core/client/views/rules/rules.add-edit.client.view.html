@@ -24,26 +24,7 @@
         </div>
 
         <div class="form-group" ng-repeat="trigger in rule.triggers">
-          <label class="col-sm-1 control-label">Sensor</label>
-          <div class="col-md-4">
-            <select class="form-control" ng-model="trigger.sensor"
-                    ng-options="sensor.id as sensor.label for sensor in optionsModel.sensors">
-            </select>
-          </div>
-          <label class="col-sm-1 control-label">Operator</label>
-          <div class="col-md-2">
-            <select class="form-control" ng-model="trigger.compareType"
-                    ng-options="key as value for (key, value) in operators">
-            </select>
-          </div>
-          <label class="col-sm-1 control-label">Value</label>
-          <div class="col-md-2">
-            <input type="text" class="form-control" ng-model="trigger.value">
-          </div>
-          <div class="col-md-1">
-            <span class="glyphicon glyphicon-remove-circle" ng-show="$index !== 0"
-                  ng-click="removeTrigger($index)"></span>
-          </div>
+          <rule-trigger-row></rule-trigger-row>
         </div>
 
         <div class="form-group">

@@ -38,7 +38,11 @@ var SensorSchema = new Schema({
     isActive: {
         type: Schema.Types.Boolean,
         default: false
-    }
+    },
+    value:{
+        type: Number,
+        default: -999
+    },
 });
 
 module.exports = mongoose.model('Sensor', SensorSchema);

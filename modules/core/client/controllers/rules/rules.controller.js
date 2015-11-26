@@ -24,7 +24,7 @@ angular.module('core')
         };
 
         $scope.delete = function (ruleId) {
-            window.console.log('Delete rule');
+            rulesModel.delete(ruleId);
         };
 
         rulesModel.load();
