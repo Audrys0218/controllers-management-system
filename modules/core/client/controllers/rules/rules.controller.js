@@ -1,18 +1,9 @@
 'use strict';
 
 angular.module('core')
-    .controller('RulesController', ['$scope', '$modal', function ($scope, $modal) {
+    .controller('RulesController', ['$scope', '$modal', 'rulesModel', function ($scope, $modal, rulesModel) {
 
-        $scope.model = {};
-
-        $scope.model.rules = [{
-            id: '',
-            title: 'Tite1'
-        }, {
-            id: '',
-            title: 'Tite2'
-        }
-        ];
+        $scope.model = rulesModel.model;
 
         $scope.addEdit = function (ruleId) {
             var modalInstance = $modal.open({
@@ -35,4 +26,7 @@ angular.module('core')
         $scope.delete = function (ruleId) {
             window.console.log('Delete rule');
         };
+
+        rulesModel.load();
+
     }]);

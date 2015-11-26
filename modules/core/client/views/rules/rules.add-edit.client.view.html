@@ -6,10 +6,18 @@
     <form>
       <div class="row">
         <div class="col-md-2">
+          Rule title:
+        </div>
+        <div class="col-md-10">
+          <input type="text" class="form-control" ng-model="rule.title">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
           Sensors
         </div>
         <div class="col-md-2">
-          <select class="form-control" ng-model="rule.conjunctionType"
+          <select class="form-control" ng-model="rule.type"
                   ng-options="key as value for (key, value) in conjunctionsTypes">
           </select>
         </div>
@@ -18,7 +26,7 @@
         <div class="row">
           <div class="col-md-6">
             <select class="form-control" ng-model="trigger.sensor"
-                    ng-options="sensor.id as sensor.label for sensor in sensors">
+                    ng-options="sensor.id as sensor.label for sensor in optionsModel.sensors">
             </select>
           </div>
           <div class="col-md-2">
@@ -45,11 +53,11 @@
         <div class="row">
           <div class="col-md-6">
             <select class="form-control" ng-model="outcome.controller"
-                    ng-options="controller.id as controller.label for controller in controllers">
+                    ng-options="controller.id as controller.label for controller in optionsModel.controllers">
             </select>
           </div>
           <div class="col-md-5">
-            <input type="text" class="form-control" id="title" ng-model="controller.value">
+            <input type="text" class="form-control" id="title" ng-model="outcome.value">
           </div>
           <div class="col-md-1">
             <span class="glyphicon glyphicon-remove-circle"></span>
