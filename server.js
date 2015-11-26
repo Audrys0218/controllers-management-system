@@ -9,9 +9,7 @@ var server = app.start();
 
 var cp = require('child_process');
 
-console.log(__dirname + '/processes/watch.js');
-
-var n = cp.fork(__dirname + '/processes/watch.js', [], { execArgv: ['--debug=5859'] });
+var n = cp.fork(__dirname + '/processes/worker.js', [], { execArgv: ['--debug=5859'] });
 
 n.on('message', function(m) {
     console.log('PARENT got message:', m);
