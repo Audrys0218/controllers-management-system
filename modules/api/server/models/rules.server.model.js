@@ -63,4 +63,4 @@ var RuleSchema = new Schema({
     outcomes: [RuleOutcomeSchema]
 });
 
-mongoose.model('Rule', RuleSchema);
+module.exports = mongoose.model('Rule', RuleSchema);
