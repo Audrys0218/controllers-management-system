@@ -3,73 +3,88 @@
     <h3 class="modal-title">Add/Edit rule</h3>
   </div>
   <div class="modal-body">
-    <form>
-      <div class="row">
-        <div class="col-md-2">
-          Rule title:
-        </div>
+    <form class="form-horizontal">
+
+      <div class="form-group">
+        <label for="title" class="col-sm-1 control-label">Title</label>
         <div class="col-md-10">
-          <input type="text" class="form-control" ng-model="rule.title">
+          <input id="title" type="text" class="form-control" ng-model="rule.title">
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-2">
-          Sensors
+
+      <fieldset>
+        <LEGEND>Triggers</LEGEND>
+        <div class="form-group">
+          <label class="col-sm-1 control-label">Conjunctor</label>
+          <div class="col-md-2 col-md-offset-1">
+            <select class="form-control" ng-model="rule.type"
+                    ng-options="key as value for (key, value) in conjunctionsTypes">
+            </select>
+          </div>
         </div>
-        <div class="col-md-2">
-          <select class="form-control" ng-model="rule.type"
-                  ng-options="key as value for (key, value) in conjunctionsTypes">
-          </select>
-        </div>
-      </div>
-      <div class="form-group" ng-repeat="trigger in rule.triggers">
-        <div class="row">
-          <div class="col-md-6">
+
+        <div class="form-group" ng-repeat="trigger in rule.triggers">
+          <label class="col-sm-1 control-label">Sensor</label>
+          <div class="col-md-4">
             <select class="form-control" ng-model="trigger.sensor"
                     ng-options="sensor.id as sensor.label for sensor in optionsModel.sensors">
             </select>
           </div>
+          <label class="col-sm-1 control-label">Operator</label>
           <div class="col-md-2">
             <select class="form-control" ng-model="trigger.compareType"
                     ng-options="key as value for (key, value) in operators">
             </select>
           </div>
-          <div class="col-md-3">
+          <label class="col-sm-1 control-label">Value</label>
+          <div class="col-md-2">
             <input type="text" class="form-control" ng-model="trigger.value">
           </div>
           <div class="col-md-1">
-            <span class="glyphicon glyphicon-remove-circle"></span>
+            <span class="glyphicon glyphicon-remove-circle" ng-show="$index !== 0"
+                  ng-click="removeTrigger($index)"></span>
           </div>
         </div>
 
-      </div>
-
-      <div class="form-group" ng-repeat="outcome in rule.outcomes">
-        <div class="row">
+        <div class="form-group">
           <div class="col-md-2">
-            Controllers
+            <button type="button" class="btn btn-success" ng-click="addTrigger()">Add</button>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6">
+      </fieldset>
+
+      <fieldset>
+        <legend>Outcomes</legend>
+
+        <div class="form-group" ng-repeat="outcome in rule.outcomes">
+          <label class="col-sm-1 control-label">Controller</label>
+          <div class="col-md-5">
             <select class="form-control" ng-model="outcome.controller"
                     ng-options="controller.id as controller.label for controller in optionsModel.controllers">
             </select>
           </div>
-          <div class="col-md-5">
-            <input type="text" class="form-control" id="title" ng-model="outcome.value">
+          <label class="col-sm-1 control-label">Value</label>
+          <div class="col-md-4">
+            <input type="text" class="form-control" ng-model="outcome.value">
           </div>
           <div class="col-md-1">
-            <span class="glyphicon glyphicon-remove-circle"></span>
+            <span class="glyphicon glyphicon-remove-circle" ng-show="$index !== 0"
+                  ng-click="removeOutcome($index)"></span>
           </div>
         </div>
-      </div>
+
+        <div class="form-group">
+          <div class="col-md-2">
+            <button type="button" class="btn btn-success" ng-click="addOutcome()">Add</button>
+          </div>
+        </div>
+      </fieldset>
     </form>
 
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary" type="button" ng-click="save()">Save</button>
-    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-warning" type="button" ng-click="l()">Cancel</button>
   </div>
 </div>
 

@@ -21,7 +21,7 @@ angular.module('core')
                 });
             }
 
-            $q.when([sensorsModel.load(), controllersModel.load()]).then(function () {
+            $q.all([sensorsModel.load(), controllersModel.load()]).then(function () {
                     $scope.optionsModel.sensors = sensorsModel.model.sensors.map(function (s) {
                         return {
                             id: s.id,
@@ -47,4 +47,23 @@ angular.module('core')
             $scope.cancel = function () {
                 $modalInstance.dismiss();
             };
+
+            $scope.addTrigger = function(){
+                $scope.rule.triggers.push({
+                    operator: '='
+                });
+            };
+
+            $scope.removeTrigger = function(index){
+                $scope.rule.triggers.splice(index, 1);
+            };
+
+            $scope.addOutcome = function(){
+                $scope.rule.outcomes.push({});
+            };
+
+            $scope.removeOutcome = function(index){
+                $scope.rule.outcomes.splice(index, 1);
+            };
+
         }]);
