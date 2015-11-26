@@ -25,6 +25,12 @@ var ControllerSchema = new Schema({
     type: {
         type: String
     },
+    communicationType: {
+        type: String,
+        default: 'file',
+        trim: true,
+        required: 'Communication type cannot be blank'
+    },
     communicationPath: {
         type: String,
         trim: true
