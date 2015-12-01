@@ -5,15 +5,9 @@ angular.module('core')
         function ($scope, $modalInstance, sensorsModel, controllersModel, operatorsModel, conjunctionsTypes, rulesModel, data, sensorsTypesModel) {
 
             $scope.conjunctionsTypes = conjunctionsTypes.model;
-            $scope.operators = operatorsModel.model;
             $scope.rule = angular.copy(rulesModel.model.defaultRuleObject);
 
             $scope.sensorsTypesModel = sensorsTypesModel.model;
-
-            $scope.optionsModel = {
-                sensors: [],
-                controllers: [],
-            };
 
             if (data.modelId) {
                 rulesModel.get(data.modelId).then(function (response) {
@@ -22,15 +16,6 @@ angular.module('core')
                     }
                 });
             }
-
-            sensorsModel.load().then(function () {
-                $scope.optionsModel.sensors = sensorsModel.model.sensors.map(function (s) {
-                    return {
-                        id: s.id,
-                        label: s.placeTitle + '\\' + s.title
-                    };
-                });
-            });
 
             controllersModel.load().then(function () {
                 $scope.optionsModel.controllers = controllersModel.model.controllers.map(function (c) {
@@ -65,11 +50,8 @@ angular.module('core')
                 $scope.rule.outcomes.splice(index, 1);
             };
 
-            //$scope.setDefaultSensor = function (trigger) {
-            //    trigger.sensor = trigger.sensor || $scope.optionsModel.sensors[0];
-            //};
-            //
-            //$scope.setDefaultController = function (outcome) {
-            //    outcome.controller = outcome.controller || $scope.optionsModel.controllers[0];
-            //};
+            $scope.removeTrigger = function (index) {
+                $scope.rule.triggers.splice(index, 1);
+            };
+
         }]);

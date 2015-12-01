@@ -1,7 +1,7 @@
 <label class="col-sm-1 control-label">Sensor</label>
 <div class="col-md-4">
   <select class="form-control" ng-model="trigger.sensor"
-          ng-options="sensor.id as sensor.label for sensor in optionsModel.sensors">
+          ng-options="sensor.id as sensor.label for sensor in sensors">
   </select>
 </div>
 <label class="col-sm-1 control-label">Operator</label>
@@ -15,6 +15,6 @@
   <input type="text" class="form-control" ng-model="trigger.value">
 </div>
 <div class="col-md-1">
-            <span class="glyphicon glyphicon-remove-circle" ng-show="$index !== 0"
-                  ng-click="removeTrigger($index)"></span>
+            <span class="glyphicon glyphicon-remove-circle" ng-show="index !== 0"
+                  ng-click="onRemove({index: index})"></span>
 </div>
