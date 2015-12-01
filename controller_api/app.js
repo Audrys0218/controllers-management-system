@@ -8,37 +8,49 @@ var router = Router();
 var apiStatus = Router();
 
 var status = 0;
+var output;
 
 router.use('/api/v1/status', apiStatus);
 
 router.get('/', function(req, res) {
     console.log('alive');
-    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    res.end('alive');
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.end(JSON.stringify({
+        message: 'alive'
+    }));
 });
 
 apiStatus.get('/', function(req, res) {
     console.log('status');
-    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    res.end(status === 0 ? '0' : '1');
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.end(JSON.stringify({
+        message: 'success',
+        data: status
+    }));
 });
 
-apiStatus.put('/on', function(req, res) {
-    console.log('on');
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    res.end('success');
-    output.write(0);
-    status = 1;
-});
-
-apiStatus.put('/off', function(req, res) {
-    console.log('off');
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    res.end('success');
-    output.write(1);
-    status = 0;
+apiStatus.put('/:value', function(req, res) {
+    var value = req.params.value;
+    console.log('put: ' + value);
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    if (value === '0' || value === '1') {
+        res.statusCode = 200;
+        res.end(JSON.stringify({
+            message: 'success'
+        }));
+        if (value === '1') {
+            output.write(0);
+            status = 1;
+        } else {
+            output.write(1);
+            status = 0;
+        }
+    } else {
+        res.statusCode = 400;
+        res.end(JSON.stringify({
+            message: 'Supported values range is [0..1]'
+        }));
+    }
 });
 
 raspi.init(function() {
