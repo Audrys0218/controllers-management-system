@@ -40,11 +40,15 @@ angular.module('core')
                         }
                     }
 
+                    if($scope.form && $scope.form[$scope.trigger.id] && $scope.form[$scope.trigger.id].$error.required){
+                        return 'Field is required';
+                    }
+
                     return '';
                 };
             },
             link: function ($scope, element, attr, ctrl) {
-                $scope.form = ctrl[0];
+                $scope.form = ctrl;
             }
         };
     });

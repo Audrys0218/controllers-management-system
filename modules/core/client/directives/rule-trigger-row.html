@@ -12,7 +12,7 @@
 </div>
 <label class="col-sm-1 control-label">Value</label>
 <div class="col-md-2" ng-class="{ 'has-error': getValidationMessage() !== ''}">
-  <input type="number" class="form-control" ng-model="trigger.value" tooltip="{{ getValidationMessage() }}">
+  <input name="{{ trigger.id }}" type="number" class="form-control" ng-model="trigger.value" tooltip="{{ getValidationMessage() }}" required />
 </div>
 <div class="col-md-1">
             <span class="glyphicon glyphicon-remove-circle" ng-show="index !== 0"
