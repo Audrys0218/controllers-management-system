@@ -1,13 +1,11 @@
 'use strict';
 
 angular.module('core')
-    .controller('AddEditRuleController', ['$scope', '$modalInstance', 'sensorsModel', 'controllersModel', 'operatorsModel', 'conjunctionsTypes', 'rulesModel', 'data', 'sensorsTypesModel',
-        function ($scope, $modalInstance, sensorsModel, controllersModel, operatorsModel, conjunctionsTypes, rulesModel, data, sensorsTypesModel) {
+    .controller('AddEditRuleController', ['$scope', '$modalInstance', 'conjunctionsTypes', 'rulesModel', 'data',
+        function ($scope, $modalInstance, conjunctionsTypes, rulesModel, data) {
 
             $scope.conjunctionsTypes = conjunctionsTypes.model;
             $scope.rule = angular.copy(rulesModel.model.defaultRuleObject);
-
-            $scope.sensorsTypesModel = sensorsTypesModel.model;
 
             if (data.modelId) {
                 rulesModel.get(data.modelId).then(function (response) {
@@ -16,15 +14,6 @@ angular.module('core')
                     }
                 });
             }
-
-            controllersModel.load().then(function () {
-                $scope.optionsModel.controllers = controllersModel.model.controllers.map(function (c) {
-                    return {
-                        id: c.id,
-                        label: c.placeTitle + '\\' + c.title
-                    };
-                });
-            });
 
             $scope.save = function () {
                 rulesModel.save($scope.rule).then(function () {

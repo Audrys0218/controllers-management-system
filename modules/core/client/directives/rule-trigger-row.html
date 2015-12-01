@@ -11,8 +11,8 @@
   </select>
 </div>
 <label class="col-sm-1 control-label">Value</label>
-<div class="col-md-2">
-  <input type="text" class="form-control" ng-model="trigger.value">
+<div class="col-md-2" ng-class="{ 'has-error': getValidationMessage() !== ''}">
+  <input type="number" class="form-control" ng-model="trigger.value" tooltip="{{ getValidationMessage() }}">
 </div>
 <div class="col-md-1">
             <span class="glyphicon glyphicon-remove-circle" ng-show="index !== 0"
