@@ -43,7 +43,7 @@ var SensorSchema = new Schema({
     value:{
         type: Number,
         default: -999
-    },
+    }
 });
 
 module.exports = mongoose.model('Sensor', SensorSchema);

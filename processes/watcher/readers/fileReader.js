@@ -1,29 +1,32 @@
 'use strict';
 
-var fs = require('fs');
+var fs = require('fs'),
+    path = require('path'),
+    reader = require(path.resolve('./processes/watcher/readers/reader'));
 
-var id,
-    location,
-    value = -999;
+var data,
+    interval;
 
 var check = function() {
-    var newValue = parseInt(fs.readFileSync(location, 'utf-8'));
-    if (typeof newValue === 'number' && newValue !== value) {
-        value = newValue;
-        process.send({
-            type: 'sensorValueChanged',
-            id: id,
-            data: value
-        });
+    var newValue;
+
+    try {
+        newValue = parseInt(fs.readFileSync(data.location, 'utf-8'));
+    } catch (e) {
+        reader.sendError(data.id, e);
+    }
+
+    if (typeof newValue === 'number' && newValue !== data.value) {
+        data.value = newValue;
+        reader.sendChange(data.id, data.value);
     }
 };
 
-process.on('message', function(data) {
-    if (data.type === 'init') {
-        id = data.id;
-        location = data.location;
-        value = data.value;
-        setInterval(check, 1000);
-    }
-    console.log('fileReader got message:', data);
-});
+module.exports.start = function(_data) {
+    data = _data;
+    interval = setInterval(check, 1000);
+};
+
+module.exports.stop = function() {
+    clearInterval(interval);
+};

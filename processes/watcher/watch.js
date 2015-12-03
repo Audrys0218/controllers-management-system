@@ -10,11 +10,13 @@ var path = require('path'),
     fileReader = require(path.resolve('./processes/watcher/readers/fileReader')),
     cp = require('child_process');
 
+var port = 5860;
+
 module.exports.start = function() {
 
     console.log('start');
 
-    var worker = cp.fork(__dirname + '/readers/fileReader.js', [], { execArgv: ['--debug=5860'] });
+    var worker = cp.fork(__dirname + '/readers/reader.js', [], { execArgv: ['--debug=' + port++] });
 
     worker.on('message', function(data) {
         console.log('Watcher got message:', data);
@@ -22,9 +24,10 @@ module.exports.start = function() {
 
     worker.send({
         type: 'init',
-        id: 'id121445',
-        location: 'testSensor',
-        value: 3
+        id: 'idtest',
+        location: 'devices/sensors/idtest',
+        value: 3,
+        communicationType: 'file'
     });
 
     //Sensor.find().exec(function (err, sensors) {
