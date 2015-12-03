@@ -4,7 +4,17 @@ var path = require('path'),
     mongoose = require('mongoose'),
     Sensor = mongoose.model('Sensor'),
     RestResponse = require(path.resolve('./modules/api/server/common/restResponse')).RestResponse,
-    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
+    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+    fs = require('fs');
+
+function createFileIfNotExist(sensor) {
+    var fullFileName = './devices/sensors/' + sensor._id;
+    try {
+        (fs.accessSync(fullFileName, fs.R_OK | fs.W_OK));
+    } catch (e) {
+        fs.writeFileSync(fullFileName, '');
+    }
+}
 
 exports.create = function (req, res) {
     var sensor = new Sensor(req.body.model);
@@ -12,6 +22,10 @@ exports.create = function (req, res) {
         if (err) {
             return res.status(400).send(new RestResponse(false, null, [errorHandler.getErrorMessage(err)]));
         } else {
+            if (sensor.communicationType === 'file') {
+                createFileIfNotExist(sensor);
+            }
+
             res.json(new RestResponse(true));
         }
     });
@@ -24,7 +38,7 @@ exports.list = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(new RestResponse(true, sensors.map(function(sensor){
+            res.json(new RestResponse(true, sensors.map(function (sensor) {
                 return {
                     id: sensor._id,
                     title: sensor.title,
@@ -104,13 +118,17 @@ exports.update = function (req, res) {
         }
     });
 
-    function updateSensor(sensor){
+    function updateSensor(sensor) {
         sensor.title = req.body.model.title;
         sensor.place = req.body.model.place;
         sensor.type = req.body.model.type;
         sensor.communicationType = req.body.model.communicationType;
         sensor.communicationPath = req.body.model.communicationPath;
         sensor.isActive = req.body.model.isActive;
+
+        if (sensor.communicationType === 'file') {
+            createFileIfNotExist(sensor);
+        }
     }
 };
 
@@ -131,12 +149,13 @@ exports.delete = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else if (sensor) {
-            sensor.remove(function (err) {
+            sensor.remove(function (err, removedSensor) {
                 if (err) {
                     return res.status(400).send({
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
+                    fs.unlinkSync('./devices/sensors/' + removedSensor._id);
                     res.json(new RestResponse(true));
                 }
             });

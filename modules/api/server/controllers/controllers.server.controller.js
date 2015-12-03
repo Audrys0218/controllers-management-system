@@ -4,7 +4,17 @@ var path = require('path'),
     mongoose = require('mongoose'),
     Controller = mongoose.model('Controller'),
     RestResponse = require(path.resolve('./modules/api/server/common/restResponse')).RestResponse,
-    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
+    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+    fs = require('fs');
+
+function createFileIfNotExist(controller) {
+    var fullFileName = './devices/controllers/' + controller._id;
+    try {
+        (fs.accessSync(fullFileName, fs.R_OK | fs.W_OK));
+    } catch (e) {
+        fs.writeFileSync(fullFileName, '');
+    }
+}
 
 exports.create = function (req, res) {
     var controller = new Controller(req.body.model);
@@ -14,6 +24,9 @@ exports.create = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
+            if(controller.communicationType === 'file'){
+                createFileIfNotExist(controller);
+            }
             res.json(new RestResponse(true, null));
         }
     });
@@ -112,6 +125,9 @@ exports.update = function (req, res) {
             controller.communicationType = req.body.model.communicationType;
             controller.communicationPath = req.body.model.communicationPath;
             controller.isActive = req.body.model.isActive;
+            if(controller.communicationType === 'file'){
+                createFileIfNotExist(controller);
+            }
         }
     });
 };
@@ -126,19 +142,19 @@ exports.delete = function (req, res) {
     }
 
     Controller.findById(id).exec(function (err, controller) {
-        console.log(controller);
         if (err) {
             console.log('error');
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
         } else if (controller) {
-            controller.remove(function (err) {
+            controller.remove(function (err, removedController) {
                 if (err) {
                     return res.status(400).send({
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
+                    fs.unlinkSync('./devices/controllers/' + removedController._id);
                     res.json(new RestResponse(true));
                 }
             });
