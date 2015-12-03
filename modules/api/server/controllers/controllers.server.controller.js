@@ -5,7 +5,8 @@ var path = require('path'),
     Controller = mongoose.model('Controller'),
     RestResponse = require(path.resolve('./modules/api/server/common/restResponse')).RestResponse,
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
-    fs = require('fs');
+    fs = require('fs'),
+    app = require(path.resolve('./config/lib/app'));
 
 function createFileIfNotExist(controller) {
     var fullFileName = './devices/controllers/' + controller._id;
@@ -33,6 +34,7 @@ exports.create = function (req, res) {
 };
 
 exports.list = function (req, res) {
+    app.getWatcher().send({type: 'test'});
     Controller.find().sort('-created').populate('place').exec(function (err, controllers) {
         if (err) {
             return res.status(400).send({

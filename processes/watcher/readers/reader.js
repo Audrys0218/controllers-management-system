@@ -9,7 +9,7 @@ process.on('message', function(data) {
             fileReader.start(data);
         }
     }
-    console.log('reader got message:', data);
+    //console.log('reader got message:', data);
 });
 
 module.exports.sendChange = function(id, value) {

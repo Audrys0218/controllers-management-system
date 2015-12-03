@@ -4,59 +4,77 @@
  * Module dependencies.
  */
 var config = require('../config'),
-  mongoose = require('./mongoose'),
-  express = require('./express'),
-  chalk = require('chalk'),
-  seed = require('./seed');
+    mongoose = require('./mongoose'),
+    express = require('./express'),
+    chalk = require('chalk'),
+    seed = require('./seed'),
+    cp = require('child_process');
+
+var watcher;
+
+var startWatcher = function() {
+    watcher = cp.fork(__dirname + '../../../processes/watcher/worker.js', [], {execArgv: ['--debug=5859']});
+
+    watcher.on('message', function (m) {
+        console.log('PARENT got message:', m);
+    });
+
+    watcher.send({hello: 'world'});
+};
 
 function seedDB() {
-  if (config.seedDB) {
-    console.log(chalk.bold.red('Warning:  Database seeding is turned on'));
-    seed.start();
-  }
+    if (config.seedDB) {
+        console.log(chalk.bold.red('Warning:  Database seeding is turned on'));
+        seed.start();
+    }
 }
 
 // Initialize Models
 mongoose.loadModels(seedDB);
 
 module.exports.loadModels = function loadModels() {
-  mongoose.loadModels();
+    mongoose.loadModels();
 };
 
 module.exports.init = function init(callback) {
-  mongoose.connect(function (db) {
-    // Initialize express
-    var app = express.init(db);
-    if (callback) callback(app, db, config);
+    mongoose.connect(function (db) {
+        // Initialize express
+        var app = express.init(db);
+        if (callback) callback(app, db, config);
 
-  });
+    });
 };
 
 module.exports.start = function start(callback) {
-  var _this = this;
+    var _this = this;
 
-  _this.init(function (app, db, config) {
+    _this.init(function (app, db, config) {
+        startWatcher();
 
-    // Start the app by listening on <port>
-    app.listen(config.port, function () {
+        // Start the app by listening on <port>
+        app.listen(config.port, function () {
 
-      // Logging initialization
-      console.log('--');
-      console.log(chalk.green(config.app.title));
-      console.log(chalk.green('Environment:\t\t\t' + process.env.NODE_ENV));
-      console.log(chalk.green('Port:\t\t\t\t' + config.port));
-      console.log(chalk.green('Database:\t\t\t\t' + config.db.uri));
-      if (process.env.NODE_ENV === 'secure') {
-        console.log(chalk.green('HTTPs:\t\t\t\ton'));
-      }
-      console.log(chalk.green('App version:\t\t\t' + config.meanjs.version));
-      if (config.meanjs['meanjs-version'])
-        console.log(chalk.green('MEAN.JS version:\t\t\t' + config.meanjs['meanjs-version']));
-      console.log('--');
+            // Logging initialization
+            console.log('--');
+            console.log(chalk.green(config.app.title));
+            console.log(chalk.green('Environment:\t\t\t' + process.env.NODE_ENV));
+            console.log(chalk.green('Port:\t\t\t\t' + config.port));
+            console.log(chalk.green('Database:\t\t\t\t' + config.db.uri));
+            if (process.env.NODE_ENV === 'secure') {
+                console.log(chalk.green('HTTPs:\t\t\t\ton'));
+            }
+            console.log(chalk.green('App version:\t\t\t' + config.meanjs.version));
+            if (config.meanjs['meanjs-version'])
+                console.log(chalk.green('MEAN.JS version:\t\t\t' + config.meanjs['meanjs-version']));
+            console.log('--');
 
-      if (callback) callback(app, db, config);
+            if (callback) callback(app, db, config);
+        });
+
     });
 
-  });
+};
 
+module.exports.getWatcher = function() {
+    return watcher;
 };

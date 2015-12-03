@@ -9,6 +9,9 @@ mongoose.connect(config.db.uri);
 
 process.on('message', function(m) {
     console.log('CHILD got message:', m);
+    if (m.type === 'sensor') {
+        watch.handleSensorEntityChange(m.id, m.action);
+    }
 });
 
 process.send({ foo: 'bar' });

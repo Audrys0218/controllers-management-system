@@ -14,8 +14,7 @@ var path = require('path'),
     cp = require('child_process');
 
 var port = 5860,
-    sensorWorkers = [],
-    rules = [];
+    sensorWorkers = [];
 
 var startSensorWorker = function (sensor) {
     var worker = cp.fork(__dirname + '/readers/reader.js', [], {execArgv: ['--debug=' + port++]});
@@ -38,7 +37,7 @@ var startSensorWorker = function (sensor) {
         worker: worker
     });
 
-    console.log('Sensor added');
+    console.log('Sensor watcher added: ' + sensor.id);
 };
 
 var killSensorWorker = function (id) {
@@ -109,14 +108,6 @@ var handleSensorErrorResponse = function (response) {
 };
 
 module.exports.start = function () {
-    Rule.find().exec(function (err, _rules) {
-        if (err) {
-            console.log('rule error');
-        } else {
-            rules = _rules;
-        }
-    });
-
     Sensor.find().exec(function (err, _sensors) {
         if (err) {
             console.log('sensor error');
@@ -126,4 +117,38 @@ module.exports.start = function () {
             });
         }
     });
+};
+
+module.exports.handleSensorEntityChange = function(id, type) {
+    console.log('handleSensorEntityChange');
+    if (type === 'created') {
+        Sensor.findById(id).exec(function (err, sensor) {
+            if (err) {
+                console.log('handleSensorEntityChange: sensor error');
+            } else {
+                startSensorWorker(sensor);
+            }
+        });
+    } else if (type === 'updated') {
+        killSensorWorker(id);
+        Sensor.findById(id).exec(function (err, sensor) {
+            if (err) {
+                console.log('handleSensorEntityChange: sensor error');
+            } else {
+                startSensorWorker(sensor);
+            }
+        });
+    } else if (type === 'deleted') {
+        killSensorWorker(id);
+    } else {
+        console.log('Unknown sensor entity change type: ' + type);
+    }
+};
+
+module.exports.handleRuleChange = function(id) {
+
+};
+
+module.exports.handleControllerChange = function(id, type) {
+
 };

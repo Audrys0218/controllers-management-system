@@ -14,5 +14,6 @@ module.exports.updateOutcome = function(controller, value, callback) {
     }
     else {
         console.log('Unknown communicationType');
+        callback(false);
     }
 };

@@ -5,14 +5,15 @@ var path = require('path'),
     Sensor = mongoose.model('Sensor'),
     RestResponse = require(path.resolve('./modules/api/server/common/restResponse')).RestResponse,
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
-    fs = require('fs');
+    fs = require('fs'),
+    app = require(path.resolve('./config/lib/app'));
 
 function createFileIfNotExist(sensor) {
     var fullFileName = './devices/sensors/' + sensor._id;
     try {
         (fs.accessSync(fullFileName, fs.R_OK | fs.W_OK));
     } catch (e) {
-        fs.writeFileSync(fullFileName, '');
+        fs.writeFileSync(fullFileName, sensor.value);
     }
 }
 
@@ -25,6 +26,12 @@ exports.create = function (req, res) {
             if (sensor.communicationType === 'file') {
                 createFileIfNotExist(sensor);
             }
+
+            app.getWatcher().send({
+                type: 'sensor',
+                action: 'created',
+                id: sensor._id
+            });
 
             res.json(new RestResponse(true));
         }
@@ -108,6 +115,12 @@ exports.update = function (req, res) {
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
+                    app.getWatcher().send({
+                        type: 'sensor',
+                        action: 'updated',
+                        id: sensor._id
+                    });
+
                     res.json(new RestResponse(true));
                 }
             });
@@ -155,6 +168,11 @@ exports.delete = function (req, res) {
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
+                    app.getWatcher().send({
+                        type: 'sensor',
+                        action: 'deleted',
+                        id: sensor._id
+                    });
                     fs.unlinkSync('./devices/sensors/' + removedSensor._id);
                     res.json(new RestResponse(true));
                 }
