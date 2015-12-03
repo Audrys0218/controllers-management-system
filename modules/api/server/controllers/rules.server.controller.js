@@ -5,7 +5,8 @@ var path = require('path'),
     Rule = mongoose.model('Rule'),
     async = require('async'),
     RestResponse = require(path.resolve('./modules/api/server/common/restResponse')).RestResponse,
-    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
+    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+    app = require(path.resolve('./config/lib/app'));
 
 var mapToResponseObject = function (dbObject) {
     var ret = {
@@ -49,6 +50,11 @@ exports.create = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
+            app.getWatcher().send({
+                type: 'rule',
+                id: rule._id
+            });
+
             return res.json(new RestResponse(true, mapToResponseObject(rule)));
         }
     });
@@ -118,6 +124,10 @@ exports.update = function (req, res) {
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
+                    app.getWatcher().send({
+                        type: 'rule',
+                        id: rule._id
+                    });
                     res.json(new RestResponse(true, mapToResponseObject(rule)));
                 }
             });
@@ -150,6 +160,10 @@ exports.delete = function (req, res) {
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
+                    app.getWatcher().send({
+                        type: 'rule',
+                        id: rule._id
+                    });
                     res.json(new RestResponse(true, {}));
                 }
             });

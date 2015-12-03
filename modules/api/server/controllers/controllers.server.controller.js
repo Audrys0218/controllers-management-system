@@ -25,6 +25,11 @@ exports.create = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
+            app.getWatcher().send({
+                type: 'controller',
+                action: 'created',
+                id: controller._id
+            });
             if(controller.communicationType === 'file'){
                 createFileIfNotExist(controller);
             }
@@ -112,6 +117,11 @@ exports.update = function (req, res) {
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
+                    app.getWatcher().send({
+                        type: 'controller',
+                        action: 'updated',
+                        id: controller._id
+                    });
                     res.json(new RestResponse(true, null));
                 }
             });
@@ -157,6 +167,11 @@ exports.delete = function (req, res) {
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
+                    app.getWatcher().send({
+                        type: 'controller',
+                        action: 'deleted',
+                        id: controller._id
+                    });
                     fs.unlinkSync('./devices/controllers/' + removedController._id);
                     res.json(new RestResponse(true));
                 }

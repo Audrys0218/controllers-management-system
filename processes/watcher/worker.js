@@ -8,12 +8,16 @@ var path = require('path'),
 mongoose.connect(config.db.uri);
 
 process.on('message', function(m) {
-    console.log('CHILD got message:', m);
+    console.log('worker got message:', m);
     if (m.type === 'sensor') {
         watch.handleSensorEntityChange(m.id, m.action);
+    } else if (m.type === 'rule') {
+        watch.handleRuleChange(m.id);
+    } else if (m.type === 'controller') {
+        watch.handleControllerChange(m.id, m.action);
+    } else {
+        console.log('Unknown message type: ' + m.type);
     }
 });
-
-process.send({ foo: 'bar' });
 
 watch.start();
