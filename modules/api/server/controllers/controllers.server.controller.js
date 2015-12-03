@@ -171,5 +171,6 @@ exports.changeValue = function(req, res){
 
     //TO DO: send message to worker - worker should make the request for controller and save new value to database
 
+    console.log('New value ' + req.body.value);
     res.json(new RestResponse(true));
 };

@@ -53,10 +53,8 @@ angular.module('core')
             };
 
             var changeValue = function(controllerId, value){
-                return $http({
-                    method: 'put',
-                    url: '/api/v1/controllers/' + controllerId + '/value'
-                });
+                return $http.put('/api/v1/controllers/' + controllerId + '/value', { value: value });
+
             };
 
             return {

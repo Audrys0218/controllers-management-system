@@ -24,7 +24,7 @@ angular.module('core')
                 $scope.cancelEditMode = function(){
                     if(!angular.equals($scope.controller.value, $scope.valueCopy)){
                         $scope.valueCopy = angular.copy($scope.controller.value);
-                    };
+                    }
 
                     $scope.editMode = false;
                 };
