@@ -9,14 +9,14 @@
       <th>Title</th>
       <th>Place</th>
       <th>Type</th>
-      <th>Value</th>
+      <th class="col-md-1">Value</th>
       <th class="col-md-1">Actions</th>
     </tr>
     <tr ng-repeat="controller in model.controllers">
       <td>{{controller.title}} </td>
       <td>{{controller.placeTitle}} </td>
       <td>{{controllersTypesModel[controller.type]}} </td>
-      <td>
+      <td class="col-md-2">
         <inline-controller-value-edit controller="controller"></inline-controller-value-edit>
       </td>
       <td align="center">
