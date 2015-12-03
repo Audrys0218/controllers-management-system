@@ -108,6 +108,7 @@ exports.update = function (req, res) {
         sensor.title = req.body.model.title;
         sensor.place = req.body.model.place;
         sensor.type = req.body.model.type;
+        sensor.communicationType = req.body.model.communicationType;
         sensor.communicationPath = req.body.model.communicationPath;
         sensor.isActive = req.body.model.isActive;
     }

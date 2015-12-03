@@ -109,6 +109,7 @@ exports.update = function (req, res) {
             controller.title = req.body.model.title;
             controller.place = req.body.model.place;
             controller.type = req.body.model.type;
+            controller.communicationType = req.body.model.communicationType;
             controller.communicationPath = req.body.model.communicationPath;
             controller.isActive = req.body.model.isActive;
         }

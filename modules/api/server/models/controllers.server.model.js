@@ -23,11 +23,12 @@ var ControllerSchema = new Schema({
         required: 'Place should be selected'
     },
     type: {
-        type: String
+        type: String,
+        trim: true,
+        required: 'Type cannot be blank'
     },
     communicationType: {
         type: String,
-        default: 'file',
         trim: true,
         required: 'Communication type cannot be blank'
     },
