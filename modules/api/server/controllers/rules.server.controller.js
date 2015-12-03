@@ -11,7 +11,8 @@ var mapToResponseObject = function (dbObject) {
     var ret = {
         id: dbObject._id,
         title: dbObject.title,
-        type: dbObject.type
+        type: dbObject.type,
+        priority: dbObject.priority
     };
 
     if (dbObject.triggers && dbObject.triggers.length > 0) {
@@ -108,6 +109,7 @@ exports.update = function (req, res) {
         } else if (rule) {
             rule.title = req.body.title;
             rule.type = req.body.type;
+            rule.priority = req.body.priority
             rule.triggers = req.body.triggers;
             rule.outcomes = req.body.outcomes;
             rule.save(function () {

@@ -8,6 +8,7 @@ angular.module('core')
                 defaultRuleObject: {
                     title: '',
                     type: '&&',
+                    priority: 0,
                     triggers: [{}],
                     outcomes: [{}]
                 }

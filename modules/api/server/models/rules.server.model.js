@@ -59,6 +59,10 @@ var RuleSchema = new Schema({
         trim: true,
         required: 'type cannot be blank'
     },
+    priority: {
+      type: Number,
+      default: 0
+    },
     triggers: [RuleTriggerSchema],
     outcomes: [RuleOutcomeSchema]
 });
