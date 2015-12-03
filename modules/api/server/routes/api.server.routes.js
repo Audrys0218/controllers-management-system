@@ -13,6 +13,7 @@ module.exports = function (app) {
         .get(controllers.read)
         .put(controllers.update)
         .delete(controllers.delete);
+    app.route('/api/v1/controllers/:id/value').put(controllers.changeValue);
 
     app.route('/api/v1/places').post(places.create);
     app.route('/api/v1/places').get(places.list);

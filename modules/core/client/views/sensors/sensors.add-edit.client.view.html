@@ -20,7 +20,7 @@
     <option value="http">HTTP</option>
   </select>
 
-  <div class="input-group" ng-if="model.communicationType === 'http'">
+  <div class="input-group" ng-if="model.communicationType">
     <label for="com-type-loc">Communication path:</label>
     <input type="text" class="form-control" id="com-type-loc" ng-model="model.communicationPath">
     <div class="input-group-btn">

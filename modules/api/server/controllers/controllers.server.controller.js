@@ -46,7 +46,8 @@ exports.list = function (req, res) {
                     placeTitle: controller.place.title,
                     type: controller.type,
                     communicationPath: controller.communicationPath,
-                    isActive: controller.isActive
+                    isActive: controller.isActive,
+                    value: controller.value
                 };
             })));
         }
@@ -130,6 +131,12 @@ exports.update = function (req, res) {
             }
         }
     });
+};
+
+exports.changeValue = function(req, res){
+    console.log(req.params.id + 'Sveikas pasauli');
+
+    res.json(new RestResponse(true));
 };
 
 exports.delete = function (req, res) {

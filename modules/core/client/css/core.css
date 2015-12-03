@@ -102,3 +102,18 @@ body {
 .add-edit-rule .glyphicon-remove-circle {
   font-size: 2em;
 }
+
+.value-edit.btn-default{
+  width: 22px;
+  height: 22px;
+  font-size: 10px;
+  padding: 0 0 0 0;
+  float: left;
+  margin-right: 10px;
+}
+
+.value-edit.btn-default {
+  float: none;
+  margin-top: -3px;
+  margin-left: 5px;
+}
