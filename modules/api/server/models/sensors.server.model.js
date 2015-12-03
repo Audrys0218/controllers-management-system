@@ -47,9 +47,9 @@ var SensorSchema = new Schema({
 });
 
 
-SensorSchema.post('remove', function () {
-    Sensor.remove({place: this._id}).exec();
-    Controller.remove({place: this._id}).exec();
-});
+//SensorSchema.post('remove', function () {
+//    Sensor.remove({place: this._id}).exec();
+//    Controller.remove({place: this._id}).exec();
+//});
 
 module.exports = mongoose.model('Sensor', SensorSchema);
