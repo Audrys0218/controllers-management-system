@@ -10,21 +10,37 @@ var path = require('path'),
 var getParallelFunction = function (outcome) {
     return function (callback) {
         var result;
-        result = updater.updateOutcome(outcome.controller, outcome.value);
-        console.log('Updated: ' + result);
-        if (result) {
-            Controller.findOneAndUpdate({_id: outcome.controller._id}, {value: outcome.value}, function (err) {
-                if (err) {
-                    console.log('Controller state saving to db failed! ' + err);
-                    callback(null, 'error saving');
-                } else {
-                    console.log('Controller state saving completed!');
-                    callback(null, 'success');
-                }
-            });
-        } else {
-            callback(null, 'error writing');
-        }
+        var cb = function(success) {
+            console.log('Updated: ' + result);
+            if (success) {
+                Controller.findOneAndUpdate({_id: outcome.controller._id}, {value: outcome.value}, function (err) {
+                    if (err) {
+                        console.log('Controller state saving to db failed! ' + err);
+                        callback(null, 'error saving');
+                    } else {
+                        console.log('Controller state saving completed!');
+                        callback(null, 'success');
+                    }
+                });
+            } else {
+                callback(null, 'error writing');
+            }
+        };
+        result = updater.updateOutcome(outcome.controller, outcome.value, cb);
+        //console.log('Updated: ' + result);
+        //if (result) {
+        //    Controller.findOneAndUpdate({_id: outcome.controller._id}, {value: outcome.value}, function (err) {
+        //        if (err) {
+        //            console.log('Controller state saving to db failed! ' + err);
+        //            callback(null, 'error saving');
+        //        } else {
+        //            console.log('Controller state saving completed!');
+        //            callback(null, 'success');
+        //        }
+        //    });
+        //} else {
+        //    callback(null, 'error writing');
+        //}
     };
 };
 

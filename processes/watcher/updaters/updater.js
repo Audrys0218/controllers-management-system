@@ -1,15 +1,18 @@
 'use strict';
 
 var path = require('path'),
-    fileUpdater = require(path.resolve('./processes/watcher/updaters/fileUpdater'));
+    fileUpdater = require(path.resolve('./processes/watcher/updaters/fileUpdater')),
+    httpUpdater = require(path.resolve('./processes/watcher/updaters/httpUpdater'));
 
-module.exports.updateOutcome = function(controller, value) {
+module.exports.updateOutcome = function(controller, value, callback) {
     console.log(controller);
-    var result = false;
+
     if (controller.communicationType === 'file') {
-        result = fileUpdater.updateFile('devices/controllers/' + controller._id, value);
-    } else {
+        fileUpdater.updateFile('devices/controllers/' + controller._id, value, callback);
+    } else if  (controller.communicationType === 'http') {
+        httpUpdater.updateHttp(controller.communicationPath, value, callback);
+    }
+    else {
         console.log('Unknown communicationType');
     }
-    return result;
 };
