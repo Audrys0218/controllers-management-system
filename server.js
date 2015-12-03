@@ -16,3 +16,9 @@ watcher.on('message', function(m) {
 });
 
 watcher.send({ hello: 'world' });
+
+var io = require('socket.io')(12345);
+
+io.on('connection', function (socket) {
+
+});

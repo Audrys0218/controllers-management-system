@@ -3,5 +3,15 @@
     <div class="jumbotron">
       <h2>Welcome to your Smart Home!</h2>
     </div>
+    <div ng-controller="DashboardController">
+      <button type="button" ng-click="testSocket()"></button>
+      <table>
+        <tr ng-repeat="sensor in sensors">
+          <td>{{sensor.title}}</td>
+          <td>{{sensor.placeTitle}}</td>
+          <td>{{sensor.value}}</td>
+        </tr>
+      </table>
+    </div>
   </div>
 </section>

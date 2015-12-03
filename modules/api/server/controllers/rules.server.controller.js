@@ -109,7 +109,7 @@ exports.update = function (req, res) {
         } else if (rule) {
             rule.title = req.body.title;
             rule.type = req.body.type;
-            rule.priority = req.body.priority
+            rule.priority = req.body.priority;
             rule.triggers = req.body.triggers;
             rule.outcomes = req.body.outcomes;
             rule.save(function () {
