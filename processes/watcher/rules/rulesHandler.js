@@ -1,7 +1,7 @@
 'use strict';
 
 var path = require('path'),
-    triggersExecutor = require(path.resolve('./processes/watcher/rules/triggersExecutor'));
+    outcomesExecutor = require(path.resolve('./processes/watcher/rules/outcomesExecutor'));
 
 var checkTrigger = function (trigger) {
     if (trigger.compareType === '=') {
@@ -42,8 +42,7 @@ var checkTriggersWithOR = function (triggers) {
 
 var addVirtualControllerStates = function (outcomes, states) {
     for (var i = 0; i < outcomes.length; i++) {
-        if (outcomes[i].value !== outcomes[i].controller.value ||
-            states[outcomes[i].controller._id]) { //overrides last rules change
+        if (outcomes[i].value !== outcomes[i].controller.value || states[outcomes[i].controller._id]) { //overrides last rule's change
             states[outcomes[i].controller._id] = outcomes[i];
         }
     }
@@ -52,19 +51,24 @@ var addVirtualControllerStates = function (outcomes, states) {
 
 module.exports.execute = function (rules) {
     console.log(rules);
-    var states = {};
+
+    var outcomeStates = {};
+
     for (var i = 0; i < rules.length; i++) {
         var ruleShouldBeApplied;
-        if (rules[i].type === '&&') {
-            ruleShouldBeApplied = checkTriggersWithAND(rules[i].triggers);
+        var rule = rules[i];
+
+        if (rule.type === '&&') {
+            ruleShouldBeApplied = checkTriggersWithAND(rule.triggers);
         }
-        else if (rules[i].type === '||') {
-            ruleShouldBeApplied = checkTriggersWithOR(rules[i].triggers);
+        else if (rule.type === '||') {
+            ruleShouldBeApplied = checkTriggersWithOR(rule.triggers);
         }
         if (ruleShouldBeApplied) {
             console.log('Rules should be applied');
-            states = addVirtualControllerStates(rules[i].outcomes, states);
+            outcomeStates = addVirtualControllerStates(rule.outcomes, outcomeStates);
         }
     }
-    triggersExecutor.executeOutcomes(states);
+
+    outcomesExecutor.executeOutcomes(outcomeStates);
 };
