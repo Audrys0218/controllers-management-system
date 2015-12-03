@@ -133,12 +133,6 @@ exports.update = function (req, res) {
     });
 };
 
-exports.changeValue = function(req, res){
-    console.log(req.params.id + 'Sveikas pasauli');
-
-    res.json(new RestResponse(true));
-};
-
 exports.delete = function (req, res) {
     var id = req.params.id;
 
@@ -171,4 +165,11 @@ exports.delete = function (req, res) {
             });
         }
     });
+};
+
+exports.changeValue = function(req, res){
+
+    //TO DO: send message to worker - worker should make the request for controller and save new value to database
+
+    res.json(new RestResponse(true));
 };
