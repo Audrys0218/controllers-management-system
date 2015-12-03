@@ -7,7 +7,7 @@ var path = require('path'),
     sensorsModel = require('../../modules/api/server/models/sensors.server.model.js'),
     rulesModel = require('../../modules/api/server/models/rules.server.model.js'),
     controllersModel = require('../../modules/api/server/models/controllers.server.model.js'),
-    rulesExecutor = require(path.resolve('./processes/watcher/rules/rulesExecutor')),
+    rulesHandler = require(path.resolve('./processes/watcher/rules/rulesHandler')),
     Sensor = mongoose.model('Sensor'),
     Rule = mongoose.model('Rule'),
     cp = require('child_process');
@@ -91,7 +91,7 @@ var handleSensorValueChangedResponse = function (response) {
                             console.log(err);
                         } else {
                             if (rules.length > 0) {
-                                rulesExecutor.execute(rules);
+                                rulesHandler.execute(rules);
                             }
                         }
                     });

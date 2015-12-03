@@ -1,6 +1,7 @@
 'use strict';
 
-var path = require('path');
+var path = require('path'),
+    triggersExecutor = require(path.resolve('./processes/watcher/rules/triggersExecutor'));
 
 var checkTrigger = function (trigger) {
     if (trigger.compareType === '=') {
@@ -65,4 +66,5 @@ module.exports.execute = function (rules) {
             states = addVirtualControllerStates(rules[i].outcomes, states);
         }
     }
+    triggersExecutor.executeOutcomes(states);
 };
