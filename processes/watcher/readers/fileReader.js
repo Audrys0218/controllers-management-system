@@ -24,7 +24,7 @@ var check = function() {
 
 module.exports.start = function(_data) {
     data = _data;
-    interval = setInterval(check, 1000);
+    interval = setInterval(check, data.interval);
 };
 
 module.exports.stop = function() {

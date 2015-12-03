@@ -4,38 +4,125 @@ var path = require('path'),
     async = require('async'),
     mongoose = require('mongoose'),
     config = require('../../config/env/development.js'),
-    models = require('../../modules/api/server/models/sensors.server.model.js'),
+    sensorsModel = require('../../modules/api/server/models/sensors.server.model.js'),
+    rulesModel = require('../../modules/api/server/models/rules.server.model.js'),
+    controllersModel = require('../../modules/api/server/models/controllers.server.model.js'),
+    rulesExecutor = require(path.resolve('./processes/watcher/rules/rulesExecutor')),
     Sensor = mongoose.model('Sensor'),
-    Worker = require('webworker-threads').Worker,
-    fileReader = require(path.resolve('./processes/watcher/readers/fileReader')),
+    Rule = mongoose.model('Rule'),
     cp = require('child_process');
 
-var port = 5860;
+var port = 5860,
+    sensorWorkers = [],
+    rules = [];
 
-module.exports.start = function() {
+var startSensorWorker = function (sensor) {
+    var worker = cp.fork(__dirname + '/readers/reader.js', [], {execArgv: ['--debug=' + port++]});
 
-    console.log('start');
-
-    var worker = cp.fork(__dirname + '/readers/reader.js', [], { execArgv: ['--debug=' + port++] });
-
-    worker.on('message', function(data) {
-        console.log('Watcher got message:', data);
+    worker.on('message', function (data) {
+        handleSensorResponse(data);
     });
 
     worker.send({
         type: 'init',
-        id: 'idtest',
-        location: 'devices/sensors/idtest',
-        value: 3,
-        communicationType: 'file'
+        id: sensor.id,
+        location: 'devices/sensors/' + sensor.id,
+        interval: 1000,
+        value: sensor.value,
+        communicationType: sensor.communicationType
     });
 
-    //Sensor.find().exec(function (err, sensors) {
-    //    if (err) {
-    //        console.log('error');
-    //    } else {
-    //        reader.read(sensors[0]);
-    //        console.log('EEEEEEEEEEEEe');
-    //    }
-    //});
+    sensorWorkers.push({
+        id: sensor.id,
+        worker: worker
+    });
+
+    console.log('Sensor added');
+};
+
+var killSensorWorker = function (id) {
+    var sensorWorkerId;
+    for (var i = 0; i < sensorWorkers.length; i++) {
+        if (sensorWorkers[i].id === id) {
+            sensorWorkerId = i;
+            break;
+        }
+    }
+    if (typeof sensorWorkerId === 'number') {
+        sensorWorkers[sensorWorkerId].worker.kill();
+        sensorWorkers.splice(sensorWorkerId, 1);
+        console.log('Removed sensor watcher. Id: ' + id);
+    } else {
+        console.log('Couldnt remove sensors worker as its id was not found. Id: ' + id);
+    }
+};
+
+var handleSensorResponse = function (response) {
+    console.log('Watcher got message:', response);
+    if (response.type === 'error') {
+        handleSensorErrorResponse(response);
+    }
+    else if (response.type === 'sensorValueChanged') {
+        handleSensorValueChangedResponse(response);
+    }
+    else {
+        console.log('Unknown type: ' + response.type + '; Id: ' + response.id);
+    }
+};
+
+var handleSensorValueChangedResponse = function (response) {
+    Sensor.findById(response.id).exec(function (err, sensor) {
+        if (err) {
+            console.log('watcher handleSensor error: ' + JSON.stringify(err));
+        } else if (sensor) {
+            sensor.value = response.data;
+            sensor.save(function () {
+                if (err) {
+                    console.log('watcher handleSensor save error: ' + JSON.stringify(err));
+                } else {
+                    Rule.find({
+                        triggers: {
+                            $elemMatch: {
+                                sensor: response.id
+                            }
+                        }
+                    }).populate('triggers.sensor').populate('outcomes.controller').exec(function (err, rules) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            if (rules.length > 0) {
+                                rulesExecutor.execute(rules);
+                            }
+                        }
+                    });
+                }
+            });
+        } else {
+            killSensorWorker(response.id);
+        }
+    });
+};
+
+var handleSensorErrorResponse = function (response) {
+    killSensorWorker(response.id);
+};
+
+module.exports.start = function () {
+    Rule.find().exec(function (err, _rules) {
+        if (err) {
+            console.log('rule error');
+        } else {
+            rules = _rules;
+        }
+    });
+
+    Sensor.find().exec(function (err, _sensors) {
+        if (err) {
+            console.log('sensor error');
+        } else {
+            _sensors.forEach(function (item) {
+                startSensorWorker(item);
+            });
+        }
+    });
 };
