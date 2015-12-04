@@ -10,7 +10,8 @@ angular.module('core')
                     type: '&&',
                     priority: 0,
                     triggers: [{}],
-                    outcomes: [{}]
+                    outcomes: [{}],
+                    enabled: true
                 }
             };
 

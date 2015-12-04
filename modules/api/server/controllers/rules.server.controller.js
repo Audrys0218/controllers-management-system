@@ -13,7 +13,8 @@ var mapToResponseObject = function (dbObject) {
         id: dbObject._id,
         title: dbObject.title,
         type: dbObject.type,
-        priority: dbObject.priority
+        priority: dbObject.priority,
+        enabled: dbObject.enabled
     };
 
     if (dbObject.triggers && dbObject.triggers.length > 0) {
@@ -118,6 +119,7 @@ exports.update = function (req, res) {
             rule.priority = req.body.priority;
             rule.triggers = req.body.triggers;
             rule.outcomes = req.body.outcomes;
+            rule.enabled = req.body.enabled;
             rule.save(function () {
                 if (err) {
                     return res.status(400).send({

@@ -112,6 +112,10 @@ var handleSensorErrorResponse = function (response) {
 };
 
 var findAndExecuteRules = function (findQuery) {
+    if (!findQuery) {
+        findQuery = {};
+    }
+    findQuery.enabled = true;
     Rule.find(findQuery).sort('priority')
         .populate('triggers.sensor').populate('outcomes.controller')
         .exec(function (err, rules) {
