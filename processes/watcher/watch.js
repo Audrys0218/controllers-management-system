@@ -41,6 +41,16 @@ var startSensorWorker = function (sensor) {
     console.log('Sensor watcher added: ' + sensor.id);
 };
 
+var startSensorWorkerById = function(id) {
+    Sensor.findById(id).exec(function (err, sensor) {
+        if (err) {
+            console.log('startSensorWorkerById: sensor error');
+        } else {
+            startSensorWorker(sensor);
+        }
+    });
+};
+
 var killSensorWorker = function (id) {
     var sensorWorkerId;
     for (var i = 0; i < sensorWorkers.length; i++) {
@@ -81,18 +91,10 @@ var handleSensorValueChangedResponse = function (response) {
                 if (err) {
                     console.log('watcher handleSensor save error: ' + JSON.stringify(err));
                 } else {
-                    Rule.find({
+                    findAndExecuteRules({
                         triggers: {
                             $elemMatch: {
                                 sensor: response.id
-                            }
-                        }
-                    }).populate('triggers.sensor').populate('outcomes.controller').exec(function (err, rules) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            if (rules.length > 0) {
-                                rulesHandler.execute(rules);
                             }
                         }
                     });
@@ -106,6 +108,20 @@ var handleSensorValueChangedResponse = function (response) {
 
 var handleSensorErrorResponse = function (response) {
     killSensorWorker(response.id);
+};
+
+var findAndExecuteRules = function (findQuery) {
+    Rule.find(findQuery).sort('priority')
+        .populate('triggers.sensor').populate('outcomes.controller')
+        .exec(function (err, rules) {
+            if (err) {
+                console.log(err);
+            } else {
+                if (rules.length > 0) {
+                    rulesHandler.execute(rules);
+                }
+            }
+        });
 };
 
 module.exports.start = function () {
@@ -123,22 +139,10 @@ module.exports.start = function () {
 module.exports.handleSensorEntityChange = function (id, type) {
     console.log('handleSensorEntityChange');
     if (type === 'created') {
-        Sensor.findById(id).exec(function (err, sensor) {
-            if (err) {
-                console.log('handleSensorEntityChange: sensor error');
-            } else {
-                startSensorWorker(sensor);
-            }
-        });
+        startSensorWorkerById(id);
     } else if (type === 'updated') {
         killSensorWorker(id);
-        Sensor.findById(id).exec(function (err, sensor) {
-            if (err) {
-                console.log('handleSensorEntityChange: sensor error');
-            } else {
-                startSensorWorker(sensor);
-            }
-        });
+        startSensorWorkerById(id);
     } else if (type === 'deleted') {
         killSensorWorker(id);
     } else {
@@ -169,18 +173,10 @@ module.exports.handleControllerChange = function (id, type) {
             if (err) {
                 console.log('watcher handleControllerChange error: ' + JSON.stringify(err));
             } else if (controller) {
-                Rule.find({
+                findAndExecuteRules({
                     outcomes: {
                         $elemMatch: {
                             controller: id
-                        }
-                    }
-                }).populate('triggers.sensor').populate('outcomes.controller').exec(function (err, rules) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        if (rules.length > 0) {
-                            rulesHandler.execute(rules);
                         }
                     }
                 });
