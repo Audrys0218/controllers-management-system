@@ -4,7 +4,6 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-    emitter = require('./emitter'),
     Schema = mongoose.Schema;
 
 var SensorSchema = new Schema({
