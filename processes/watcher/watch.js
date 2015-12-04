@@ -12,7 +12,8 @@ var path = require('path'),
     Sensor = mongoose.model('Sensor'),
     Rule = mongoose.model('Rule'),
     Controller = mongoose.model('Controller'),
-    cp = require('child_process');
+    cp = require('child_process'),
+    outcomesExecutor = require(path.resolve('./processes/watcher/rules/outcomesExecutor'));
 
 var port = 5860,
     sensorWorkers = [];
@@ -162,7 +163,7 @@ module.exports.handleRuleChange = function (id) {
     });
 };
 
-module.exports.handleControllerChange = function (id, type) {
+module.exports.handleControllerChange = function (id, type, value) {
     if (type === 'created') {
         //Do nothing, no rules have this controller yet
     } else if (type === 'deleted') {
@@ -179,6 +180,29 @@ module.exports.handleControllerChange = function (id, type) {
                             controller: id
                         }
                     }
+                });
+            }
+        });
+    } else if (type === 'changeValue') {
+        Controller.findById(id).exec(function (err, controller) {
+            if (err) {
+                console.log('watcher handleControllerChange error: ' + JSON.stringify(err));
+            } else if (controller) {
+                var outcomes = {};
+
+                outcomes[controller._id] = {
+                    controller: controller,
+                    value: value
+                };
+
+                outcomesExecutor.executeOutcomes(outcomes, function(){
+                    findAndExecuteRules({
+                        outcomes: {
+                            $elemMatch: {
+                                controller: id
+                            }
+                        }
+                    });
                 });
             }
         });

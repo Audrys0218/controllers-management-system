@@ -14,7 +14,7 @@ process.on('message', function(m) {
     } else if (m.type === 'rule') {
         watch.handleRuleChange(m.id);
     } else if (m.type === 'controller') {
-        watch.handleControllerChange(m.id, m.action);
+        watch.handleControllerChange(m.id, m.action, m.value);
     } else {
         console.log('Unknown message type: ' + m.type);
     }

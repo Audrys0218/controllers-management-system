@@ -185,9 +185,14 @@ exports.delete = function (req, res) {
 };
 
 exports.changeValue = function(req, res){
-
-    //TO DO: send message to worker - worker should make the request for controller and save new value to database
-
     console.log('New value ' + req.body.value);
+
+    app.getWatcher().send({
+        type: 'controller',
+        action: 'changeValue',
+        id: req.params.id,
+        value: parseInt(req.body.value)
+    });
+
     res.json(new RestResponse(true));
 };

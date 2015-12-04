@@ -50,7 +50,7 @@ var addVirtualControllerStates = function (outcomes, states) {
 };
 
 module.exports.execute = function (rules) {
-    console.log(rules);
+    //console.log(rules);
 
     var outcomeStates = {};
 

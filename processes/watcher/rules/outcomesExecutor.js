@@ -27,25 +27,11 @@ var getParallelFunction = function (outcome) {
             }
         };
         result = updater.updateOutcome(outcome.controller, outcome.value, cb);
-        //console.log('Updated: ' + result);
-        //if (result) {
-        //    Controller.findOneAndUpdate({_id: outcome.controller._id}, {value: outcome.value}, function (err) {
-        //        if (err) {
-        //            console.log('Controller state saving to db failed! ' + err);
-        //            callback(null, 'error saving');
-        //        } else {
-        //            console.log('Controller state saving completed!');
-        //            callback(null, 'success');
-        //        }
-        //    });
-        //} else {
-        //    callback(null, 'error writing');
-        //}
     };
 };
 
-module.exports.executeOutcomes = function (outcomeStates) {
-    console.log('States: ' + outcomeStates);
+module.exports.executeOutcomes = function (outcomeStates, callback) {
+    //console.log('States: ' + outcomeStates);
 
     var controllerIds = Object.keys(outcomeStates);
 
@@ -60,6 +46,9 @@ module.exports.executeOutcomes = function (outcomeStates) {
     if (Object.keys(parallelObj).length > 0) {
         async.parallel(parallelObj, function(err, results) {
             console.log(results);
+            if (callback) {
+                callback(results);
+            }
         });
     }
 };
