@@ -6,7 +6,7 @@ describe('Places E2E Tests:', function () {
 
         beforeEach(function () {
             browser.get('http://localhost:3000/places');
-            element.all(by.repeater('places in model.places')).count().then(function (originalCount) {
+            element.all(by.repeater('place in model.places')).count().then(function (originalCount) {
                 startCount = originalCount;
             });
         });
@@ -16,7 +16,7 @@ describe('Places E2E Tests:', function () {
             element(by.id('title')).sendKeys('test');
             element(by.css('button[ng-click="save()"]')).click();
 
-            expect(element.all(by.repeater('places in model.places')).count()).toBe(startCount + 1);
+            expect(element.all(by.repeater('place in model.places')).count()).toBe(startCount + 1);
         });
     });
 });
