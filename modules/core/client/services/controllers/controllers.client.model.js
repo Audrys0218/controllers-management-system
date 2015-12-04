@@ -37,8 +37,8 @@ angular.module('core')
                         apiUrl: '/api/v1/controllers/',
                         modelId: controllerId,
                         dataModel: dataModel,
-                        editTitle: 'Edit sensor',
-                        addTitle: 'Add new sensor'
+                        editTitle: 'Edit controller',
+                        addTitle: 'Add new controller'
                     }).then(load);
                 }
             };

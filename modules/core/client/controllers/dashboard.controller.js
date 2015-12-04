@@ -1,26 +1,25 @@
 'use strict';
 
-angular.module('core').controller('DashboardController', ['$scope', 'Socket', function ($scope, Socket) {
+angular.module('core').controller('DashboardController', ['$scope', 'sensorsModel', 'controllersModel', 'sensorsTypesModel', 'controllersTypesModel', '$interval',
+    function ($scope, sensorsModel, controllersModel, sensorsTypesModel, controllersTypesModel, $interval) {
+    
+    $scope.sensorsModel = sensorsModel.model;
+    $scope.sensorsTypesModel = sensorsTypesModel.model;
 
-    // Make sure the Socket is connected
-    if (!Socket.socket) {
-        Socket.connect();
+    $scope.controllersModel = controllersModel.model;
+    $scope.controllersTypesModel = controllersTypesModel.model;
+
+    function load(){
+        sensorsModel.load();
+        controllersModel.load();
     }
 
-    Socket.on('sensorsOnConnection', function(sensors){
-        console.log('I got all sensors');
-        $scope.sensors = sensors;
+    load();
+
+    var interval = $interval(load, 3000);
+
+    $scope.$on('$destroy',function(){
+        if(interval)
+            $interval.cancel(interval);
     });
-
-    Socket.on('sensorValueChanged', function(sensor){
-        console.log('I got all one sensor');
-        var index = $scope.sensors.map(function(s){
-            return s.id;
-        }).indexOf(sensor.id);
-
-        if(index > -1){
-            $scope.sensors[index] = sensor;
-        }
-    });
-
 }]);

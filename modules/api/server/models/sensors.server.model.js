@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
+    emitter = require('./emitter'),
     Schema = mongoose.Schema;
 
 var SensorSchema = new Schema({
@@ -45,11 +46,5 @@ var SensorSchema = new Schema({
         default: -999
     }
 });
-
-
-//SensorSchema.post('remove', function () {
-//    Sensor.remove({place: this._id}).exec();
-//    Controller.remove({place: this._id}).exec();
-//});
 
 module.exports = mongoose.model('Sensor', SensorSchema);

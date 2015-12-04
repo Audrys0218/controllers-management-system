@@ -53,7 +53,8 @@ exports.list = function (req, res) {
                     type: sensor.type,
                     communicationType: sensor.communicationType,
                     communicationPath: sensor.communicationPath,
-                    isActive: sensor.isActive
+                    isActive: sensor.isActive,
+                    value: sensor.value
                 };
             })));
         }
@@ -83,7 +84,8 @@ exports.read = function (req, res) {
                 type: sensor.type,
                 communicationType: sensor.communicationType,
                 communicationPath: sensor.communicationPath,
-                isActive: sensor.isActive
+                isActive: sensor.isActive,
+                value: sensor.value
             }));
         } else {
             return res.status(400).send({

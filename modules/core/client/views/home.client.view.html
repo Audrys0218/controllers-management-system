@@ -3,13 +3,35 @@
     <div class="jumbotron">
       <h2>Welcome to your Smart Home!</h2>
     </div>
+
     <div ng-controller="DashboardController">
-      <button type="button" ng-click="testSocket()"></button>
-      <table>
-        <tr ng-repeat="sensor in sensors">
+      <table class="table table-bordered">
+        <tr>
+          <th>Title</th>
+          <th>Place</th>
+          <th>Type</th>
+          <th>Value</th>
+        </tr>
+        <tr ng-repeat="sensor in sensorsModel.sensors" track by sensor.id>
           <td>{{sensor.title}}</td>
           <td>{{sensor.placeTitle}}</td>
+          <td>{{sensorsTypesModel[sensor.type].label}}</td>
           <td>{{sensor.value}}</td>
+        </tr>
+      </table>
+
+      <table class="table table-bordered">
+        <tr>
+          <th>Title</th>
+          <th>Place</th>
+          <th>Type</th>
+          <th>Value</th>
+        </tr>
+        <tr ng-repeat="controller in controllersModel.controllers track by controller.id">
+          <td>{{controller.title}} </td>
+          <td>{{controller.placeTitle}} </td>
+          <td>{{controllersTypesModel[controller.type]}} </td>
+          <td> {{controller.value}} </td>
         </tr>
       </table>
     </div>
