@@ -11,7 +11,7 @@ describe('Places E2E Tests:', function () {
             });
         });
 
-        it('Create place', function () {
+        it('create place', function () {
             element(by.css('button[ng-click="addEdit()"]')).click();
             element(by.id('title')).sendKeys('test');
             element(by.css('button[ng-click="save()"]')).click();
@@ -26,16 +26,16 @@ describe('Places E2E Tests:', function () {
             element(by.css('button[ng-click="save()"]')).click();
 
             expect(element.all(by.repeater('place in model.places')).count()).toBe(startCount);
-            element.all(by.css("td.place-title")).first().getText().then(function (text) {
+            element.all(by.css("table tr:nth-of-type(2) td:first-of-type")).first().getText().then(function (text) {
                 expect(text).toBe('test2');
             });
         });
 
         it('delete place', function () {
             element.all(by.css('button[ng-click="delete(place.id)"]')).first().click();
-            element(by.css('button[ng-click="ok()"]')).click();
+            element.all(by.css('button[ng-click="ok()"]')).first().click();
 
-            expect(element.all(by.repeater('place in model.places')).count()).toBe(startCount - 1);
+            expect(element.all(by.repeater('place in model.places')).count()).toBe(startCount-1);
         });
     });
 });
