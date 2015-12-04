@@ -13,7 +13,7 @@ function createFileIfNotExist(controller) {
     try {
         (fs.accessSync(fullFileName, fs.R_OK | fs.W_OK));
     } catch (e) {
-        fs.writeFileSync(fullFileName, '');
+        fs.writeFileSync(fullFileName, controller.value);
     }
 }
 
