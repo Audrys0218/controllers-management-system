@@ -12,7 +12,7 @@
       <th class="col-md-2">Actions</th>
     </tr>
     <tr class="" ng-repeat="rule in model.rules | orderBy: ['-enabled', '-priority']">
-      <td>{{rule.title}} </td>
+      <td class="rule-title">{{rule.title}} </td>
       <td>{{rule.priority}} </td>
       <td>{{rule.enabled ? 'Enabled' : 'Disabled'}}</td>
       <td align="center">
