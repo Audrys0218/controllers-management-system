@@ -1,17 +1,22 @@
 'use strict';
 
-describe('Users E2E Tests:', function () {
-  describe('Not authenticated user', function () {
-    it('Should login', function () {
+describe('Places E2E Tests:', function () {
+    describe('Places', function () {
+        var startCount;
 
-      //browser.get('http://localhost:3000');
-      //
-      //element(by.id('username')).sendKeys('test');
-      //element(by.id('password')).sendKeys('#Test123456');
-      //element(by.css('button[type=submit]')).click();
-      //element(by.binding('error')).getText().then(function (errorText) {
-      //  expect(errorText).toBe('Invalid username or password');
-      //});
+        beforeEach(function () {
+            browser.get('http://localhost:3000/places');
+            element.all(by.repeater('places in model.places')).count().then(function (originalCount) {
+                startCount = originalCount;
+            });
+        });
+
+        it('Create place', function () {
+            element(by.css('button[ng-click="addEdit()"]')).click();
+            element(by.id('title')).sendKeys('test');
+            element(by.css('button[ng-click="save()"]')).click();
+
+            expect(element.all(by.repeater('places in model.places')).count()).toBe(startCount + 1);
+        });
     });
-  });
 });
