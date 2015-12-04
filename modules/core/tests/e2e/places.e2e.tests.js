@@ -18,5 +18,24 @@ describe('Places E2E Tests:', function () {
 
             expect(element.all(by.repeater('place in model.places')).count()).toBe(startCount + 1);
         });
+
+        it('update place', function () {
+            element.all(by.css('button[ng-click="addEdit(place.id)"]')).first().click();
+
+            element(by.id('title')).clear().sendKeys('test2');
+            element(by.css('button[ng-click="save()"]')).click();
+
+            expect(element.all(by.repeater('place in model.places')).count()).toBe(startCount);
+            element.all(by.css("td.place-title")).first().getText().then(function (text) {
+                expect(text).toBe('test2');
+            });
+        });
+
+        it('delete place', function () {
+            element.all(by.css('button[ng-click="delete(place.id)"]')).first().click();
+            element(by.css('button[ng-click="ok()"]')).click();
+
+            expect(element.all(by.repeater('place in model.places')).count()).toBe(startCount - 1);
+        });
     });
 });
