@@ -4,16 +4,16 @@ angular.module('core')
     .factory('controllersTypesModel', [function () {
 
         var model = {
-            'light_dimmer_colorful': 'Light dimmer (colorful)',
-            'light_dimmer': 'Light dimmer',
-            'electricity_switcher': 'Electricity switcher',
-            'audio': 'Audio',
-            'tv': 'TV',
-            'window': 'Window',
-            'oven': 'Oven',
-            'doors': 'Doors',
-            'temperature': 'Temperature',
-            'alarm': 'Alarm'
+            'light_dimmer': {
+                label: 'Light dimmer',
+                min: 0,
+                max: 100
+            },
+            'electricity_switcher': {
+                label: 'Electricity switcher',
+                min: 0,
+                max: 1
+            }
         };
 
         return {

@@ -30,7 +30,7 @@
         <tr ng-repeat="controller in controllersModel.controllers track by controller.id">
           <td>{{controller.title}} </td>
           <td>{{controller.placeTitle}} </td>
-          <td>{{controllersTypesModel[controller.type]}} </td>
+          <td>{{controllersTypesModel[controller.type].label}} </td>
           <td> {{controller.value}} </td>
         </tr>
       </table>

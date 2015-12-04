@@ -15,7 +15,7 @@
     <tr ng-repeat="controller in model.controllers">
       <td>{{controller.title}} </td>
       <td>{{controller.placeTitle}} </td>
-      <td>{{controllersTypesModel[controller.type]}} </td>
+      <td>{{controllersTypesModel[controller.type].label}} </td>
       <td class="col-md-2">
         <inline-controller-value-edit controller="controller"></inline-controller-value-edit>
       </td>

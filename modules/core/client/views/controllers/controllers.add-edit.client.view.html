@@ -10,7 +10,7 @@
 
   <label for="type">Type:</label>
   <select class="form-control" id="type" ng-model="model.type"
-          ng-options="key as value for (key , value) in dataModel.controllersTypes">
+          ng-options="key as value.label for (key , value) in dataModel.controllersTypes">
   </select>
 
   <label for="communication-type">Communication type:</label>

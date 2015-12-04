@@ -38,7 +38,7 @@ var ControllerSchema = new Schema({
     },
     value:{
         type: Number,
-        default: -999
+        default: 0
     },
 });
 

@@ -5,12 +5,12 @@
   <input value="{{valueCopy}}" min="0" max="1" type="number" disabled style="width: 50px;"/>
 </div>
 
-<div ng-show="editMode">
-  <button type="button" class="btn btn-default btn-sm value-edit" ng-click="save()">
+<div ng-show="editMode" class="form-group">
+  <button type="button" class="btn btn-default btn-sm value-edit" ng-click="save()" ng-disabled="!isValid()">
     <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
   </button>
 
-  <input ng-model="valueCopy" min="0" max="1" type="number" style="width: 50px;"/>
+  <input tooltip="{{ getValidationMessage() }}" ng-model="valueCopy" type="number" style="width: 50px;"/>
 
   <button type="button" class="btn btn-default btn-sm value-edit" ng-click="cancelEditMode()()">
     <span class="glyphicon glyphicon-off" aria-hidden="true"></span>

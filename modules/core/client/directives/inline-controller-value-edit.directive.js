@@ -8,7 +8,8 @@ angular.module('core')
             scope: {
                 controller: '='
             },
-            controller: function ($scope, controllersModel) {
+            controller: function ($scope, controllersModel, controllersTypesModel) {
+                var type = controllersTypesModel.model[$scope.controller.type];
                 $scope.editMode = false;
                 $scope.valueCopy = angular.copy($scope.controller.value);
 
@@ -27,6 +28,14 @@ angular.module('core')
                     }
 
                     $scope.editMode = false;
+                };
+
+                $scope.isValid = function(){
+                    return $scope.valueCopy >= type.min && $scope.valueCopy <= type.max;
+                };
+
+                $scope.getValidationMessage = function(){
+                    return $scope.isValid() ? '' : 'Value should be between ' + type.min + ' and ' + type.max;
                 };
             },
             link: function ($scope, element, attr) {
