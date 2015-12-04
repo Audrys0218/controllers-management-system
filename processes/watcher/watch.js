@@ -11,6 +11,7 @@ var path = require('path'),
     rulesHandler = require(path.resolve('./processes/watcher/rules/rulesHandler')),
     Sensor = mongoose.model('Sensor'),
     Rule = mongoose.model('Rule'),
+    Controller = mongoose.model('Controller'),
     cp = require('child_process');
 
 var port = 5860,
@@ -119,7 +120,7 @@ module.exports.start = function () {
     });
 };
 
-module.exports.handleSensorEntityChange = function(id, type) {
+module.exports.handleSensorEntityChange = function (id, type) {
     console.log('handleSensorEntityChange');
     if (type === 'created') {
         Sensor.findById(id).exec(function (err, sensor) {
@@ -145,10 +146,45 @@ module.exports.handleSensorEntityChange = function(id, type) {
     }
 };
 
-module.exports.handleRuleChange = function(id) {
-
+module.exports.handleRuleChange = function (id) {
+    Rule.findById(id).populate('triggers.sensor').populate('outcomes.controller').exec(function (err, rule) {
+        if (err) {
+            console.log('handleRuleChange: rule error');
+        } else if (rule) {
+            rulesHandler.execute([rule]);
+        } else {
+            console.log('handleRuleChange: rule not found. Id: ' + id);
+        }
+    });
 };
 
-module.exports.handleControllerChange = function(id, type) {
-
+module.exports.handleControllerChange = function (id, type) {
+    if (type === 'created') {
+        //Do nothing, no rules have this controller yet
+    } else if (type === 'deleted') {
+        //Do nothing
+    } else if (type === 'updated') {
+        //Maybe type or something changed
+        Controller.findById(id).exec(function (err, controller) {
+            if (err) {
+                console.log('watcher handleControllerChange error: ' + JSON.stringify(err));
+            } else if (controller) {
+                Rule.find({
+                    outcomes: {
+                        $elemMatch: {
+                            controller: id
+                        }
+                    }
+                }).populate('triggers.sensor').populate('outcomes.controller').exec(function (err, rules) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        if (rules.length > 0) {
+                            rulesHandler.execute(rules);
+                        }
+                    }
+                });
+            }
+        });
+    }
 };
