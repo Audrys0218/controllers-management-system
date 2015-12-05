@@ -1,14 +1,24 @@
 <label class="col-sm-1 control-label">Controller</label>
 <div class="col-md-5">
-  <select class="form-control" ng-model="outcome.controller"
+  <select class="form-control"
+          ng-model="outcome.controller"
           ng-options="controller.id as controller.label for controller in controllers">
   </select>
 </div>
 <label class="col-sm-1 control-label">Value</label>
-<div class="col-md-4">
-  <input type="number" class="form-control" ng-model="outcome.value">
+<div class="col-md-4"
+     ng-class="{ 'has-error': getValidationMessage() !== ''}">
+  <input type="number"
+         class="form-control"
+         ng-model="outcome.value"
+         name="{{ name }}"
+         required
+         min="{{getMin()}}"
+         max="{{getMax()}}"
+         tooltip="{{ getValidationMessage() }}" />
 </div>
 <div class="col-md-1">
-            <span class="glyphicon glyphicon-remove-circle" ng-show="index !== 0"
+            <span class="glyphicon glyphicon-remove-circle"
+                  ng-show="index !== 0"
                   ng-click="onRemove({index: index})"></span>
 </div>

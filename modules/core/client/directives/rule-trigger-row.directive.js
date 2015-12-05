@@ -3,8 +3,8 @@
 angular.module('core')
     .directive('ruleTriggerRow', function () {
         return {
-            require: '^form',
             restrict: 'E',
+            require: '^form',
             templateUrl: 'modules/core/client/directives/rule-trigger-row.html',
             scope: {
                 onRemove: '&',
@@ -13,9 +13,19 @@ angular.module('core')
             },
             controller: function ($scope, sensorsModel, sensorsTypesModel, operatorsModel) {
 
+                function getSelectedSensorType(){
+                    return $scope.sensors.find(function (s) {
+                        return s.id === $scope.trigger.sensor;
+                    });
+                }
+
                 $scope.operators = operatorsModel.model;
 
                 $scope.sensors = [];
+
+                $scope.name = 'trigger_name_' + $scope.index;
+
+                $scope.trigger.compareType = $scope.trigger.compareType || '>';
 
                 sensorsModel.load().then(function () {
                     $scope.sensors = sensorsModel.model.sensors.map(function (s) {
@@ -25,27 +35,35 @@ angular.module('core')
                             type: s.type
                         };
                     });
-                });
 
-                $scope.getValidationMessage = function () {
-                    var selectedType = $scope.sensors.find(function (s) {
-                        return s.id === $scope.trigger.sensor;
-                    });
+                    $scope.trigger.sensor = $scope.trigger.sensor || $scope.sensors[0].id;
 
-                    if (selectedType) {
-                        var min = sensorsTypesModel.model[selectedType.type].min;
-                        var max = sensorsTypesModel.model[selectedType.type].max;
-                        if ($scope.trigger.value < min || $scope.trigger.value > max) {
-                            return 'Value should be between ' + min + ' and ' + max;
+                    $scope.getMin = function(){
+                        var selectedSensor = getSelectedSensorType();
+                        return selectedSensor && sensorsTypesModel.model[selectedSensor.type].min ? sensorsTypesModel.model[selectedSensor.type].min : 0;
+                    };
+
+                    $scope.getMax = function(){
+                        var selectedSensor = getSelectedSensorType();
+                        return selectedSensor && sensorsTypesModel.model[selectedSensor.type].max ? sensorsTypesModel.model[selectedSensor.type].max : 0;
+                    };
+
+                    $scope.getValidationMessage = function () {
+                        var formField;
+                        if($scope.form && $scope.form[$scope.name]){
+                            formField = $scope.form[$scope.name];
+                            if(formField.$error.required){
+                                return 'Field is required';
+                            }
+
+                            if(formField.$error.min || formField.$error.max){
+                                return 'Field should be between ' + $scope.getMin() + ' and ' + $scope.getMax();
+                            }
                         }
-                    }
 
-                    if($scope.form && $scope.form[$scope.trigger.id] && $scope.form[$scope.trigger.id].$error.required){
-                        return 'Field is required';
-                    }
-
-                    return '';
-                };
+                        return '';
+                    };
+                });
             },
             link: function ($scope, element, attr, ctrl) {
                 $scope.form = ctrl;

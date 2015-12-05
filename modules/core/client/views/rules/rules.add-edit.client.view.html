@@ -3,17 +3,34 @@
     <h3 class="modal-title">Add/Edit rule</h3>
   </div>
   <div class="modal-body">
-    <form name="form" class="form-horizontal">
+    <form name="form"
+          class="form-horizontal">
 
       <div class="form-group">
-        <label for="title" class="col-sm-1 control-label">Title</label>
-        <div class="col-md-7">
-          <input id="title" type="text" class="form-control" ng-model="rule.title">
+        <label for="title"
+               class="col-sm-1 control-label">Title</label>
+
+        <div class="col-md-7"
+             ng-class="{ 'has-error': getValidationMessage() !== ''}">
+          <input id="title"
+                 type="text"
+                 class="form-control"
+                 ng-model="rule.title"
+                 name="title"
+                 required
+                 tooltip="{{ getValidationMessage() }}"
+                 >
         </div>
 
-        <label for="priority" class="col-sm-1 control-label">Priority</label>
+        <label for="priority"
+               class="col-sm-1 control-label">Priority</label>
+
         <div class="col-md-2">
-          <input id="priority" type="number" min="0" class="form-control" ng-model="rule.priority">
+          <input id="priority"
+                 type="number"
+                 min="0"
+                 class="form-control"
+                 ng-model="rule.priority">
         </div>
       </div>
 
@@ -21,20 +38,28 @@
         <LEGEND>Triggers</LEGEND>
         <div class="form-group">
           <label class="col-sm-1 control-label">Conjunctor</label>
+
           <div class="col-md-2 col-md-offset-1">
-            <select class="form-control" ng-model="rule.type"
+            <select class="form-control"
+                    ng-model="rule.type"
                     ng-options="key as value for (key, value) in conjunctionsTypes">
             </select>
           </div>
         </div>
 
-        <div class="form-group" ng-repeat="trigger in rule.triggers">
-          <rule-trigger-row index="$index" on-remove="removeTrigger(index)" trigger="trigger"></rule-trigger-row>
+        <div class="form-group"
+             ng-repeat="trigger in rule.triggers">
+          <rule-trigger-row index="$index"
+                            on-remove="removeTrigger(index)"
+                            trigger="trigger"></rule-trigger-row>
         </div>
 
         <div class="form-group">
           <div class="col-md-2">
-            <button type="button" class="btn btn-success" ng-click="addTrigger()">Add</button>
+            <button type="button"
+                    class="btn btn-success"
+                    ng-click="addTrigger()">Add
+            </button>
           </div>
         </div>
       </fieldset>
@@ -42,27 +67,41 @@
       <fieldset>
         <legend>Outcomes</legend>
 
-        <div class="form-group" ng-repeat="outcome in rule.outcomes">
-          <rule-outcome-row index="$index" on-remove="removeOutcome(index)" outcome="outcome"></rule-outcome-row>
+        <div class="form-group"
+             ng-repeat="outcome in rule.outcomes">
+          <rule-outcome-row index="$index"
+                            on-remove="removeOutcome(index)"
+                            outcome="outcome"></rule-outcome-row>
         </div>
 
         <div class="form-group">
           <div class="col-md-2">
-            <button type="button" class="btn btn-success" ng-click="addOutcome()">Add</button>
+            <button type="button"
+                    class="btn btn-success"
+                    ng-click="addOutcome()">Add
+            </button>
           </div>
         </div>
       </fieldset>
 
       <div class="checkbox">
-        <label><input type="checkbox" ng-model="rule.enabled">Enabled</label>
+        <label><input type="checkbox"
+                      ng-model="rule.enabled">Enabled</label>
       </div>
 
     </form>
 
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="save()">Save</button>
-    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary"
+            type="button"
+            ng-click="save()"
+            ng-disabled="form.$invalid">Save
+    </button>
+    <button class="btn btn-warning"
+            type="button"
+            ng-click="cancel()">Cancel
+    </button>
   </div>
 </div>
 
