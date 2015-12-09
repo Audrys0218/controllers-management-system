@@ -7,10 +7,10 @@
     <div ng-controller="DashboardController">
       <table class="table table-bordered">
         <tr>
-          <th>Title</th>
-          <th>Place</th>
-          <th>Type</th>
-          <th>Value</th>
+          <th class="col-sm-5">Title</th>
+          <th class="col-sm-4">Place</th>
+          <th class="col-sm-2">Type</th>
+          <th class="col-sm-1">Value</th>
         </tr>
         <tr ng-repeat="sensor in sensorsModel.sensors" track by sensor.id>
           <td>{{sensor.title}}</td>
@@ -22,10 +22,10 @@
 
       <table class="table table-bordered">
         <tr>
-          <th>Title</th>
-          <th>Place</th>
-          <th>Type</th>
-          <th>Value</th>
+          <th class="col-sm-5">Title</th>
+          <th class="col-sm-4">Place</th>
+          <th class="col-sm-2">Type</th>
+          <th class="col-sm-1">Value</th>
         </tr>
         <tr ng-repeat="controller in controllersModel.controllers track by controller.id">
           <td>{{controller.title}} </td>
