@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('core')
-    .service('confirmation', ['$modal', function($modal){
+    .service('confirmation', ['$uibModal', function($uibModal){
 
     this.confirm = function(title, message, callback) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             templateUrl: 'modules/core/client/views/confirmation/confirmation.client.view.html',
             controller: 'ConfirmationController',
             size: 'lg',

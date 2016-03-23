@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('core')
-    .controller('AddEditRuleController', ['$scope', '$modalInstance', 'conjunctionsTypes', 'rulesModel', 'data',
-        function ($scope, $modalInstance, conjunctionsTypes, rulesModel, data) {
+    .controller('AddEditRuleController', ['$scope', '$uibModal', 'conjunctionsTypes', 'rulesModel', 'data',
+        function ($scope, $uibModal, conjunctionsTypes, rulesModel, data) {
 
             $scope.conjunctionsTypes = conjunctionsTypes.model;
             $scope.rule = angular.copy(rulesModel.model.defaultRuleObject);
@@ -17,12 +17,12 @@ angular.module('core')
 
             $scope.save = function () {
                 rulesModel.save($scope.rule).then(function () {
-                    $modalInstance.dismiss();
+                    $uibModal.dismiss();
                 });
             };
 
             $scope.cancel = function () {
-                $modalInstance.dismiss();
+                $uibModal.dismiss();
             };
 
             $scope.addTrigger = function () {

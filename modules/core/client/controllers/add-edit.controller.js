@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core').controller('AddEditController', ['$scope', '$modalInstance', '$http', 'data', function ($scope, $modalInstance, $http, data) {
+angular.module('core').controller('AddEditController', ['$scope', '$uibModalInstance', '$http', 'data', function ($scope, $uibModalInstance, $http, data) {
 
     $scope.model = {};
 
@@ -19,12 +19,12 @@ angular.module('core').controller('AddEditController', ['$scope', '$modalInstanc
     };
 
     $scope.cancel = function () {
-        $modalInstance.dismiss();
+        $uibModalInstance.dismiss();
     };
 
     function successCallback(response) {
         if (response.data.success) {
-            $modalInstance.close(response.data.data);
+            $uibModalInstance.close(response.data.data);
         }
     }
 

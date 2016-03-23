@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('core')
-    .controller('RulesController', ['$scope', '$modal', 'rulesModel', function ($scope, $modal, rulesModel) {
+    .controller('RulesController', ['$scope', '$uibModal', 'rulesModel', function ($scope, $uibModal, rulesModel) {
 
         $scope.model = rulesModel.model;
 
         $scope.addEdit = function (ruleId) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: 'modules/core/client/views/rules/rules.add-edit.client.view.html',
                 controller: 'AddEditRuleController',
                 size: 'lg',

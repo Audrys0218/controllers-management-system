@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('core')
-    .service('addEditService', ['$modal', '$q', function ($modal, $q) {
+    .service('addEditService', ['$uibModal', '$q', function ($uibModal, $q) {
         this.open = function (data) {
             var deferred = $q.defer(),
-                modalInstance = $modal.open({
+                modalInstance = $uibModal.open({
                     templateUrl: data.templateUrl,
                     controller: 'AddEditController',
                     size: 'lg',
