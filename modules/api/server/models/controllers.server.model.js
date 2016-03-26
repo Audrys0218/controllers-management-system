@@ -17,7 +17,7 @@ var ControllerSchema = new Schema({
         trim: true,
         required: 'Title cannot be blank'
     },
-    place:{
+    place: {
         type: Schema.Types.ObjectId,
         ref: 'Place',
         required: 'Place should be selected'
@@ -36,7 +36,7 @@ var ControllerSchema = new Schema({
         type: String,
         trim: true
     },
-    value:{
+    value: {
         type: Number,
         default: 0
     },

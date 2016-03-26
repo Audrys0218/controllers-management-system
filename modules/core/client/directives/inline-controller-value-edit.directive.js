@@ -22,19 +22,19 @@ angular.module('core')
                     });
                 };
 
-                $scope.cancelEditMode = function(){
-                    if(!angular.equals($scope.controller.value, $scope.valueCopy)){
+                $scope.cancelEditMode = function () {
+                    if (!angular.equals($scope.controller.value, $scope.valueCopy)) {
                         $scope.valueCopy = angular.copy($scope.controller.value);
                     }
 
                     $scope.editMode = false;
                 };
 
-                $scope.isValid = function(){
+                $scope.isValid = function () {
                     return $scope.valueCopy >= type.min && $scope.valueCopy <= type.max;
                 };
 
-                $scope.getValidationMessage = function(){
+                $scope.getValidationMessage = function () {
                     return $scope.isValid() ? '' : 'Value should be between ' + type.min + ' and ' + type.max;
                 };
             },

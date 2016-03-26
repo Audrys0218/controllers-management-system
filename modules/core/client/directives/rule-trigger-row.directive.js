@@ -13,7 +13,7 @@ angular.module('core')
             },
             controller: function ($scope, sensorsModel, sensorsTypesModel, operatorsModel) {
 
-                function getSelectedSensorType(){
+                function getSelectedSensorType() {
                     return $scope.sensors.find(function (s) {
                         return s.id === $scope.trigger.sensor;
                     });
@@ -38,25 +38,25 @@ angular.module('core')
 
                     $scope.trigger.sensor = $scope.trigger.sensor || $scope.sensors[0].id;
 
-                    $scope.getMin = function(){
+                    $scope.getMin = function () {
                         var selectedSensor = getSelectedSensorType();
                         return selectedSensor && sensorsTypesModel.model[selectedSensor.type].min ? sensorsTypesModel.model[selectedSensor.type].min : 0;
                     };
 
-                    $scope.getMax = function(){
+                    $scope.getMax = function () {
                         var selectedSensor = getSelectedSensorType();
                         return selectedSensor && sensorsTypesModel.model[selectedSensor.type].max ? sensorsTypesModel.model[selectedSensor.type].max : 0;
                     };
 
                     $scope.getValidationMessage = function () {
                         var formField;
-                        if($scope.form && $scope.form[$scope.name]){
+                        if ($scope.form && $scope.form[$scope.name]) {
                             formField = $scope.form[$scope.name];
-                            if(formField.$error.required){
+                            if (formField.$error.required) {
                                 return 'Field is required';
                             }
 
-                            if(formField.$error.min || formField.$error.max){
+                            if (formField.$error.min || formField.$error.max) {
                                 return 'Field should be between ' + $scope.getMin() + ' and ' + $scope.getMax();
                             }
                         }

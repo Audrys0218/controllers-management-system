@@ -52,8 +52,8 @@ angular.module('core')
                 });
             };
 
-            var changeValue = function(controllerId, value){
-                return $http.put('/api/v1/controllers/' + controllerId + '/value', { value: value });
+            var changeValue = function (controllerId, value) {
+                return $http.put('/api/v1/controllers/' + controllerId + '/value', {value: value});
 
             };
 

@@ -30,7 +30,7 @@ exports.create = function (req, res) {
                 action: 'created',
                 id: controller._id
             });
-            if(controller.communicationType === 'file'){
+            if (controller.communicationType === 'file') {
                 createFileIfNotExist(controller);
             }
             res.json(new RestResponse(true, null));
@@ -46,7 +46,7 @@ exports.list = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(new RestResponse(true, controllers.map(function(controller){
+            res.json(new RestResponse(true, controllers.map(function (controller) {
                 return {
                     id: controller._id,
                     title: controller.title,
@@ -138,7 +138,7 @@ exports.update = function (req, res) {
             controller.communicationType = req.body.model.communicationType;
             controller.communicationPath = req.body.model.communicationPath;
             controller.isActive = req.body.model.isActive;
-            if(controller.communicationType === 'file'){
+            if (controller.communicationType === 'file') {
                 createFileIfNotExist(controller);
             }
         }
@@ -184,7 +184,7 @@ exports.delete = function (req, res) {
     });
 };
 
-exports.changeValue = function(req, res){
+exports.changeValue = function (req, res) {
     console.log('New value ' + req.body.value);
 
     app.getWatcher().send({

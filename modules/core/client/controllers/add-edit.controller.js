@@ -28,10 +28,10 @@ angular.module('core').controller('AddEditController', ['$scope', '$uibModalInst
         }
     }
 
-    function loadModelIfExist(){
-        if(data.modelId){
-            $http.get(data.apiUrl + data.modelId).then(function(response){
-                if(response.data.success){
+    function loadModelIfExist() {
+        if (data.modelId) {
+            $http.get(data.apiUrl + data.modelId).then(function (response) {
+                if (response.data.success) {
                     $scope.model = response.data.data;
                 }
             });

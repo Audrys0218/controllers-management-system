@@ -25,7 +25,7 @@ angular.module('core')
         var addEdit = function (sensorId) {
             placesModel.load().then(callAddEditModal);
 
-            function callAddEditModal(){
+            function callAddEditModal() {
                 var dataModel = {
                     places: placesModel.model.places,
                     sensorsTypes: sensorsTypesModel.model

@@ -16,8 +16,8 @@ angular.module('core')
             };
 
             var load = function () {
-                return $http.get('/api/v1/rules').then(function(response){
-                    if(response.data.success){
+                return $http.get('/api/v1/rules').then(function (response) {
+                    if (response.data.success) {
                         model.rules = response.data.data;
                     } else {
                         window.console.log('Unable to pull rules list');
@@ -25,15 +25,15 @@ angular.module('core')
                 });
             };
 
-            var save = function(rule){
-                if(rule.id){
+            var save = function (rule) {
+                if (rule.id) {
                     return $http.put('/api/v1/rules/' + rule.id, rule).then(load);
                 } else {
                     return $http.post('/api/v1/rules', rule).then(load);
                 }
             };
 
-            var get = function(id){
+            var get = function (id) {
                 return $http.get('/api/v1/rules/' + id);
             };
 

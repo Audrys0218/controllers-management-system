@@ -1,4 +1,5 @@
-<section ng-controller="HomeController" class="home-module">
+<section ng-controller="HomeController"
+         class="home-module">
   <div class="container">
     <div class="jumbotron">
       <h2>Welcome to your Smart Home!</h2>
@@ -12,7 +13,7 @@
           <th class="col-sm-2">Type</th>
           <th class="col-sm-1">Value</th>
         </tr>
-        <tr ng-repeat="sensor in sensorsModel.sensors" track by sensor.id>
+        <tr ng-repeat="sensor in sensorsModel.sensors">
           <td>{{sensor.title}}</td>
           <td>{{sensor.placeTitle}}</td>
           <td>{{sensorsTypesModel[sensor.type].label}}</td>
@@ -28,10 +29,10 @@
           <th class="col-sm-1">Value</th>
         </tr>
         <tr ng-repeat="controller in controllersModel.controllers track by controller.id">
-          <td>{{controller.title}} </td>
-          <td>{{controller.placeTitle}} </td>
-          <td>{{controllersTypesModel[controller.type].label}} </td>
-          <td> {{controller.value}} </td>
+          <td>{{controller.title}}</td>
+          <td>{{controller.placeTitle}}</td>
+          <td>{{controllersTypesModel[controller.type].label}}</td>
+          <td> {{controller.value}}</td>
         </tr>
       </table>
     </div>

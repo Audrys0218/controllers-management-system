@@ -43,7 +43,7 @@ angular.module('core')
                 $scope.rule.triggers.splice(index, 1);
             };
 
-            $scope.getValidationMessage = function(){
+            $scope.getValidationMessage = function () {
                 return $scope.form && $scope.form.title && $scope.form.title.$error.required ? 'Title is required' : '';
             };
 

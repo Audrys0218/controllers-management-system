@@ -35,7 +35,7 @@ describe('Places E2E Tests:', function () {
             element.all(by.css('button[ng-click="delete(place.id)"]')).first().click();
             element.all(by.css('button[ng-click="ok()"]')).first().click();
 
-            expect(element.all(by.repeater('place in model.places')).count()).toBe(startCount-1);
+            expect(element.all(by.repeater('place in model.places')).count()).toBe(startCount - 1);
         });
     });
 });

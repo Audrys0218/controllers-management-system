@@ -2,24 +2,24 @@
 
 angular.module('core').controller('DashboardController', ['$scope', 'sensorsModel', 'controllersModel', 'sensorsTypesModel', 'controllersTypesModel', '$interval',
     function ($scope, sensorsModel, controllersModel, sensorsTypesModel, controllersTypesModel, $interval) {
-    
-    $scope.sensorsModel = sensorsModel.model;
-    $scope.sensorsTypesModel = sensorsTypesModel.model;
 
-    $scope.controllersModel = controllersModel.model;
-    $scope.controllersTypesModel = controllersTypesModel.model;
+        $scope.sensorsModel = sensorsModel.model;
+        $scope.sensorsTypesModel = sensorsTypesModel.model;
 
-    function load(){
-        sensorsModel.load();
-        controllersModel.load();
-    }
+        $scope.controllersModel = controllersModel.model;
+        $scope.controllersTypesModel = controllersTypesModel.model;
 
-    load();
+        function load() {
+            sensorsModel.load();
+            controllersModel.load();
+        }
 
-    var interval = $interval(load, 3000);
+        load();
 
-    $scope.$on('$destroy',function(){
-        if(interval)
-            $interval.cancel(interval);
-    });
-}]);
+        var interval = $interval(load, 3000);
+
+        $scope.$on('$destroy', function () {
+            if (interval)
+                $interval.cancel(interval);
+        });
+    }]);
