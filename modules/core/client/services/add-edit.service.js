@@ -7,7 +7,6 @@ angular.module('core')
                 modalInstance = $uibModal.open({
                     templateUrl: data.templateUrl,
                     controller: 'AddEditController',
-                    size: 'lg',
                     resolve: {
                         data: function () {
                             return {

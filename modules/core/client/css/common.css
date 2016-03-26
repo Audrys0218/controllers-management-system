@@ -1,0 +1,12 @@
+*[alerts]{
+    position: absolute;
+    width: 300px;
+    display: inline;
+    bottom: 0;
+    right: 0;
+    z-index: 1051;
+}
+
+*[alerts] .alert {
+    margin-bottom: 5px;
+}

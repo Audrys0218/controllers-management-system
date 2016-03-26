@@ -1,0 +1,1 @@
+<uib-alert ng-repeat="alert in alertsModel.alerts" type="{{alert.type}}" close="closeAlert($index)" dismiss-on-timeout="{{alert.dismissOnTimeout}}">{{alert.msg}}</uib-alert>

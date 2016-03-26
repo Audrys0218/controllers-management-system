@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core')
-    .controller('PlacesController', ['$scope', 'placesModel', function ($scope, placesModel) {
+    .controller('PlacesController', ['$scope', 'placesModel', 'alertService', function ($scope, placesModel) {
     $scope.model = placesModel.model;
 
     $scope.addEdit = function(placeId){

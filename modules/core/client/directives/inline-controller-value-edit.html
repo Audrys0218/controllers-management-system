@@ -10,7 +10,7 @@
     <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
   </button>
 
-  <input tooltip="{{ getValidationMessage() }}" ng-model="valueCopy" type="number" style="width: 50px;"/>
+  <input uib-tooltip="{{ getValidationMessage() }}" ng-model="valueCopy" type="number" style="width: 50px;"/>
 
   <button type="button" class="btn btn-default btn-sm value-edit" ng-click="cancelEditMode()()">
     <span class="glyphicon glyphicon-off" aria-hidden="true"></span>

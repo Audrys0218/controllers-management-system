@@ -12,9 +12,7 @@ exports.create = function (req, res) {
     place.save(function (err) {
         if (err) {
             console.log(err);
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-            });
+            return res.status(400).send(err);
         } else {
             res.json(new RestResponse(true, {
                 id: place._id,

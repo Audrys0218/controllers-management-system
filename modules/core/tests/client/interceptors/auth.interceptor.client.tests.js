@@ -1,9 +1,9 @@
 'use strict';
 
 (function() {
-  describe('authInterceptor', function() {
+  describe('httpInterceptor', function() {
     //Initialize global variables
-    var authInterceptor,
+    var httpInterceptor,
     $q,
     $state,
     httpProvider;
@@ -17,7 +17,7 @@
     }));
 
     beforeEach(inject(function(_authInterceptor_, _$q_, _$state_) {
-      authInterceptor = _authInterceptor_;
+      httpInterceptor = _authInterceptor_;
       $q = _$q_;
       $state = _$state_;
       spyOn($q,'reject');
@@ -25,21 +25,21 @@
     }));
 
     it('Auth Interceptor should be object', function() {
-      expect( typeof authInterceptor).toEqual('object');
+      expect( typeof httpInterceptor).toEqual('object');
     });
 
     it('Auth Interceptor should contain responseError function', function() {
-      expect( typeof authInterceptor.responseError).toEqual('function');
+      expect( typeof httpInterceptor.responseError).toEqual('function');
     });
 
-    it('httpProvider Interceptor should have authInterceptor', function() {
-      expect(httpProvider.interceptors).toContain('authInterceptor');
+    it('httpProvider Interceptor should have httpInterceptor', function() {
+      expect(httpProvider.interceptors).toContain('httpInterceptor');
     });
 
     describe('Forbidden Interceptor', function() {
       it('should redirect to forbidden route', function () {
           var response = {status:403,config:{}};
-          var promise = authInterceptor.responseError(response);
+          var promise = httpInterceptor.responseError(response);
           expect($q.reject).toHaveBeenCalled();
           expect($state.transitionTo).toHaveBeenCalledWith('forbidden');
       });
@@ -48,7 +48,7 @@
     describe('Authorization Interceptor', function() {
       it('should redirect to signIn page for unauthorized access', function () {
           var response = {status:401,config:{}};
-          var promise = authInterceptor.responseError(response);
+          var promise = httpInterceptor.responseError(response);
           expect($q.reject).toHaveBeenCalled();
           expect($state.transitionTo).toHaveBeenCalledWith('authentication.signin');
       });

@@ -9,7 +9,7 @@
       <th>Title</th>
       <th class="col-md-2">Actions</th>
     </tr>
-    <tr class="" ng-repeat="place in model.places track by place.id">
+    <tr ng-repeat="place in model.places track by place.id">
       <td class="place-title">{{place.title}} </td>
       <td align="center">
         <button ng-click="addEdit(place.id)"  type="button" class="btn btn-default btn-sm">
