@@ -24,17 +24,26 @@ exports.create = function (req, res) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
-        } else {
-            app.getWatcher().send({
-                type: 'controller',
-                action: 'created',
-                id: controller._id
-            });
-            if (controller.communicationType === 'file') {
-                createFileIfNotExist(controller);
-            }
-            res.json(new RestResponse(true, null));
         }
+
+        app.getWatcher().send({
+            type: 'controller',
+            action: 'created',
+            id: controller._id
+        });
+
+        if (controller.communicationType === 'file') {
+            createFileIfNotExist(controller);
+        }
+
+        res.json({
+            id: controller._id,
+            communicationType: controller.communicationType,
+            communicationPath: controller.communicationPath,
+            place: controller.communicationType,
+            title: controller.title,
+            type: controller.type
+        });
     });
 };
 

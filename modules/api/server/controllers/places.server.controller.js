@@ -3,10 +3,9 @@
 var path = require('path'),
     mongoose = require('mongoose'),
     Place = mongoose.model('Place'),
-    RestResponse = require(path.resolve('./modules/api/server/common/restResponse')).RestResponse,
-    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     httpError = require('http-errors'),
-    async = require('async');
+    async = require('async'),
+    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 exports.create = function (req, res) {
     var place = new Place(req.body.model);
@@ -18,7 +17,7 @@ exports.create = function (req, res) {
             });
         }
 
-        return res.json({
+        return res.status(201).json({
             id: place._id,
             title: place.title
         });
@@ -44,14 +43,11 @@ exports.list = function (req, res) {
 
 
 exports.read = function (req, res) {
-
-    console.log(new Error('bla'));
-
     var id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({
-            message: 'Place id is invalid'
+            message: 'Place id is invalid.'
         });
     }
 
@@ -64,14 +60,11 @@ exports.read = function (req, res) {
 
         if (!place) {
             return res.status(404).json({
-                message: 'Place not found'
+                message: 'Place not found.'
             });
         }
 
-        return res.json({
-            id: place._id,
-            title: place.title
-        });
+        return res.json();
     });
 };
 
@@ -87,18 +80,18 @@ exports.update = function (req, res) {
 
     function validateId(next) {
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            next(new httpError.BadRequest('Place id is invalid'));
+            next(new httpError.BadRequest('Place id is invalid.'));
         }
         next(null);
     }
 
     function findPlace(next) {
-        Place.find(id).exec(next);
+        Place.find({_id: id}).exec(next);
     }
 
     function checkPlaceWasFound(places, next) {
         if (places.length === 0) {
-            return next(new httpError.NotFound('Place was not found'));
+            return next(new httpError.NotFound('Place was not found.'));
         }
         next(null, places[0]);
     }
@@ -115,10 +108,7 @@ exports.update = function (req, res) {
             });
         }
 
-        return res.json({
-            id: result._id,
-            title: result.title
-        });
+        return res.json();
     }
 };
 
@@ -132,13 +122,13 @@ exports.delete = function (req, res) {
 
     function validateId(next) {
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            next(new httpError.BadRequest('Place id is invalid'));
+            next(new httpError.BadRequest('Place id is invalid.'));
         }
         next(null);
     }
 
     function remove(next) {
-        Place.remove(id, next);
+        Place.findByIdAndRemove(id, next);
     }
 
     function done(err) {

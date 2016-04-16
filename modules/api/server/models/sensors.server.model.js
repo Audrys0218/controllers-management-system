@@ -14,23 +14,25 @@ var SensorSchema = new Schema({
     title: {
         type: String,
         default: '',
-        trim: true,
-        required: 'Title cannot be blank'
+        unique: 'Sensor name should be unique.',
+        required: 'Title cannot be blank.',
+        trim: true
+
     },
     place: {
         type: Schema.Types.ObjectId,
         ref: 'Place',
-        required: 'Place should be selected'
+        required: 'Place should be selected.'
     },
     type: {
         type: String,
         trim: true,
-        required: 'Type cannot be blank'
+        required: 'Type cannot be blank.'
     },
     communicationType: {
         type: String,
         trim: true,
-        required: 'Communication type cannot be blank'
+        required: 'Communication type cannot be blank.'
     },
     communicationPath: {
         type: String,
@@ -45,5 +47,7 @@ var SensorSchema = new Schema({
         default: -999
     }
 });
+
+SensorSchema.plugin(require('mongoose-unique-validator'));
 
 module.exports = mongoose.model('Sensor', SensorSchema);

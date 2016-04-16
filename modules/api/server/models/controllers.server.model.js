@@ -14,8 +14,9 @@ var ControllerSchema = new Schema({
     title: {
         type: String,
         default: '',
-        trim: true,
-        required: 'Title cannot be blank'
+        unique: 'Controller name should be unique.',
+        required: 'Title cannot be blank.',
+        trim: true
     },
     place: {
         type: Schema.Types.ObjectId,
@@ -39,7 +40,9 @@ var ControllerSchema = new Schema({
     value: {
         type: Number,
         default: 0
-    },
+    }
 });
+
+ControllerSchema.plugin(require('mongoose-unique-validator'));
 
 module.exports = mongoose.model('Controller', ControllerSchema);

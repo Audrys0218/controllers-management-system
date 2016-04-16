@@ -17,9 +17,9 @@ var PlaceSchema = new Schema({
     title: {
         type: String,
         default: '',
-        unique: 'Place name should be unique',
-        trim: true,
-        required: 'Title cannot be blank'
+        unique: 'Place name should be unique.',
+        required: 'Title cannot be blank.',
+        trim: true
     }
 });
 

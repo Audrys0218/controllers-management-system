@@ -11,15 +11,9 @@ angular.module('core')
             return $http({
                 method: 'GET',
                 url: '/api/v1/sensors'
-            }).then(successCallback);
-
-            function successCallback(response) {
-                if (response.data.success) {
-                    model.sensors = response.data.data;
-                } else {
-                    window.console.log('Error:' + response.data.message);
-                }
-            }
+            }).then(function (response) {
+                model.sensors = response.data;
+            });
         };
 
         var addEdit = function (sensorId) {
