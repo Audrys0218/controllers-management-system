@@ -3,7 +3,6 @@
 var path = require('path'),
     mongoose = require('mongoose'),
     Controller = mongoose.model('Controller'),
-    RestResponse = require(path.resolve('./modules/api/server/common/restResponse')).RestResponse,
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     fs = require('fs'),
     app = require(path.resolve('./config/lib/app'));
@@ -55,17 +54,17 @@ exports.list = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(new RestResponse(true, controllers.map(function (controller) {
+            res.json(controllers.map(function (controller) {
                 return {
                     id: controller._id,
                     title: controller.title,
-                    placeTitle: controller.place.title,
+                    placeTitle: controller.place ? controller.place.title : '',
                     type: controller.type,
                     communicationPath: controller.communicationPath,
                     isActive: controller.isActive,
                     value: controller.value
                 };
-            })));
+            }));
         }
     });
 };
@@ -86,7 +85,7 @@ exports.read = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else if (controller) {
-            res.json(new RestResponse(true, {
+            res.json({
                 id: controller._id,
                 title: controller.title,
                 place: controller.place,
@@ -94,7 +93,7 @@ exports.read = function (req, res) {
                 communicationType: controller.communicationType,
                 communicationPath: controller.communicationPath,
                 isActive: controller.isActive
-            }));
+            });
         } else {
             return res.status(400).send({
                 message: 'Controller is invalid'
@@ -131,7 +130,7 @@ exports.update = function (req, res) {
                         action: 'updated',
                         id: controller._id
                     });
-                    res.json(new RestResponse(true, null));
+                    res.json();
                 }
             });
         } else {
@@ -182,7 +181,7 @@ exports.delete = function (req, res) {
                         id: controller._id
                     });
                     fs.unlinkSync('./devices/controllers/' + removedController._id);
-                    res.json(new RestResponse(true));
+                    res.json();
                 }
             });
         } else {
@@ -203,5 +202,5 @@ exports.changeValue = function (req, res) {
         value: parseInt(req.body.value)
     });
 
-    res.json(new RestResponse(true));
+    res.json();
 };

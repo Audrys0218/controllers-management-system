@@ -4,7 +4,6 @@ var path = require('path'),
     mongoose = require('mongoose'),
     Rule = mongoose.model('Rule'),
     async = require('async'),
-    RestResponse = require(path.resolve('./modules/api/server/common/restResponse')).RestResponse,
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     app = require(path.resolve('./config/lib/app'));
 
@@ -56,7 +55,7 @@ exports.create = function (req, res) {
                 id: rule._id
             });
 
-            return res.json(new RestResponse(true, mapToResponseObject(rule)));
+            return res.json(mapToResponseObject(rule));
         }
     });
 };
@@ -68,9 +67,9 @@ exports.list = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(new RestResponse(true, rules.map(function (item) {
+            res.json(rules.map(function (item) {
                 return mapToResponseObject(item);
-            })));
+            }));
         }
     });
 };
@@ -90,7 +89,7 @@ exports.read = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else if (rule) {
-            res.json(new RestResponse(true, mapToResponseObject(rule)));
+            res.json(mapToResponseObject(rule));
         } else {
             return res.status(400).send({
                 message: 'Rule is invalid'
@@ -130,7 +129,7 @@ exports.update = function (req, res) {
                         type: 'rule',
                         id: rule._id
                     });
-                    res.json(new RestResponse(true, mapToResponseObject(rule)));
+                    res.json(mapToResponseObject(rule));
                 }
             });
         } else {
@@ -166,7 +165,7 @@ exports.delete = function (req, res) {
                         type: 'rule',
                         id: rule._id
                     });
-                    res.json(new RestResponse(true, {}));
+                    res.json();
                 }
             });
         } else {

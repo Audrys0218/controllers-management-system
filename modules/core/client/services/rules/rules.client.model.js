@@ -17,11 +17,7 @@ angular.module('core')
 
             var load = function () {
                 return $http.get('/api/v1/rules').then(function (response) {
-                    if (response.data.success) {
-                        model.rules = response.data.data;
-                    } else {
-                        window.console.log('Unable to pull rules list');
-                    }
+                    model.rules = response.data;
                 });
             };
 

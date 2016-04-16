@@ -60,7 +60,7 @@ exports.list = function (req, res) {
             return {
                 id: sensor._id,
                 title: sensor.title,
-                placeTitle: sensor.place.title,
+                placeTitle: sensor.place ? sensor.place.title : '',
                 type: sensor.type,
                 communicationType: sensor.communicationType,
                 communicationPath: sensor.communicationPath,
@@ -182,6 +182,7 @@ exports.delete = function (req, res) {
             action: 'deleted',
             id: id
         });
+
         fs.unlinkSync('./devices/sensors/' + id);
 
         next(null);

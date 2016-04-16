@@ -12,15 +12,9 @@ angular.module('core')
                 return $http({
                     method: 'GET',
                     url: '/api/v1/controllers'
-                }).then(successCallback);
-
-                function successCallback(response) {
-                    if (response.data.success) {
-                        model.controllers = response.data.data;
-                    } else {
-                        window.console.log('Error:' + response.data.message);
-                    }
-                }
+                }).then(function (response) {
+                    model.controllers = response.data;
+                });
             };
 
             var addEdit = function (controllerId) {
@@ -43,7 +37,7 @@ angular.module('core')
                 }
             };
 
-            var deletePlace = function (controllerId) {
+            var deleteController = function (controllerId) {
                 confirmation.confirm('Warning!', 'Do you really want to delete this item?', function () {
                     $http({
                         method: 'DELETE',
@@ -61,7 +55,7 @@ angular.module('core')
                 model: model,
                 load: load,
                 addEdit: addEdit,
-                delete: deletePlace,
+                delete: deleteController,
                 changeValue: changeValue
             };
 

@@ -1,28 +1,26 @@
 'use strict';
 
 angular.module('core')
-    .controller('AddEditRuleController', ['$scope', '$uibModal', 'conjunctionsTypes', 'rulesModel', 'data',
-        function ($scope, $uibModal, conjunctionsTypes, rulesModel, data) {
+    .controller('AddEditRuleController', ['$scope', '$uibModalInstance', 'conjunctionsTypes', 'rulesModel', 'data',
+        function ($scope, $uibModalInstance, conjunctionsTypes, rulesModel, data) {
 
             $scope.conjunctionsTypes = conjunctionsTypes.model;
             $scope.rule = angular.copy(rulesModel.model.defaultRuleObject);
 
             if (data.modelId) {
                 rulesModel.get(data.modelId).then(function (response) {
-                    if (response.data.success) {
-                        $scope.rule = response.data.data;
-                    }
+                    $scope.rule = response.data;
                 });
             }
 
             $scope.save = function () {
                 rulesModel.save($scope.rule).then(function () {
-                    $uibModal.dismiss();
+                    $uibModalInstance.dismiss();
                 });
             };
 
             $scope.cancel = function () {
-                $uibModal.dismiss();
+                $uibModalInstance.dismiss();
             };
 
             $scope.addTrigger = function () {
