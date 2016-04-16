@@ -12,7 +12,7 @@ var config = require('../config'),
 
 var watcher;
 
-var startWatcher = function() {
+var startWatcher = function () {
     watcher = cp.fork(__dirname + '../../../processes/watcher/worker.js', [], {execArgv: ['--debug=5859']});
 
     watcher.on('message', function (m) {
@@ -75,6 +75,6 @@ module.exports.start = function start(callback) {
 
 };
 
-module.exports.getWatcher = function() {
+module.exports.getWatcher = function () {
     return watcher;
 };

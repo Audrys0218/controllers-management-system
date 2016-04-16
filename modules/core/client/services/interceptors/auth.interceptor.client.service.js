@@ -6,9 +6,7 @@ angular.module('core').factory('httpInterceptor', ['$q', '$injector', 'alertServ
             responseError: function (rejection) {
                 switch (rejection.status) {
                     case 400:
-                        angular.forEach(rejection.data.errors, function (error) {
-                            alertService.showError(error.message);
-                        });
+                        alertService.showError(rejection.data.message);
                         break;
                     case 401:
                         $injector.get('$state').transitionTo('authentication.signin');

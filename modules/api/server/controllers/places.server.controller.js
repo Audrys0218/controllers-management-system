@@ -4,138 +4,150 @@ var path = require('path'),
     mongoose = require('mongoose'),
     Place = mongoose.model('Place'),
     RestResponse = require(path.resolve('./modules/api/server/common/restResponse')).RestResponse,
-    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
+    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+    httpError = require('http-errors'),
+    async = require('async');
 
 exports.create = function (req, res) {
     var place = new Place(req.body.model);
 
     place.save(function (err) {
         if (err) {
-            console.log(err);
-            return res.status(400).send(err);
-        } else {
-            res.json(new RestResponse(true, {
-                id: place._id,
-                title: place.title
-            }));
+            return res.status(400).json({
+                message: errorHandler.getErrorMessage(err)
+            });
         }
+
+        return res.json({
+            id: place._id,
+            title: place.title
+        });
     });
 };
 
 exports.list = function (req, res) {
     Place.find().sort('-created').exec(function (err, places) {
         if (err) {
-            return res.status(400).send({
+            return res.status(400).json({
                 message: errorHandler.getErrorMessage(err)
             });
-        } else {
-            res.json(new RestResponse(true, places.map(function (p) {
-                return {
-                    id: p._id,
-                    title: p.title
-                };
-            })));
         }
+
+        return res.json(places.map(function (p) {
+            return {
+                id: p._id,
+                title: p.title
+            };
+        }));
     });
 };
 
 
 exports.read = function (req, res) {
+
+    console.log(new Error('bla'));
+
     var id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).send({
-            message: 'Place is invalid'
+        return res.status(400).json({
+            message: 'Place id is invalid'
         });
     }
 
     Place.findById(id).exec(function (err, place) {
         if (err) {
-            return res.status(400).send({
+            return res.status(400).json({
                 message: errorHandler.getErrorMessage(err)
             });
-        } else if (place) {
-            res.json(new RestResponse(true, {
-                id: place._id,
-                title: place.title
-            }));
-        } else {
-            return res.status(400).send({
-                message: 'Place is invalid'
+        }
+
+        if (!place) {
+            return res.status(404).json({
+                message: 'Place not found'
             });
         }
+
+        return res.json({
+            id: place._id,
+            title: place.title
+        });
     });
 };
 
 exports.update = function (req, res) {
     var id = req.params.id;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).send({
-            message: 'Place is invalid'
-        });
+    async.waterfall([
+        validateId,
+        findPlace,
+        checkPlaceWasFound,
+        updatePlace
+    ], done);
+
+    function validateId(next) {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            next(new httpError.BadRequest('Place id is invalid'));
+        }
+        next(null);
     }
 
-    Place.findById(id).exec(function (err, place) {
-        console.log('update: ' + err);
+    function findPlace(next) {
+        Place.find(id).exec(next);
+    }
+
+    function checkPlaceWasFound(places, next) {
+        if (places.length === 0) {
+            return next(new httpError.NotFound('Place was not found'));
+        }
+        next(null, places[0]);
+    }
+
+    function updatePlace(place, next) {
+        place.title = req.body.model.title;
+        place.save(next);
+    }
+
+    function done(err, result) {
         if (err) {
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-            });
-        } else if (place) {
-            place.title = req.body.model.title;
-            place.save(function () {
-                if (err) {
-                    return res.status(400).send({
-                        message: errorHandler.getErrorMessage(err)
-                    });
-                } else {
-                    res.json(new RestResponse(true, {
-                        id: place._id,
-                        title: place.title
-                    }));
-                }
-            });
-        } else {
-            return res.status(400).send({
-                message: 'Place is invalid'
+            return res.status(err.status || 400).json({
+                message: err.status ? err.message : errorHandler.getErrorMessage(err)
             });
         }
-    });
+
+        return res.json({
+            id: result._id,
+            title: result.title
+        });
+    }
 };
 
 exports.delete = function (req, res) {
     var id = req.params.id;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).send({
-            message: 'Place is invalid'
-        });
+    async.waterfall([
+        validateId,
+        remove,
+    ], done);
+
+    function validateId(next) {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            next(new httpError.BadRequest('Place id is invalid'));
+        }
+        next(null);
     }
 
-    Place.findById(id).exec(function (err, place) {
+    function remove(next) {
+        Place.remove(id, next);
+    }
+
+    function done(err) {
         if (err) {
-            console.log('error');
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-            });
-        } else if (place) {
-            place.remove(function (err) {
-                if (err) {
-                    return res.status(400).send({
-                        message: errorHandler.getErrorMessage(err)
-                    });
-                } else {
-                    res.json(new RestResponse(true, {
-                        id: place._id,
-                        title: place.title
-                    }));
-                }
-            });
-        } else {
-            return res.status(400).send({
-                message: 'Place is invalid'
+            return res.status(err.status || 400).json({
+                message: err.status ? err.message : errorHandler.getErrorMessage(err)
             });
         }
-    });
+
+        return res.json();
+    }
 };

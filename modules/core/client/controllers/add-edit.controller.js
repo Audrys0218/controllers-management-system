@@ -23,19 +23,14 @@ angular.module('core').controller('AddEditController', ['$scope', '$uibModalInst
     };
 
     function successCallback(response) {
-        if (response.data.success) {
-            $uibModalInstance.close(response.data.data);
-        }
+        $uibModalInstance.close(response.data);
     }
 
     function loadModelIfExist() {
         if (data.modelId) {
             $http.get(data.apiUrl + data.modelId).then(function (response) {
-                if (response.data.success) {
-                    $scope.model = response.data.data;
-                }
+                $scope.model = response.data;
             });
         }
     }
-
 }]);

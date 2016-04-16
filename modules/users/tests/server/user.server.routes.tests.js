@@ -62,7 +62,7 @@ describe('User CRUD tests', function () {
             .end(function (signupErr, signupRes) {
                 // Handle signpu error
                 if (signupErr) {
-                    return done(signupErr);
+                     done(signupErr);
                 }
 
                 signupRes.body.username.should.equal(_user.username);

@@ -11,15 +11,11 @@ angular.module('core')
             return $http({
                 method: 'GET',
                 url: '/api/v1/places'
-            }).then(successCallback);
+            }).then(function (response) {
+                model.places = response.data;
+            });
 
-            function successCallback(response) {
-                if (response.data.success) {
-                    model.places = response.data.data;
-                } else {
-                    window.console.log('Error:' + response.data.message);
-                }
-            }
+
         };
 
         var addEdit = function (placeId) {
