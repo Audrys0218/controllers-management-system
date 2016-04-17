@@ -18,6 +18,12 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 templateUrl: 'modules/core/client/views/places/places.client.view.html',
                 controller: 'PlacesController'
             })
+            .state('microcontrollers', {
+                url: '/microcontrollers',
+                templateUrl: 'modules/core/client/views/microcontrollers/microcontrollers.client.view.html',
+                controller: 'MicrocontrollersController',
+                controllerAs: 'microcontrollersController'
+            })
             .state('sensors', {
                 url: '/sensors',
                 templateUrl: 'modules/core/client/views/sensors/sensors.client.view.html'

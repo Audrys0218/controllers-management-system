@@ -57,13 +57,13 @@ describe('MicroController crud tests', function () {
 
                     return done();
                 });
-        })
+        });
     });
 
     it('should be able to update microcontroller', function (done) {
         var request = {
             title: 'Test2',
-            place: '5712a9c1618929fe0d7e4106',
+            place: '5712a9c1618929fe0d7e4107',
             ip: '192.1680.26'
         };
 
@@ -77,18 +77,41 @@ describe('MicroController crud tests', function () {
 
             agent.put('/api/v1/microcontroller/' + microController._id)
                 .send(request)
-                .expect(200);
+                .expect(200).end(function () {
+                MicroController.findById({_id: microController._id}, function (err, mc) {
 
-            MicroController.findById({id: microController._id}, function (err, mc) {
+                    should.not.exists(err);
+                    mc.title.should.be.equal(request.title);
+                    // mc.place.should.be.equal(request.place);
+                    mc.ip.should.be.equal(request.ip);
 
-                should.not.exists(err);
-                mc.title.should.be.equal(request.title);
-                mc.place.should.be.equal(request.place);
-                mc.ip.should.be.equal(request.ip);
+                    return done();
+                });
+            });
+        });
+    });
 
-                done();
-            })
-        })
+    it('should remove microcontroller', function (done) {
+        new MicroController({
+            title: 'Test',
+            place: '5712a9c1618929fe0d7e4106',
+            ip: '192.1680.25'
+        }).save(function (err, microController) {
+
+            should.not.exists(err);
+
+            agent.delete('/api/v1/microcontroller/' + microController._id)
+                .send()
+                .expect(200).end(function () {
+                MicroController.findById({_id: microController._id}, function (err, mc) {
+
+                    should.not.exists(err);
+                    should.not.exists(mc);
+
+                    return done();
+                });
+            });
+        });
     });
 
     afterEach(function (done) {

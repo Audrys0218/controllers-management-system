@@ -44,5 +44,9 @@ module.exports = function (app) {
         .delete(sensors.delete);
 
     app.route('/api/v1/microcontroller').post(microcontrollers.create);
-    app.route('/api/v1/microcontroller/:id').get(microcontrollers.read);
+    app.route('/api/v1/microcontroller').get(microcontrollers.list);
+    app.route('/api/v1/microcontroller/:id')
+        .get(microcontrollers.read)
+        .put(microcontrollers.update)
+        .delete(microcontrollers.delete);
 };

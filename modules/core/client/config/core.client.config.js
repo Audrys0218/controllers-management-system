@@ -10,6 +10,12 @@ angular.module('core').run(['Menus',
         });
 
         Menus.addMenuItem('topbar', {
+            title: 'Micro controllers',
+            state: 'microcontrollers',
+            roles: ['user']
+        });
+
+        Menus.addMenuItem('topbar', {
             title: 'Sensors',
             state: 'sensors',
             roles: ['user']

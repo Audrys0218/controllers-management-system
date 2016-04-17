@@ -1,0 +1,23 @@
+<tb-add-edit>
+  <div class="form-group">
+    <label for="title">Title:</label>
+    <input type="text"
+           class="form-control"
+           id="title"
+           ng-model="model.title">
+  </div>
+
+  <label for="place">Place:</label>
+  <select class="form-control"
+          id="place"
+          ng-model="model.place"
+          ng-options="place.id as place.title for place in dataModel.places">
+  </select>
+
+
+  <label for="com-type-loc">Communication path:</label>
+  <input type="text"
+         class="form-control"
+         id="com-type-loc">
+
+</tb-add-edit>

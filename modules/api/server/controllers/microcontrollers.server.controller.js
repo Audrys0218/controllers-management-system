@@ -5,7 +5,10 @@ var path = require('path'),
     MicroController = mongoose.model('MicroController'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     fs = require('fs'),
-    app = require(path.resolve('./config/lib/app'));
+    app = require(path.resolve('./config/lib/app')),
+    async = require('async'),
+    httpError = require('http-errors');
+
 
 exports.create = function (req, res) {
     var microController = new MicroController(req.body);
@@ -27,7 +30,22 @@ exports.create = function (req, res) {
 };
 
 exports.list = function (req, res) {
+    MicroController.find().populate('place').exec(function (err, microControllers) {
+        if (err) {
+            return res.status(400).json({
+                message: errorHandler.getErrorMessage(err)
+            });
+        }
 
+        return res.json(microControllers.map(function (mc) {
+            return {
+                id: mc._id,
+                title: mc.title,
+                placeTitle: mc.place ? mc.place.title : '',
+                ip: mc.ip
+            };
+        }));
+    });
 };
 
 
@@ -74,7 +92,7 @@ exports.update = function (req, res) {
 
     function validateId(next) {
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            next(new httpError.BadRequest('Place id is invalid.'));
+            next(new httpError.BadRequest('Micro controller id is invalid.'));
         }
         next(null);
     }
@@ -85,7 +103,7 @@ exports.update = function (req, res) {
 
     function checkWasFound(microControllers, next) {
         if (microControllers.length === 0) {
-            return next(new httpError.NotFound('Place was not found.'));
+            return next(new httpError.NotFound('Micro controller was not found.'));
         }
         next(null, microControllers[0]);
     }
@@ -109,5 +127,31 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
+    var id = req.params.id;
 
+    async.waterfall([
+        validateId,
+        remove,
+    ], done);
+
+    function validateId(next) {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            next(new httpError.BadRequest('Micr conroller id is invalid.'));
+        }
+        next(null);
+    }
+
+    function remove(next) {
+        MicroController.findByIdAndRemove(id, next);
+    }
+
+    function done(err) {
+        if (err) {
+            return res.status(err.status || 400).json({
+                message: err.status ? err.message : errorHandler.getErrorMessage(err)
+            });
+        }
+
+        return res.json();
+    }
 };
