@@ -14,8 +14,9 @@ var MicroControllerSchema = new Schema({
     title: {
         type: String,
         default: '',
-        trim: true,
-        required: 'Title cannot be blank'
+        unique: 'Controller name should be unique.',
+        required: 'Title cannot be blank.',
+        trim: true
     },
     place: {
         type: Schema.Types.ObjectId,

@@ -50,8 +50,9 @@ var RuleSchema = new Schema({
     title: {
         type: String,
         default: '',
-        trim: true,
-        required: 'Title cannot be blank'
+        unique: 'Rule name should be unique.',
+        required: 'Title cannot be blank.',
+        trim: true
     },
     type: {
         type: String,
@@ -70,5 +71,8 @@ var RuleSchema = new Schema({
     triggers: [RuleTriggerSchema],
     outcomes: [RuleOutcomeSchema]
 });
+
+
+RuleSchema.plugin(require('mongoose-unique-validator'));
 
 module.exports = mongoose.model('Rule', RuleSchema);

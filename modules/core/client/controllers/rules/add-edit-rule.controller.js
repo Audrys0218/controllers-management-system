@@ -15,7 +15,7 @@ angular.module('core')
 
             $scope.save = function () {
                 rulesModel.save($scope.rule).then(function () {
-                    $uibModalInstance.dismiss();
+                        $uibModalInstance.dismiss();
                 });
             };
 

@@ -6,12 +6,12 @@ angular.module('common')
             alerts: []
         };
 
-        var showError = function (msg) {
-            model.alerts.push({type: 'danger', msg: msg, dismissOnTimeout: 5000});
+        var showError = function (msg, dismissAfter) {
+            model.alerts.push({type: 'danger', msg: msg, dismissOnTimeout: dismissAfter || 5000});
         };
 
-        var showSuccess = function (msg) {
-            model.alerts.push({type: 'success', msg: msg, dismissOnTimeout: 5000});
+        var showSuccess = function (msg, dismissAfter) {
+            model.alerts.push({type: 'success', msg: msg, dismissOnTimeout: dismissAfter || 5000});
         };
 
         var closeAlert = function (index) {
