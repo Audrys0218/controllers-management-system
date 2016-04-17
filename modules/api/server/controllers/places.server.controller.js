@@ -73,9 +73,9 @@ exports.update = function (req, res) {
 
     async.waterfall([
         validateId,
-        findPlace,
-        checkPlaceWasFound,
-        updatePlace
+        find,
+        checkWasFound,
+        update
     ], done);
 
     function validateId(next) {
@@ -85,23 +85,23 @@ exports.update = function (req, res) {
         next(null);
     }
 
-    function findPlace(next) {
+    function find(next) {
         Place.find({_id: id}).exec(next);
     }
 
-    function checkPlaceWasFound(places, next) {
+    function checkWasFound(places, next) {
         if (places.length === 0) {
             return next(new httpError.NotFound('Place was not found.'));
         }
         next(null, places[0]);
     }
 
-    function updatePlace(place, next) {
+    function update(place, next) {
         place.title = req.body.model.title;
         place.save(next);
     }
 
-    function done(err, result) {
+    function done(err) {
         if (err) {
             return res.status(err.status || 400).json({
                 message: err.status ? err.message : errorHandler.getErrorMessage(err)

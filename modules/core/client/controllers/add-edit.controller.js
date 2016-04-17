@@ -3,6 +3,7 @@
 angular.module('core').controller('AddEditController', ['$scope', '$uibModalInstance', '$http', 'data', function ($scope, $uibModalInstance, $http, data) {
 
     $scope.model = {};
+    $scope.loading = false;
 
     loadModelIfExist();
 
@@ -11,20 +12,25 @@ angular.module('core').controller('AddEditController', ['$scope', '$uibModalInst
     $scope.title = data.title;
 
     $scope.save = function () {
+        $scope.loading = true;
         if ($scope.model.id) {
-            $http.put(data.apiUrl + $scope.model.id, {model: $scope.model}).then(successCallback);
+            $http.put(data.apiUrl + $scope.model.id, {model: $scope.model}).then(closeModal).finally(removeLoader);
         } else {
-            $http.post(data.apiUrl, {model: $scope.model}).then(successCallback);
+            $http.post(data.apiUrl, {model: $scope.model}).then(closeModal).finally(removeLoader);
+        }
+
+        function closeModal(response) {
+            $uibModalInstance.close(response.data);
+        }
+
+        function removeLoader() {
+            $scope.loading = false;
         }
     };
 
     $scope.cancel = function () {
         $uibModalInstance.dismiss();
     };
-
-    function successCallback(response) {
-        $uibModalInstance.close(response.data);
-    }
 
     function loadModelIfExist() {
         if (data.modelId) {

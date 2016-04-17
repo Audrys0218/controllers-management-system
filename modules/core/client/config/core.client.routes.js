@@ -15,7 +15,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
         $stateProvider
             .state('places', {
                 url: '/places',
-                templateUrl: 'modules/core/client/views/places/places.client.view.html'
+                templateUrl: 'modules/core/client/views/places/places.client.view.html',
+                controller: 'PlacesController'
             })
             .state('sensors', {
                 url: '/sensors',

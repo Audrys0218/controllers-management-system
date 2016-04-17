@@ -14,7 +14,7 @@ var MicroControllerSchema = new Schema({
     title: {
         type: String,
         default: '',
-        unique: 'Controller name should be unique.',
+        unique: 'Micro controller name should be unique.',
         required: 'Title cannot be blank.',
         trim: true
     },
@@ -29,5 +29,7 @@ var MicroControllerSchema = new Schema({
         required: 'Ip adress is required'
     }
 });
+
+MicroControllerSchema.plugin(require('mongoose-unique-validator'));
 
 module.exports = mongoose.model('MicroController', MicroControllerSchema);
