@@ -16,7 +16,7 @@ angular.module('core')
                     url: '/api/v1/microcontroller'
                 }).then(function (response) {
                     model.microcontrollers = response.data;
-                }).finally(removeLoader)
+                }).finally(removeLoader);
             };
 
             var deleteController = function (controllerId) {
@@ -25,7 +25,7 @@ angular.module('core')
                     $http({
                         method: 'DELETE',
                         url: '/api/v1/microcontroller/' + controllerId
-                    }).then(load).finally(removeLoader)
+                    }).then(load).finally(removeLoader);
                 });
             };
 
