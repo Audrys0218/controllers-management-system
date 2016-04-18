@@ -13,6 +13,8 @@ var path = require('path'),
 exports.create = function (req, res) {
     var microController = new MicroController(req.body);
 
+    console.log(req.body);
+
     microController.save(function (err) {
         if (err) {
             return res.status(400).send({
@@ -154,4 +156,12 @@ exports.delete = function (req, res) {
 
         return res.json();
     }
+};
+
+exports.ping = function (req, res) {
+    require('ping').promise.probe(req.body.ip)
+        .then(function (pingResponse) {
+            console.log(pingResponse);
+            return res.json({isAlive: pingResponse.alive});
+        });
 };

@@ -21,14 +21,28 @@ angular.module('core')
                 confirmation.confirm('Warning!', 'Do you really want to delete this item?', function () {
                     $http({
                         method: 'DELETE',
-                        url: '/api/v1/microcontrollers/' + controllerId
+                        url: '/api/v1/microcontroller/' + controllerId
                     }).then(load);
                 });
+            };
+
+            var save = function (microcontroller) {
+                if (microcontroller.id) {
+                    return $http.put('/api/v1/microcontroller/' + microcontroller.id, microcontroller).then(load);
+                } else {
+                    return $http.post('/api/v1/microcontroller', microcontroller).then(load);
+                }
+            };
+
+            var get = function (id) {
+                return $http.get('api/v1/microcontroller/' + id);
             };
 
             return {
                 model: model,
                 delete: deleteController,
-                load: load
+                load: load,
+                save: save,
+                get: get
             };
         }]);

@@ -69,7 +69,8 @@
     "validator": "^3.41.2",
     "webworker-threads": "^0.6.2",
     "mongoose-unique-validator": "~1.0.2",
-    "http-errors": "~1.4.0"
+    "http-errors": "~1.4.0",
+    "ping": "~0.1.10"
   },
   "devDependencies": {
     "grunt-concurrent": "^2.0.0",

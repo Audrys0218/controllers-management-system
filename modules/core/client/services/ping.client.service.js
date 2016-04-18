@@ -1,20 +1,25 @@
 'use strict';
 
 angular.module('core')
-    .factory('pingService', ['$http', function ($http, $q) {
+    .factory('pingService', ['$http', function ($http) {
 
-        var ping = function (url) {
-            var deferred = $q.defer();
+        var model = {
+            loading: false,
+            isAlive: false
+        };
 
-            $http.get(url).then(function (response) {
-                return deferred.resolve(response.status === 200);
-            });
-
-            return deferred.promise;
+        var ping = function (ip) {
+            model.loading = true;
+            return $http.post('api/v1/microcontroller/ping', {ip: ip}).then(function (response) {
+                    model.isAlive = response.data.isAlive;
+                })
+                .finally(function () {
+                    model.loading = false;
+                });
         };
 
         return {
+            model: model,
             ping: ping
         };
-
     }]);

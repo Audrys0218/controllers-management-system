@@ -1,23 +1,30 @@
 'use strict';
 
 angular.module('core')
-    .controller('AddEditMicrocontrollerController', ['$uibModal', 'microcontrollersModel',
-        function ($uibModal, microcontrollersModel) {
-            var vm = this;
+    .controller('AddEditMicrocontrollerController', ['$scope', '$uibModalInstance', 'microcontrollersModel', 'pingService', 'data',
+        function ($scope, $uibModalInstance, microcontrollersModel, pingService, data) {
 
-            // if (data.modelId) {
-            //     microcontrollersModel.get(data.modelId).then(function (response) {
-            //         $scope.rule = response.data;
-            //     });
-            // }
-            //
-            // vm.save = function () {
-            //     microcontrollersModel.save($scope.rule).then(function () {
-            //         $uibModalInstance.dismiss();
-            //     });
-            // };
-            //
-            // vm.cancel = function () {
-            //     $uibModalInstance.dismiss();
-            // };
+            $scope.microcontroller = {};
+            $scope.pingModel = pingService.model;
+            $scope.pingModel.isAlive = false;
+            $scope.places = data.places;
+
+            if (data.modelId) {
+                microcontrollersModel.get(data.modelId).then(function (response) {
+                    $scope.microcontroller = response.data;
+                    pingService.ping($scope.microcontroller.ip);
+                });
+            }
+
+            $scope.save = function () {
+                microcontrollersModel.save($scope.microcontroller).then(function () {
+                    $uibModalInstance.dismiss();
+                });
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss();
+            };
+
+            $scope.ping = pingService.ping;
         }]);

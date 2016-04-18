@@ -8,30 +8,31 @@ angular.module('core')
             vm.microcontrollersModel = microcontrollersModel.model;
 
             vm.addEdit = function (microcontrollerId) {
-                placesModel.load();
-                var modalInstance = $uibModal.open({
-                    templateUrl: 'modules/core/client/views/microcontrollers/microcontrollers.add-edit.client.view.html',
-                    controller: 'MicrocontrollersController',
-                    resolve: {
-                        data: function () {
-                            return {
-                                modelId: placesModel.model.places.map(function (p) {
-                                    return {
-                                        id: p.id,
-                                        title: p.title
-                                    };
-                                })
-                            };
+                placesModel.load().then(function () {
+                    var modalInstance = $uibModal.open({
+                        templateUrl: 'modules/core/client/views/microcontrollers/microcontrollers.add-edit.client.view.html',
+                        controller: 'AddEditMicrocontrollerController',
+                        resolve: {
+                            data: function () {
+                                return {
+                                    modelId: microcontrollerId,
+                                    places: placesModel.model.places.map(function (p) {
+                                        return {
+                                            id: p.id,
+                                            title: p.title
+                                        };
+                                    })
+                                };
+                            }
                         }
-                    }
+                    });
+
+                    modalInstance.result.then();
                 });
-
-                modalInstance.result.then();
-
             };
 
-            vm.delete = function (ruleId) {
-                microcontrollersModel.delete(ruleId);
+            vm.delete = function (id) {
+                microcontrollersModel.delete(id);
             };
 
             microcontrollersModel.load();
