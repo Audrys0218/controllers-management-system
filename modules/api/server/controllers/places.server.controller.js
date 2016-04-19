@@ -42,8 +42,6 @@ exports.list = function (req, res) {
 };
 
 
-
-
 exports.read = function (req, res) {
     var id = req.params.id;
 

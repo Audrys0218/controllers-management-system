@@ -19,24 +19,15 @@ var SensorSchema = new Schema({
         trim: true
 
     },
-    place: {
+    microController: {
         type: Schema.Types.ObjectId,
-        ref: 'Place',
-        required: 'Place should be selected.'
+        ref: 'MicroController',
+        required: 'Micro controller should be selected'
     },
     type: {
         type: String,
         trim: true,
         required: 'Type cannot be blank.'
-    },
-    communicationType: {
-        type: String,
-        trim: true,
-        required: 'Communication type cannot be blank.'
-    },
-    communicationPath: {
-        type: String,
-        trim: true
     },
     isActive: {
         type: Schema.Types.Boolean,

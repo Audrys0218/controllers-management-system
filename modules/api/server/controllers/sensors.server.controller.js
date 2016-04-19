@@ -5,18 +5,8 @@ var path = require('path'),
     Sensor = mongoose.model('Sensor'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     fs = require('fs'),
-    app = require(path.resolve('./config/lib/app')),
     async = require('async'),
     httpError = require('http-errors');
-
-function createFileIfNotExist(sensor) {
-    var fullFileName = './devices/sensors/' + sensor._id;
-    try {
-        (fs.accessSync(fullFileName, fs.R_OK | fs.W_OK));
-    } catch (e) {
-        fs.writeFileSync(fullFileName, sensor.value);
-    }
-}
 
 exports.create = function (req, res) {
     var sensor = new Sensor(req.body.model);
@@ -26,16 +16,6 @@ exports.create = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         }
-
-        if (sensor.communicationType === 'file') {
-            createFileIfNotExist(sensor);
-        }
-
-        app.getWatcher().send({
-            type: 'sensor',
-            action: 'created',
-            id: sensor._id
-        });
 
         res.status(201).json({
             id: sensor._id,
@@ -91,7 +71,7 @@ exports.read = function (req, res) {
         return res.json({
             id: sensor._id,
             title: sensor.title,
-            place: sensor.place,
+            microController: sensor.microController,
             type: sensor.type,
             communicationType: sensor.communicationType,
             communicationPath: sensor.communicationPath,
@@ -131,14 +111,11 @@ exports.update = function (req, res) {
 
     function updateSensor(sensor, next) {
         sensor.title = req.body.model.title;
-        sensor.place = req.body.model.place;
+        sensor.microController = req.body.model.microController;
         sensor.type = req.body.model.type;
         sensor.communicationType = req.body.model.communicationType;
         sensor.communicationPath = req.body.model.communicationPath;
         sensor.isActive = req.body.model.isActive;
-        if (sensor.communicationType === 'file') {
-            createFileIfNotExist(sensor);
-        }
 
         sensor.save(next);
     }
@@ -159,8 +136,7 @@ exports.delete = function (req, res) {
 
     async.waterfall([
         validateId,
-        removeSensor,
-        removeFile
+        removeSensor
     ], done);
 
     function validateId(next) {
@@ -174,18 +150,6 @@ exports.delete = function (req, res) {
         Sensor.findByIdAndRemove(id, function (err) {
             return err ? next(err) : next(null);
         });
-    }
-
-    function removeFile(next) {
-        app.getWatcher().send({
-            type: 'sensor',
-            action: 'deleted',
-            id: id
-        });
-
-        fs.unlinkSync('./devices/sensors/' + id);
-
-        next(null);
     }
 
     function done(err) {

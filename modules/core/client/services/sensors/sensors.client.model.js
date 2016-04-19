@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core')
-    .factory('sensorsModel', ['$http', 'addEditService', 'confirmation', 'placesModel', 'sensorsTypesModel', function ($http, addEditService, confirmation, placesModel, sensorsTypesModel) {
+    .factory('sensorsModel', ['$http', 'addEditService', 'confirmation', 'microcontrollersModel', 'sensorsTypesModel', function ($http, addEditService, confirmation, microcontrollersModel, sensorsTypesModel) {
 
         var model = {
             sensors: []
@@ -17,11 +17,11 @@ angular.module('core')
         };
 
         var addEdit = function (sensorId) {
-            placesModel.load().then(callAddEditModal);
+            microcontrollersModel.load().then(callAddEditModal);
 
             function callAddEditModal() {
                 var dataModel = {
-                    places: placesModel.model.places,
+                    microcontrollers: microcontrollersModel.model.microcontrollers,
                     sensorsTypes: sensorsTypesModel.model
                 };
 

@@ -49,7 +49,7 @@ module.exports.start = function start(callback) {
     var _this = this;
 
     _this.init(function (app, db, config) {
-        startWatcher();
+        // startWatcher();
 
         // Start the app by listening on <port>
         app.listen(config.port, function () {
