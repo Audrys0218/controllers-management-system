@@ -17,11 +17,10 @@ exports.create = function (req, res) {
 
         res.json({
             id: controller._id,
-            communicationType: controller.communicationType,
-            communicationPath: controller.communicationPath,
-            place: controller.communicationType,
+            microController: controller.microController,
             title: controller.title,
-            type: controller.type
+            type: controller.type,
+            pinNumber: controller.pinNumber
         });
     });
 };
@@ -39,7 +38,8 @@ exports.list = function (req, res) {
                     title: controller.title,
                     placeTitle: controller.place ? controller.place.title : '',
                     type: controller.type,
-                    communicationPath: controller.communicationPath,
+                    pinNumber: controller.pinNumber,
+                    microController: controller.microController,
                     isActive: controller.isActive,
                     value: controller.value
                 };
@@ -69,8 +69,7 @@ exports.read = function (req, res) {
                 title: controller.title,
                 microController: controller.microController,
                 type: controller.type,
-                communicationType: controller.communicationType,
-                communicationPath: controller.communicationPath,
+                pinNumber: controller.pinNumber,
                 isActive: controller.isActive
             });
         } else {
@@ -117,8 +116,7 @@ exports.update = function (req, res) {
             controller.title = req.body.model.title;
             controller.microController = req.body.model.microController;
             controller.type = req.body.model.type;
-            controller.communicationType = req.body.model.communicationType;
-            controller.communicationPath = req.body.model.communicationPath;
+            controller.pinNumber = req.body.model.pinNumber;
             controller.isActive = req.body.model.isActive;
         }
     });

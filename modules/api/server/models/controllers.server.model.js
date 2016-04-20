@@ -28,6 +28,10 @@ var ControllerSchema = new Schema({
         trim: true,
         required: 'Type cannot be blank'
     },
+    pinNumber: {
+        type: Number,
+        required: 'Pin number cannot be blank'
+    },
     value: {
         type: Number,
         default: 0

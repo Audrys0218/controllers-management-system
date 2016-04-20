@@ -29,6 +29,10 @@ var SensorSchema = new Schema({
         trim: true,
         required: 'Type cannot be blank.'
     },
+    pinNumber: {
+        type: Number,
+        required: 'Pin number cannot be blank'
+    },
     isActive: {
         type: Schema.Types.Boolean,
         default: false

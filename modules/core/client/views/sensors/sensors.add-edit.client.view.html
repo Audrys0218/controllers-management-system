@@ -21,24 +21,9 @@
           ng-options="key as value.label for (key , value) in dataModel.sensorsTypes">
   </select>
 
-  <!--<label for="communication-type">Communication type:</label>-->
-  <!--<select class="form-control"-->
-  <!--id="communication-type"-->
-  <!--ng-model="model.communicationType">-->
-  <!--<option value="file">File</option>-->
-  <!--<option value="http">HTTP</option>-->
-  <!--</select>-->
-
-  <!--<div ng-if="model.communicationType === 'http'">-->
-  <!--<label for="com-type-loc">Communication path:</label>-->
-  <!--<input type="text"-->
-  <!--class="form-control"-->
-  <!--id="com-type-loc"-->
-  <!--ng-model="model.communicationPath">-->
-  <!--</div>-->
-
-  <!--<div class="checkbox">-->
-  <!--<label><input type="checkbox"-->
-  <!--ng-model="model.isActive">Active</label>-->
-  <!--</div>-->
+  <label for="pin">Pin number:</label>
+  <input type="text"
+         class="form-control"
+         id="pin"
+         ng-model="model.pinNumber">
 </tb-add-edit>

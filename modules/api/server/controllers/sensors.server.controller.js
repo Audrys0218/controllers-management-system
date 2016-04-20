@@ -21,9 +21,10 @@ exports.create = function (req, res) {
             id: sensor._id,
             title: sensor.title,
             place: sensor.place,
+            pinNumber: sensor.pinNumber,
             type: sensor.type,
             isActive: sensor.isActive,
-            communicationType: sensor.communicationType
+            microController: sensor.microController
         });
     });
 };
@@ -42,10 +43,10 @@ exports.list = function (req, res) {
                 title: sensor.title,
                 placeTitle: sensor.place ? sensor.place.title : '',
                 type: sensor.type,
-                communicationType: sensor.communicationType,
-                communicationPath: sensor.communicationPath,
+                pinNumber: sensor.pinNumber,
                 isActive: sensor.isActive,
-                value: sensor.value
+                value: sensor.value,
+                microController: sensor.microController
             };
         }));
     });
@@ -71,12 +72,11 @@ exports.read = function (req, res) {
         return res.json({
             id: sensor._id,
             title: sensor.title,
-            microController: sensor.microController,
             type: sensor.type,
-            communicationType: sensor.communicationType,
-            communicationPath: sensor.communicationPath,
+            pinNumber: sensor.pinNumber,
             isActive: sensor.isActive,
-            value: sensor.value
+            value: sensor.value,
+            microController: sensor.microController
         });
     });
 };
@@ -111,11 +111,10 @@ exports.update = function (req, res) {
 
     function updateSensor(sensor, next) {
         sensor.title = req.body.model.title;
-        sensor.microController = req.body.model.microController;
         sensor.type = req.body.model.type;
-        sensor.communicationType = req.body.model.communicationType;
-        sensor.communicationPath = req.body.model.communicationPath;
+        sensor.pinNumber = req.body.model.pinNumber;
         sensor.isActive = req.body.model.isActive;
+        sensor.microController = req.body.model.microController;
 
         sensor.save(next);
     }
