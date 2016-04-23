@@ -4,7 +4,7 @@ angular.module('core')
     .controller('PlacesController', ['$scope', 'placesModel', 'alertService', function ($scope, placesModel) {
         $scope.model = placesModel.model;
         $scope.searchText = '';
-        
+
         $scope.addEdit = function (placeId) {
             placesModel.addEdit(placeId);
         };
@@ -13,6 +13,12 @@ angular.module('core')
             placesModel.delete(placeId);
         };
 
+        $scope.bulkDelete = placesModel.bulkDelete;
+        $scope.bulkDeleteDisabled = function () {
+            return !placesModel.model.places.some(function (place) {
+                return place.isSelected;
+            });
+        }
 
         placesModel.load();
     }]);

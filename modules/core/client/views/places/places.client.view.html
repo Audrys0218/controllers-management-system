@@ -13,7 +13,9 @@
       <button type="button"
               class="btn btn-link btn-sm"
               aria-label="Left Align"
-              title="Edit">
+              title="Delete items"
+              ng-click="bulkDelete()"
+              ng-disabled="bulkDeleteDisabled()">
         <span class="glyphicon glyphicon-trash"
               aria-hidden="true"></span>
       </button>
@@ -48,7 +50,8 @@
     </thead>
     <tr ng-repeat="place in model.places | filter:{title: searchText} track by place.id ">
       <td>
-        <label><input type="checkbox"/></label>
+        <label><input type="checkbox"
+                      ng-model="place.isSelected"/></label>
       </td>
       <td>
         <button ng-click="addEdit(place.id)"
