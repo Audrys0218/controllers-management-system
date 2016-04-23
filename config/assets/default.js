@@ -20,7 +20,9 @@ module.exports = {
                 'public/lib/jquery/dist/jquery.min.js',
                 'public/lib/bootstrap/dist/js/bootstrap.min.js',
                 'public/lib/spin.js/spin.js',
-                'public/lib/angular-spinner/angular-spinner.js'
+                'public/lib/angular-spinner/angular-spinner.js',
+                'public/lib/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js'
+
             ],
             tests: ['public/lib/angular-mocks/angular-mocks.js']
         },

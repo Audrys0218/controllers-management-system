@@ -19,7 +19,8 @@ exports.create = function (req, res) {
 
         return res.status(201).json({
             id: place._id,
-            title: place.title
+            title: place.title,
+            createdAt: place.created
         });
     });
 };
@@ -35,7 +36,8 @@ exports.list = function (req, res) {
         return res.json(places.map(function (p) {
             return {
                 id: p._id,
-                title: p.title
+                title: p.title,
+                createdAt: p.created
             };
         }));
     });

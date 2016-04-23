@@ -14,3 +14,26 @@
 .relative {
     position: relative;
 }
+
+.btn-default {
+
+}
+
+.btn:focus {
+    outline: none !important;
+}
+
+.btn-link {
+    color: #2C679A;
+}
+
+.btn-link:hover {
+    text-decoration: none;
+}
+
+.checkbox-column {
+    width: 10px;
+}
+
+
+
