@@ -26,7 +26,8 @@ exports.create = function (req, res) {
             id: microController._id,
             title: microController.title,
             place: microController.place,
-            ip: microController.ip
+            ip: microController.ip,
+            createdAt: microController.created
         });
     });
 };
@@ -44,7 +45,8 @@ exports.list = function (req, res) {
                 id: mc._id,
                 title: mc.title,
                 placeTitle: mc.place ? mc.place.title : '',
-                ip: mc.ip
+                ip: mc.ip,
+                createdAt: mc.created
             };
         }));
     });

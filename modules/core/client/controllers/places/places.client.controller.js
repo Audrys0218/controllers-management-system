@@ -18,7 +18,7 @@ angular.module('core')
             return !placesModel.model.places.some(function (place) {
                 return place.isSelected;
             });
-        }
+        };
 
         placesModel.load();
     }]);

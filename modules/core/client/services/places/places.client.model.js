@@ -43,7 +43,7 @@ angular.module('core')
                 confirmation.confirm('Warning!', 'Do you really want to delete these items?', function () {
                     var promises = [];
 
-                    model.places.forEach(deleteItem)
+                    model.places.forEach(deleteItem);
 
                     function deleteItem(place) {
                         if (place.isSelected) {
@@ -56,7 +56,7 @@ angular.module('core')
 
                     $q.all(promises).then(load);
                 });
-            }
+            };
 
             return {
                 model: model,

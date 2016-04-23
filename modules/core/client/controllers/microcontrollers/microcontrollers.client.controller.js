@@ -6,7 +6,7 @@ angular.module('core')
             var vm = this;
 
             vm.microcontrollersModel = microcontrollersModel.model;
-
+            vm.searchText = '';
             vm.addEdit = function (microcontrollerId) {
                 placesModel.load().then(function () {
                     var modalInstance = $uibModal.open({
@@ -33,6 +33,14 @@ angular.module('core')
 
             vm.delete = function (id) {
                 microcontrollersModel.delete(id);
+            };
+
+
+            vm.bulkDelete = microcontrollersModel.bulkDelete;
+            vm.bulkDeleteDisabled = function () {
+                return !microcontrollersModel.model.microcontrollers.some(function (microcontroller) {
+                    return microcontroller.isSelected;
+                });
             };
 
             microcontrollersModel.load();
