@@ -66,7 +66,11 @@ exports.read = function (req, res) {
             });
         }
 
-        return res.json();
+        return res.json({
+            id: place._id,
+            title: place.title,
+            createdAt: place.created
+        });
     });
 };
 
