@@ -1,5 +1,7 @@
 <label class="col-sm-1 control-label">Controller</label>
 <div class="col-md-5">
+  <span us-spinner="{radius:5, width:2, length: 4}"
+        spinner-on="controllersOptionsModel.loading"></span>
   <select class="form-control"
           ng-model="outcome.controller"
           ng-options="controller.id as controller.controller group by controller.place for controller in controllersOptionsModel.controllersOptions">

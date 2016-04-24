@@ -1,5 +1,7 @@
 <label class="col-sm-1 control-label">Sensor</label>
 <div class="col-md-4">
+  <span us-spinner="{radius:5, width:2, length: 4}"
+        spinner-on="sensorsOptionsModel.loading"></span>
   <select class="form-control"
           ng-model="trigger.sensor"
           ng-options="sensor.id as sensor.sensor group by sensor.place for sensor in sensorsOptionsModel.sensorsOptions">
