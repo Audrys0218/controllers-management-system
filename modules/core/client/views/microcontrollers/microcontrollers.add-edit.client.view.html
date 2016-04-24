@@ -1,33 +1,63 @@
 <tb-add-edit>
-  <div class="form-group">
+  <div class="form-group"
+       ng-class="{ 'has-error': form.title.$error.required && form.title.$touched}">
     <label for="title">Title:</label>
-    <input type="text"
+    <input name="title"
+           type="text"
            class="form-control"
            id="title"
-           ng-model="microcontroller.title">
+           ng-model="microcontroller.title"
+           required>
+    <div ng-messages="form.title.$error"
+         ng-if="form.title.$touched">
+      <div ng-message="required"
+           class="help-block with-errors">Required
+      </div>
+    </div>
   </div>
 
-  <label for="place">Place:</label>
-  <select class="form-control"
-          id="place"
-          ng-model="microcontroller.place"
-          ng-options="place.id as place.title for place in places">
-  </select>
+  <div class="form-group"
+       ng-class="{ 'has-error': form.place.$error.required && form.place.$touched}">
+    <label for="place">Place:</label>
+    <select name="place"
+            class="form-control"
+            id="place"
+            ng-model="microcontroller.place"
+            ng-options="place.id as place.title for place in places"
+            required>
+    </select>
+    <div ng-messages="form.place.$error"
+         ng-if="form.place.$touched">
+      <div ng-message="required"
+           class="help-block with-errors">Required
+      </div>
+    </div>
+  </div>
 
-
-  <label for="com-type-loc">Ip:</label>
-  <input type="text"
-         class="form-control"
-         id="com-type-loc"
-         ng-model="microcontroller.ip">
+  <div class="form-group"
+       ng-class="{ 'has-error': form.ip.$error.required && form.ip.$touched}">
+    <label for="com-type-loc">Ip:</label>
+    <input name="ip"
+           type="text"
+           class="form-control"
+           id="com-type-loc"
+           ng-model="microcontroller.ip"
+           required>
+    <div ng-messages="form.ip.$error"
+         ng-if="form.ip.$touched">
+      <div ng-message="required"
+           class="help-block with-errors">Required
+      </div>
+    </div>
+  </div>
 
   <br/>
 
-  <button class="btn relative"
+  <button type="button"
+          class="btn relative"
           ng-class="{'btn-success': pingModel.isAlive}"
           ng-click="ping(microcontroller.ip)">PING
     <span us-spinner="{radius:5, width:2, length: 4}"
           spinner-on="pingModel.loading"></span>
   </button>
-
 </tb-add-edit>

@@ -1,28 +1,71 @@
 <tb-add-edit>
-  <div class="form-group">
+  <div class="form-group"
+       ng-class="{ 'has-error': form.title.$error.required && form.title.$touched}">
     <label for="title">Title:</label>
-    <input type="text"
+    <input name="title"
+           type="text"
            class="form-control"
            id="title"
-           ng-model="model.title">
+           ng-model="model.title"
+           required>
+    <div ng-messages="form.title.$error"
+         ng-if="form.title.$touched">
+      <div ng-message="required"
+           class="help-block with-errors">Required
+      </div>
+    </div>
   </div>
-  <label for="place">Micro Controller:</label>
-  <select class="form-control"
-          id="place"
-          ng-model="model.microController"
-          ng-options="microcontroller.id as microcontroller.title group by microcontroller.placeTitle for microcontroller in dataModel.microcontrollers">
-  </select>
 
-  <label for="type">Type:</label>
-  <select class="form-control"
-          id="type"
-          ng-model="model.type"
-          ng-options="key as value.label for (key , value) in dataModel.controllersTypes">
-  </select>
+  <div class="form-group"
+       ng-class="{ 'has-error': form.microcontroller.$error.required && form.microcontroller.$touched}">
+    <label for="microcontroller">Microcontroller:</label>
+    <select name="microcontroller"
+            class="form-control"
+            id="microcontroller"
+            ng-model="model.microController"
+            ng-options="microcontroller.id as microcontroller.title group by microcontroller.placeTitle for microcontroller in dataModel.microcontrollers"
+            required>
+    </select>
+    <div ng-messages="form.microcontroller.$error"
+         ng-if="form.microcontroller.$touched">
+      <div ng-message="required"
+           class="help-block with-errors">Required
+      </div>
+    </div>
+  </div>
 
-  <label for="pin">Pin number:</label>
-  <input type="text"
-         class="form-control"
-         id="pin"
-         ng-model="model.pinNumber">
+  <div class="form-group"
+       ng-class="{ 'has-error': form.type.$error.required && form.type.$touched}">
+    <label for="type">Type:</label>
+    <select name="type"
+            class="form-control"
+            id="type"
+            ng-model="model.type"
+            ng-options="key as value.label for (key , value) in dataModel.controllersTypes"
+            required>
+    </select>
+    <div ng-messages="form.type.$error"
+         ng-if="form.type.$touched">
+      <div ng-message="required"
+           class="help-block with-errors">Required
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group"
+       ng-class="{ 'has-error': form.pin.$error.required && form.pin.$touched}">
+    <label for="pin">Pin number:</label>
+    <input name="pin"
+           type="text"
+           class="form-control"
+           id="pin"
+           ng-model="model.pinNumber"
+           required>
+    <div ng-messages="form.pin.$error"
+         ng-if="form.pin.$touched">
+      <div ng-message="required"
+           class="help-block with-errors">Required
+      </div>
+    </div>
+  </div>
 </tb-add-edit>

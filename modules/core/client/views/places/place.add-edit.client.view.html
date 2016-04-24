@@ -1,16 +1,19 @@
 <tb-add-edit>
-  <form name="form">
-    <div class="form-group"
-         ng-class="{ 'has-error': form.title.$error.required}">
-      <label for="title">Title:</label>
-      <input name="title"
-             type="text"
-             id="title"
-             class="form-control"
-             ng-model="model.title"
-             required
-             uib-tooltip="{{form.title.$touched && form.title.$error.required ? 'Field is required' : ''}}">
+  <div class="form-group"
+       ng-class="{ 'has-error': form.title.$error.required && form.title.$touched}">
+    <label for="title">Title:</label>
+    <input name="title"
+           type="text"
+           id="title"
+           class="form-control"
+           ng-model="model.title"
+           required>
+    <div ng-messages="form.title.$error"
+         ng-if="form.title.$touched">
+      <div ng-message="required"
+           class="help-block with-errors">Required
+      </div>
     </div>
-  </form>
+  </div>
 </tb-add-edit>
 

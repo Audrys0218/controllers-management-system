@@ -5,10 +5,13 @@
     <h3 class="modal-title">{{title}}</h3>
   </div>
   <div class="modal-body">
-    <ng-transclude></ng-transclude>
+    <form name="form">
+      <ng-transclude></ng-transclude>
+    </form>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-success btn-sm"
+    <button ng-disabled="form.$invalid"
+            class="btn btn-success btn-sm"
             type="button"
             ng-click="save()">Save
     </button>
