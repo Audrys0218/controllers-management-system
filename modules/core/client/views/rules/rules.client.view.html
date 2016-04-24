@@ -1,13 +1,6 @@
 <div ng-controller="RulesController"
      class="home-module">
-  <div class="controls">
-    <div class="column vert-offset-bottom-12">
-      <button type="button"
-              class="btn btn-success"
-              ng-click="addEdit()">Add
-      </button>
-    </div>
-  </div>
+  <div ng-include="'modules/core/client/views/common/content-head.html'"></div>
   <table class="table table-bordered">
     <tr>
       <th>Title</th>

@@ -30,7 +30,7 @@ exports.create = function (req, res) {
 };
 
 exports.list = function (req, res) {
-    Sensor.find().sort('-created').populate('place').exec(function (err, sensors) {
+    Sensor.find().sort('-created').deepPopulate('microController.place').exec(function (err, sensors) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
@@ -41,12 +41,12 @@ exports.list = function (req, res) {
             return {
                 id: sensor._id,
                 title: sensor.title,
-                placeTitle: sensor.place ? sensor.place.title : '',
                 type: sensor.type,
                 pinNumber: sensor.pinNumber,
                 isActive: sensor.isActive,
                 value: sensor.value,
-                microController: sensor.microController
+                microController: sensor.microController ? sensor.microController.title : '',
+                place: sensor.microController && sensor.microController.place ? sensor.microController.place.title : ''
             };
         }));
     });

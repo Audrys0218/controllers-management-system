@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('core')
-    .factory('controllersModel', ['$http', 'addEditService', 'confirmation', 'microcontrollersModel', 'controllersTypesModel',
-        function ($http, addEditService, confirmation, microcontrollersModel, controllersTypesModel) {
+    .factory('controllersModel',
+        function ($http, addEditService, confirmation, microcontrollersModel, controllersTypesModel, $q) {
 
             var model = {
                 controllers: []
@@ -46,6 +46,25 @@ angular.module('core')
                 });
             };
 
+            var bulkDelete = function () {
+                confirmation.confirm('Warning!', 'Do you really want to delete these items?', function () {
+                    var promises = [];
+
+                    model.controllers.forEach(deleteItem);
+
+                    function deleteItem(controller) {
+                        if (controller.isSelected) {
+                            promises.push($http({
+                                method: 'DELETE',
+                                url: '/api/v1/controllers/' + controller.id
+                            }));
+                        }
+                    }
+
+                    $q.all(promises).then(load);
+                });
+            };
+
             var changeValue = function (controllerId, value) {
                 return $http.put('/api/v1/controllers/' + controllerId + '/value', {value: value});
 
@@ -59,4 +78,4 @@ angular.module('core')
                 changeValue: changeValue
             };
 
-        }]);
+        });

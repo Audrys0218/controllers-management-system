@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core')
-    .controller('SensorsController', ['$scope', 'sensorsTypesModel', 'sensorsModel', 'pingService', '$window', function ($scope, sensorsTypesModel, sensorsModel, pingService, $window) {
+    .controller('SensorsController', function ($scope, sensorsTypesModel, sensorsModel, pingService, $window) {
         $scope.model = sensorsModel.model;
         $scope.showPingResult = false;
         $scope.pingSuccess = false;
@@ -26,5 +26,12 @@ angular.module('core')
             });
         };
 
+        $scope.bulkDelete = sensorsModel.bulkDelete;
+        $scope.bulkDeleteDisabled = function () {
+            return !sensorsModel.model.sensors.some(function (sensor) {
+                return sensor.isSelected;
+            });
+        };
+
         sensorsModel.load();
-    }]);
+    });

@@ -14,5 +14,11 @@ angular.module('core')
             controllersModel.delete(controllerId);
         };
 
+        $scope.bulkDelete = controllersModel.bulkDelete;
+        $scope.bulkDeleteDisabled = function () {
+            return !controllersModel.model.controllers.some(function (controller) {
+                return controller.isSelected;
+            });
+        };
         controllersModel.load();
     }]);

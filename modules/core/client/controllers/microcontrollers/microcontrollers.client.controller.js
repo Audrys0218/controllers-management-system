@@ -1,13 +1,11 @@
 'use strict';
 
 angular.module('core')
-    .controller('MicrocontrollersController', ['microcontrollersModel', '$uibModal', 'placesModel',
-        function (microcontrollersModel, $uibModal, placesModel) {
-            var vm = this;
-
-            vm.microcontrollersModel = microcontrollersModel.model;
-            vm.searchText = '';
-            vm.addEdit = function (microcontrollerId) {
+    .controller('MicrocontrollersController',
+        function ($scope, microcontrollersModel, $uibModal, placesModel) {
+            $scope.microcontrollersModel = microcontrollersModel.model;
+            $scope.searchText = '';
+            $scope.addEdit = function (microcontrollerId) {
                 placesModel.load().then(function () {
                     var modalInstance = $uibModal.open({
                         templateUrl: 'modules/core/client/views/microcontrollers/microcontrollers.add-edit.client.view.html',
@@ -31,17 +29,17 @@ angular.module('core')
                 });
             };
 
-            vm.delete = function (id) {
+            $scope.delete = function (id) {
                 microcontrollersModel.delete(id);
             };
 
 
-            vm.bulkDelete = microcontrollersModel.bulkDelete;
-            vm.bulkDeleteDisabled = function () {
+            $scope.bulkDelete = microcontrollersModel.bulkDelete;
+            $scope.bulkDeleteDisabled = function () {
                 return !microcontrollersModel.model.microcontrollers.some(function (microcontroller) {
                     return microcontroller.isSelected;
                 });
             };
 
             microcontrollersModel.load();
-        }]);
+        });

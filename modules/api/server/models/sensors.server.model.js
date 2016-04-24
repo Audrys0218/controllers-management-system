@@ -44,5 +44,6 @@ var SensorSchema = new Schema({
 });
 
 SensorSchema.plugin(require('mongoose-unique-validator'));
+SensorSchema.plugin(require('mongoose-deep-populate')(mongoose));
 
 module.exports = mongoose.model('Sensor', SensorSchema);

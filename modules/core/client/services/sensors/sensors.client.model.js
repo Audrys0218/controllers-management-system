@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core')
-    .factory('sensorsModel', ['$http', 'addEditService', 'confirmation', 'microcontrollersModel', 'sensorsTypesModel', function ($http, addEditService, confirmation, microcontrollersModel, sensorsTypesModel) {
+    .factory('sensorsModel', function ($http, addEditService, confirmation, microcontrollersModel, sensorsTypesModel, $q) {
 
         var model = {
             sensors: []
@@ -45,10 +45,30 @@ angular.module('core')
             });
         };
 
+        var bulkDelete = function () {
+            confirmation.confirm('Warning!', 'Do you really want to delete these items?', function () {
+                var promises = [];
+
+                model.sensors.forEach(deleteItem);
+
+                function deleteItem(sensors) {
+                    if (sensors.isSelected) {
+                        promises.push($http({
+                            method: 'DELETE',
+                            url: '/api/v1/sensors/' + sensors.id
+                        }));
+                    }
+                }
+
+                $q.all(promises).then(load);
+            });
+        };
+
         return {
             model: model,
             load: load,
             addEdit: addEdit,
-            delete: deleteSensor
+            delete: deleteSensor,
+            bulkDelete: bulkDelete
         };
-    }]);
+    });
