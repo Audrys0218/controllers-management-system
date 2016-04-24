@@ -26,7 +26,7 @@ exports.create = function (req, res) {
 };
 
 exports.list = function (req, res) {
-    Controller.find().sort('-created').populate('place').exec(function (err, controllers) {
+    Controller.find().sort('-created').deepPopulate('microController.place').exec(function (err, controllers) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
@@ -39,9 +39,10 @@ exports.list = function (req, res) {
                     placeTitle: controller.place ? controller.place.title : '',
                     type: controller.type,
                     pinNumber: controller.pinNumber,
-                    microController: controller.microController,
                     isActive: controller.isActive,
-                    value: controller.value
+                    value: controller.value,
+                    microController: controller.microController ? controller.microController.title : '',
+                    place: controller.microController && controller.microController.place ? controller.microController.place.title : ''
                 };
             }));
         }

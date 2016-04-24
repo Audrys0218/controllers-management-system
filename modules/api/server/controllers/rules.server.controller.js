@@ -4,8 +4,7 @@ var path = require('path'),
     mongoose = require('mongoose'),
     Rule = mongoose.model('Rule'),
     async = require('async'),
-    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
-    app = require(path.resolve('./config/lib/app'));
+    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 var mapToResponseObject = function (dbObject) {
     var ret = {
@@ -50,11 +49,6 @@ exports.create = function (req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            app.getWatcher().send({
-                type: 'rule',
-                id: rule._id
-            });
-
             return res.json(mapToResponseObject(rule));
         }
     });
@@ -125,10 +119,6 @@ exports.update = function (req, res) {
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
-                    app.getWatcher().send({
-                        type: 'rule',
-                        id: rule._id
-                    });
                     res.json(mapToResponseObject(rule));
                 }
             });
@@ -161,10 +151,6 @@ exports.delete = function (req, res) {
                         message: errorHandler.getErrorMessage(err)
                     });
                 } else {
-                    app.getWatcher().send({
-                        type: 'rule',
-                        id: rule._id
-                    });
                     res.json();
                 }
             });

@@ -1,27 +1,35 @@
 <div ng-controller="RulesController"
      class="home-module">
-  <div ng-include="'modules/core/client/views/common/content-head.html'"></div>
-  <table class="table table-bordered">
+  <content-head></content-head>
+  <table class="table table-hover">
+    <thead>
     <tr>
-      <th>Title</th>
-      <th>Priority</th>
-      <th>State</th>
-      <th class="col-md-2">Actions</th>
+      <th class="col-md-5">Title</th>
+      <th class="col-md-3">Priority</th>
+      <th class="col-md-3">State</th>
+      <th class="col-md-1">Actions</th>
     </tr>
-    <tr class=""
-        ng-repeat="rule in model.rules | orderBy: ['-enabled', '-priority']">
-      <td class="rule-title">{{rule.title}}</td>
+    </thead>
+    <tr ng-repeat="rule in model.rules | orderBy: ['-enabled', '-priority'] | filter: searchText">
+      <td class="rule-title">
+        <label><input type="checkbox"
+                      ng-model="rule.isSelected"/></label>
+        <button ng-click="addEdit(rule.id)"
+                type="button"
+                class="btn btn-link btn-xs">{{rule.title}}
+        </button>
+      </td>
       <td>{{rule.priority}}</td>
       <td>{{rule.enabled ? 'Enabled' : 'Disabled'}}</td>
       <td align="center">
         <button ng-click="addEdit(rule.id)"
                 type="button"
-                class="btn btn-default btn-sm">
+                class="btn btn-link btn-sm">
           <span class="glyphicon glyphicon-pencil"
                 aria-hidden="true"></span>
         </button>
         <button type="button"
-                class="btn btn-default btn-sm"
+                class="btn btn-link btn-sm"
                 ng-click="delete(rule.id)">
           <span class="glyphicon glyphicon-trash"
                 aria-hidden="true"></span>

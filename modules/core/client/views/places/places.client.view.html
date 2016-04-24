@@ -1,24 +1,19 @@
 <span us-spinner="{radius:12, width:4, length: 8}"
       spinner-on="model.loading"></span>
 <div class="home-module">
-  <div ng-include="'modules/core/client/views/common/content-head.html'"></div>
+  <content-head></content-head>
   <table class="table table-hover">
     <thead>
     <tr>
-      <th class="col-md-1 checkbox-column">
-        <!--<label><input type="checkbox"/></label>-->
-      </th>
       <th class="col-md-7">Title</th>
-      <th class="col-md-2">Created At</th>
-      <th class="col-md-2">Actions</th>
+      <th class="col-md-4">Created At</th>
+      <th class="col-md-1">Actions</th>
     </tr>
     </thead>
     <tr ng-repeat="place in model.places | filter:{title: searchText} track by place.id ">
       <td>
         <label><input type="checkbox"
                       ng-model="place.isSelected"/></label>
-      </td>
-      <td>
         <button ng-click="addEdit(place.id)"
                 type="button"
                 class="btn btn-link btn-xs">{{place.title}}

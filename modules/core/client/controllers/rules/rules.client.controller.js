@@ -27,6 +27,12 @@ angular.module('core')
             rulesModel.delete(ruleId);
         };
 
-        rulesModel.load();
+        $scope.bulkDelete = rulesModel.bulkDelete;
+        $scope.bulkDeleteDisabled = function () {
+            return !rulesModel.model.rules.some(function (rule) {
+                return rule.isSelected;
+            });
+        };
 
+        rulesModel.load();
     }]);

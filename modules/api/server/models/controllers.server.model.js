@@ -39,5 +39,6 @@ var ControllerSchema = new Schema({
 });
 
 ControllerSchema.plugin(require('mongoose-unique-validator'));
+ControllerSchema.plugin(require('mongoose-deep-populate')(mongoose));
 
 module.exports = mongoose.model('Controller', ControllerSchema);

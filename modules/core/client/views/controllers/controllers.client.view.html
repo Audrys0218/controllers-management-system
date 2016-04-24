@@ -1,28 +1,40 @@
 <div ng-controller="ControllersController"
      class="home-module">
-  <div ng-include="'modules/core/client/views/common/content-head.html'"></div>
+  <content-head></content-head>
   <table class="table table-hover">
     <thead>
     <tr>
-      <th class="col-md-1 checkbox-column">
-        <!--<label><input type="checkbox"/></label>-->
-      </th>
-      <th>Title</th>
-      <th>Place</th>
-      <th>Type</th>
-      <th class="col-md-1">Value</th>
+      <th class="col-md-3">Title</th>
+      <th class="col-md-2">Microcontroller</th>
+      <th class="col-md-2">Place</th>
+      <th class="col-md-2">Type</th>
+      <th class="col-md-2">Value</th>
       <th class="col-md-1">Actions</th>
     </tr>
     </thead>
-    <tr ng-repeat="controller in model.controllers">
-      <td>
+    <tr ng-repeat="controller in model.controllers | filter: searchText">
+      <td class="controller-title">
         <label><input type="checkbox"
                       ng-model="controller.isSelected"/></label>
+        <button ng-click="addEdit(controller.id)"
+                type="button"
+                class="btn btn-link btn-xs">{{controller.title}}
+      <td>
+        <span ng-if="controller.microController === ''"
+              class="glyphicon glyphicon-exclamation-sign"
+              aria-hidden="true"
+              uib-tooltip="Please assign microcontroller to sensor"></span>
+        {{controller.microController}}
       </td>
-      <td class="controller-title">{{controller.title}}</td>
-      <td>{{controller.placeTitle}}</td>
+      <td>
+        <span ng-if="controller.place === ''"
+              class="glyphicon glyphicon-exclamation-sign"
+              aria-hidden="true"
+              uib-tooltip="Please assign place to microcontroller "></span>
+        {{controller.place}}
+      </td>
       <td>{{controllersTypesModel[controller.type].label}}</td>
-      <td class="col-md-2">
+      <td>
         <!--<inline-controller-value-edit controller="controller"></inline-controller-value-edit>-->
         <!--<input-->
         <!--bs-switch-->
@@ -31,7 +43,7 @@
         <!--ng-true-value="'1'"-->
         <!--ng-false-value="'0'">-->
       </td>
-      <td align="center">
+      <td>
         <button ng-click="addEdit(controller.id)"
                 type="button"
                 class="btn btn-link btn-sm">

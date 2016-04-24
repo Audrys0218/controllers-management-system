@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('core')
-    .factory('rulesModel', ['$http', 'confirmation',
-        function ($http, confirmation) {
+    .factory('rulesModel',
+        function ($http, confirmation, $q) {
             var model = {
                 rules: [],
                 defaultRuleObject: {
@@ -42,12 +42,32 @@ angular.module('core')
                 });
             };
 
+            var bulkDelete = function () {
+                confirmation.confirm('Warning!', 'Do you really want to delete these items?', function () {
+                    var promises = [];
+
+                    model.rules.forEach(deleteItem);
+
+                    function deleteItem(rule) {
+                        if (rule.isSelected) {
+                            promises.push($http({
+                                method: 'DELETE',
+                                url: '/api/v1/rules/' + rule.id
+                            }));
+                        }
+                    }
+
+                    $q.all(promises).then(load);
+                });
+            };
+
             return {
                 model: model,
                 load: load,
                 save: save,
                 get: get,
-                delete: deleteRule
+                delete: deleteRule,
+                bulkDelete: bulkDelete
             };
 
-        }]);
+        });

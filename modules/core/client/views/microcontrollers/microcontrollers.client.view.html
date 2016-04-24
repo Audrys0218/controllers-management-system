@@ -2,25 +2,20 @@
       spinner-on="microcontrollersModel.loading"></span>
 <div
   class="home-module">
-  <div ng-include="'modules/core/client/views/common/content-head.html'"></div>
+  <content-head></content-head>
   <table class="table table-hover">
     <thead>
     <tr>
-      <th class="col-md-1 checkbox-column">
-        <!--<label><input type="checkbox"/></label>-->
-      </th>
       <th class="col-md-5">Title</th>
       <th class="col-md-2">Place</th>
-      <th class="col-md-2">Created At</th>
-      <th class="col-md-2">Actions</th>
+      <th class="col-md-3">Created At</th>
+      <th class="col-md-1">Actions</th>
     </tr>
     </thead>
     <tr ng-repeat="microcontroller in microcontrollersModel.microcontrollers | filter: searchText">
-      <td class="col-md-1">
+      <td class="controller-title">
         <label><input type="checkbox"
                       ng-model="microcontroller.isSelected"/></label>
-      </td>
-      <td class="controller-title">
         <button ng-click="addEdit(microcontroller.id)"
                 type="button"
                 class="btn btn-link btn-xs">{{microcontroller.title}}

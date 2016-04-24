@@ -39,22 +39,17 @@
   <table class="table table-hover">
     <thead>
     <tr>
-      <th class="col-md-1 checkbox-column">
-        <!--<label><input type="checkbox"/></label>-->
-      </th>
-      <th>Title</th>
-      <th>Microcontroller</th>
-      <th>Place</th>
-      <th>Type</th>
+      <th class="col-md-5">Title</th>
+      <th class="col-md-2">Microcontroller</th>
+      <th class="col-md-2">Place</th>
+      <th class="col-md-2">Type</th>
       <th class="col-md-1">Actions</th>
     </tr>
     </thead>
-    <tr ng-repeat="sensor in model.sensors">
-      <td class="relative">
+    <tr ng-repeat="sensor in model.sensors | filter: searchText">
+      <td>
         <label><input type="checkbox"
                       ng-model="sensor.isSelected"/></label>
-      </td>
-      <td class="sensor-title">
         <button ng-click="addEdit(sensor.id)"
                 type="button"
                 class="btn btn-link btn-xs">{{sensor.title}}
