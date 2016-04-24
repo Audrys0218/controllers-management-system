@@ -35,13 +35,16 @@
       </td>
       <td>{{controllersTypesModel[controller.type].label}}</td>
       <td>
-        <!--<inline-controller-value-edit controller="controller"></inline-controller-value-edit>-->
-        <!--<input-->
-        <!--bs-switch-->
-        <!--ng-model="isSelected"-->
-        <!--type="checkbox"-->
-        <!--ng-true-value="'1'"-->
-        <!--ng-false-value="'0'">-->
+        <toggle-switch ng-if="controller.type === 'electricity_switcher'"
+                       class="switch-mini"
+                       ng-model="controller.value">
+        </toggle-switch>
+
+        <button ng-if="controller.type !== 'electricity_switcher'"
+                uib-popover-template="'/modules/core/client/views/controllers/slider.html'"
+                type="button"
+                class="btn btn-link btn-sm">{{controller.value}}
+        </button>
       </td>
       <td>
         <button ng-click="addEdit(controller.id)"

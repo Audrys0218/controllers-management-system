@@ -2,7 +2,7 @@
 
 angular.module('core')
     .factory('controllersModel',
-        function ($http, addEditService, confirmation, microcontrollersModel, controllersTypesModel, $q) {
+        function ($http, addEditService, confirmation, microcontrollersModel, controllersTypesModel, $q, $timeout) {
 
             var model = {
                 controllers: []
@@ -14,6 +14,9 @@ angular.module('core')
                     url: '/api/v1/controllers'
                 }).then(function (response) {
                     model.controllers = response.data;
+                    // $timeout(function () {
+                    //     $('[type="checkbox"]').bootstrapSwitch({size: 'mini'});
+                    // });
                 });
             };
 

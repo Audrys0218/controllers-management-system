@@ -71,7 +71,7 @@
 
 <!--Embedding The User Object-->
 <script type="text/javascript">
-  var user = {{ user | json | safe }};
+  var user = {{user | json | safe}};
 </script>
 
 <!--Load The Socket.io File-->
@@ -89,6 +89,7 @@
 <script type="text/javascript"
         src="{{host}}:35729/livereload.js"></script>
 {% endif %}
+<script type="text/javascript"></script>
 </body>
 
 </html>

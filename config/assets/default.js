@@ -5,6 +5,8 @@ module.exports = {
         lib: {
             css: [
                 'public/lib/bootstrap/dist/css/bootstrap.css',
+                'public/lib/angular-bootstrap-toggle-switch/style/bootstrap3/angular-toggle-switch-bootstrap-3.css',
+                'public/lib/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css',
                 'public/lib/bootstrap/dist/css/bootstrap-theme.css'
             ],
             js: [
@@ -21,7 +23,10 @@ module.exports = {
                 'public/lib/bootstrap/dist/js/bootstrap.min.js',
                 'public/lib/spin.js/spin.js',
                 'public/lib/angular-spinner/angular-spinner.js',
-                'public/lib/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js'
+                'public/lib/angular-bootstrap-toggle-switch/angular-toggle-switch.min.js',
+                'public/lib/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js',
+                'public/lib/angular-bootstrap-slider/slider.js',
+                'public/lib/angular-spinner/angular-spinner.js'
 
             ],
             tests: ['public/lib/angular-mocks/angular-mocks.js']
