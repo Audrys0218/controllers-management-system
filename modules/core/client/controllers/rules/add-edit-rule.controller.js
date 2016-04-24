@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core')
-    .controller('AddEditRuleController', ['$scope', '$uibModalInstance', 'conjunctionsTypes', 'rulesModel', 'data',
+    .controller('AddEditRuleController',
         function ($scope, $uibModalInstance, conjunctionsTypes, rulesModel, data) {
 
             $scope.conjunctionsTypes = conjunctionsTypes.model;
@@ -45,4 +45,4 @@ angular.module('core')
                 return $scope.form && $scope.form.title && $scope.form.title.$error.required ? 'Title is required' : '';
             };
 
-        }]);
+        });

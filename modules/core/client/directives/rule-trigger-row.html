@@ -2,7 +2,7 @@
 <div class="col-md-4">
   <select class="form-control"
           ng-model="trigger.sensor"
-          ng-options="sensor.id as sensor.label for sensor in sensors">
+          ng-options="sensor.id as sensor.sensor group by sensor.place for sensor in sensorsOptionsModel.sensorsOptions">
   </select>
 </div>
 <label class="col-sm-1 control-label">Operator</label>

@@ -3,6 +3,8 @@
 var path = require('path'),
     mongoose = require('mongoose'),
     Rule = mongoose.model('Rule'),
+    Sensor = mongoose.model('Sensor'),
+    Controller = mongoose.model('Controller'),
     async = require('async'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
@@ -161,3 +163,43 @@ exports.delete = function (req, res) {
         }
     });
 };
+
+exports.sensorsOptions = function (req, res) {
+    Sensor.find().deepPopulate('microController.place').exec(function (err, sensors) {
+        if (err) {
+            return res.status(400).json({
+                message: errorHandler.getErrorMessage(err)
+            });
+        }
+
+        return res.json(sensors.map(function (s) {
+            return {
+                id: s._id,
+                place: s.microController && s.microController.place ? s.microController.place.title : '',
+                sensor: s.microController ? s.microController.title + '\\ ' + s.title : '',
+                type: s.type
+            };
+        }));
+    });
+};
+
+exports.controllersOptions = function (req, res) {
+    Controller.find().deepPopulate('microController.place').exec(function (err, controllers) {
+        if (err) {
+            return res.status(400).json({
+                message: errorHandler.getErrorMessage(err)
+            });
+        }
+
+        return res.json(controllers.map(function (c) {
+            return {
+                id: c._id,
+                place: c.microController && c.microController.place ? c.microController.place.title : '',
+                controller: c.microController ? c.microController.title + '\\ ' + c.title : '',
+                type: c.type
+            };
+        }));
+    });
+};
+
+

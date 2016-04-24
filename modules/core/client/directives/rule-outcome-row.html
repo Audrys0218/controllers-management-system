@@ -2,7 +2,7 @@
 <div class="col-md-5">
   <select class="form-control"
           ng-model="outcome.controller"
-          ng-options="controller.id as controller.label for controller in controllers">
+          ng-options="controller.id as controller.controller group by controller.place for controller in controllersOptionsModel.controllersOptions">
   </select>
 </div>
 <label class="col-sm-1 control-label">Value</label>
