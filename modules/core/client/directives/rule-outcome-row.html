@@ -1,26 +1,28 @@
-<label class="col-sm-1 control-label">Controller</label>
-<div class="col-md-5">
-  <span us-spinner="{radius:5, width:2, length: 4}"
-        spinner-on="controllersOptionsModel.loading"></span>
-  <select class="form-control"
-          ng-model="outcome.controller"
-          ng-options="controller.id as controller.controller group by controller.place for controller in controllersOptionsModel.controllersOptions">
-  </select>
-</div>
-<label class="col-sm-1 control-label">Value</label>
-<div class="col-md-4"
-     ng-class="{ 'has-error': getValidationMessage() !== ''}">
-  <input type="number"
-         class="form-control"
-         ng-model="outcome.value"
-         name="{{ name }}"
-         required
-         min="{{getMin()}}"
-         max="{{getMax()}}"
-         uib-tooltip="{{ getValidationMessage() }}"/>
-</div>
-<div class="col-md-1">
-            <span class="glyphicon glyphicon-remove-circle"
-                  ng-show="index !== 0"
-                  ng-click="onRemove({index: index})"></span>
+<div class="form-inline col-md-12">
+    <div class="form-group col-md-6">
+        <span us-spinner="{radius:5, width:2, length: 4}"
+              spinner-on="controllersOptionsModel.loading"></span>
+        <label>Controller</label>
+        <select class="form-control"
+                ng-model="outcome.controller"
+                ng-options="controller.id as controller.controller group by controller.place for controller in controllersOptionsModel.controllersOptions">
+        </select>
+    </div>
+
+    <div class="form-group col-md-5">
+        <span us-spinner="{radius:5, width:2, length: 4}"
+              spinner-on="controllersOptionsModel.loading"></span>
+        <label>Value</label>
+        <input type="number"
+               class="form-control"
+               ng-model="outcome.value"
+               name="{{ name }}"
+               required
+               min="{{getMin()}}"
+               max="{{getMax()}}"
+               uib-tooltip="{{ getValidationMessage() }}"/>
+                        <span class="glyphicon glyphicon-remove-circle"
+                              ng-show="index !== 0"
+                              ng-click="onRemove({index: index})"></span>
+    </div>
 </div>

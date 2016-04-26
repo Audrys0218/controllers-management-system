@@ -112,6 +112,7 @@ body {
 
 .add-edit-rule .glyphicon-remove-circle {
     font-size: 2em;
+    cursor: pointer;
 }
 
 .value-edit.btn-default {

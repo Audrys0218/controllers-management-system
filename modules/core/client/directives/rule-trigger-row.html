@@ -1,33 +1,37 @@
-<label class="col-sm-1 control-label">Sensor</label>
-<div class="col-md-4">
-  <span us-spinner="{radius:5, width:2, length: 4}"
-        spinner-on="sensorsOptionsModel.loading"></span>
-  <select class="form-control"
-          ng-model="trigger.sensor"
-          ng-options="sensor.id as sensor.sensor group by sensor.place for sensor in sensorsOptionsModel.sensorsOptions">
-  </select>
-</div>
-<label class="col-sm-1 control-label">Operator</label>
-<div class="col-md-2">
-  <select class="form-control"
-          ng-model="trigger.compareType"
-          ng-options="key as value for (key, value) in operators">
-  </select>
-</div>
-<label class="col-sm-1 control-label">Value</label>
-<div class="col-md-2"
-     ng-class="{ 'has-error': getValidationMessage() !== ''}">
-  <input type="number"
-         class="form-control"
-         ng-model="trigger.value"
-         name="{{ name }}"
-         required
-         min="{{getMin()}}"
-         max="{{getMax()}}"
-         uib-tooltip="{{ getValidationMessage() }}"/>
-</div>
-<div class="col-md-1">
-            <span class="glyphicon glyphicon-remove-circle"
-                  ng-show="index !== 0"
-                  ng-click="onRemove({index: index})"></span>
+<div class="form-inline col-md-12">
+    <div class="form-group col-md-5">
+        <span us-spinner="{radius:5, width:2, length: 4}"
+                  spinner-on="sensorsOptionsModel.loading"></span>
+        <label>Sensor</label>
+        <select class="form-control"
+                ng-model="trigger.sensor"
+                ng-options="sensor.id as sensor.sensor group by sensor.place for sensor in sensorsOptionsModel.sensorsOptions">
+        </select>
+    </div>
+
+    <div class="form-group col-md-3">
+        <label>Operator</label>
+        <select class="form-control"
+                ng-model="trigger.compareType"
+                ng-options="key as value for (key, value) in operators">
+        </select>
+    </div>
+
+    <div class="form-group col-md-4">
+        <label>Value</label>
+        <input type="number"
+               class="form-control"
+               ng-model="trigger.value"
+               name="{{ name }}"
+               required
+               min="{{getMin()}}"
+               max="{{getMax()}}"
+               uib-tooltip="{{ getValidationMessage() }}"/>
+    </div>
+
+    <div class="col-md-1">
+                <span class="glyphicon glyphicon-remove-circle"
+                      ng-show="index !== 0"
+                      ng-click="onRemove({index: index})"></span>
+    </div>
 </div>
