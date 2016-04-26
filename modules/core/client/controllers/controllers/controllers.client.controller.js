@@ -21,4 +21,12 @@ angular.module('core')
             });
         };
         controllersModel.load();
+
+        $scope.toggleElectricitySwitcher = function(controller){
+            controllersModel.changeValue(controller);
+        };
+
+        $scope.onStopSlide = function($event, value, controller){
+            controllersModel.changeValue(controller);
+        };
     }]);

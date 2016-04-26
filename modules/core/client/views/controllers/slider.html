@@ -2,4 +2,5 @@
         ng-model="controller.value"
         min="controllersTypesModel[controller.type].min"
         step="1"
-        max="controllersTypesModel[controller.type].max"></slider>
+        max="controllersTypesModel[controller.type].max"
+        on-stop-slide="onStopSlide($event,value, controller)"></slider>

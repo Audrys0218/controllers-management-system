@@ -6,9 +6,9 @@ var path = require('path'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     fs = require('fs');
 
-exports.create = function (req, res) {
+exports.create = function(req, res) {
     var controller = new Controller(req.body.model);
-    controller.save(function (err) {
+    controller.save(function(err) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
@@ -25,14 +25,14 @@ exports.create = function (req, res) {
     });
 };
 
-exports.list = function (req, res) {
-    Controller.find().sort('-created').deepPopulate('microController.place').exec(function (err, controllers) {
+exports.list = function(req, res) {
+    Controller.find().sort('-created').deepPopulate('microController.place').exec(function(err, controllers) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(controllers.map(function (controller) {
+            res.json(controllers.map(function(controller) {
                 return {
                     id: controller._id,
                     title: controller.title,
@@ -50,7 +50,7 @@ exports.list = function (req, res) {
 };
 
 
-exports.read = function (req, res) {
+exports.read = function(req, res) {
     var id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -59,7 +59,7 @@ exports.read = function (req, res) {
         });
     }
 
-    Controller.findById(id).exec(function (err, controller) {
+    Controller.findById(id).exec(function(err, controller) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
@@ -81,7 +81,7 @@ exports.read = function (req, res) {
     });
 };
 
-exports.update = function (req, res) {
+exports.update = function(req, res) {
     var id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -90,7 +90,7 @@ exports.update = function (req, res) {
         });
     }
 
-    Controller.findById(id).exec(function (err, controller) {
+    Controller.findById(id).exec(function(err, controller) {
         console.log('update: ' + err);
         if (err) {
             return res.status(400).send({
@@ -98,7 +98,7 @@ exports.update = function (req, res) {
             });
         } else if (controller) {
             updateController(controller);
-            controller.save(function () {
+            controller.save(function() {
                 if (err) {
                     return res.status(400).send({
                         message: errorHandler.getErrorMessage(err)
@@ -123,7 +123,7 @@ exports.update = function (req, res) {
     });
 };
 
-exports.delete = function (req, res) {
+exports.delete = function(req, res) {
     var id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -132,14 +132,14 @@ exports.delete = function (req, res) {
         });
     }
 
-    Controller.findById(id).exec(function (err, controller) {
+    Controller.findById(id).exec(function(err, controller) {
         if (err) {
             console.log('error');
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
         } else if (controller) {
-            controller.remove(function (err, removedController) {
+            controller.remove(function(err, removedController) {
                 if (err) {
                     return res.status(400).send({
                         message: errorHandler.getErrorMessage(err)
@@ -156,7 +156,27 @@ exports.delete = function (req, res) {
     });
 };
 
-exports.changeValue = function (req, res) {
-    console.log('New value ' + req.body.value);
+exports.changeValue = function(req, res) {
+    var id = req.params.id;
+
+    Controller.findOne({_id: id}, function(err, controller) {
+        if (err) {
+            return res.status(400).json({
+                message: errorHandler.getErrorMessage(err)
+            });
+        }
+
+        controller.value = req.body.value;
+        controller.save(function(err) {
+            if (err) {
+                return res.status(400).json({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            }
+
+            return res.json();
+        });
+    });
+
     res.json();
 };

@@ -68,8 +68,8 @@ angular.module('core')
                 });
             };
 
-            var changeValue = function (controllerId, value) {
-                return $http.put('/api/v1/controllers/' + controllerId + '/value', {value: value});
+            var changeValue = function (controller) {
+                return $http.put('/api/v1/controllers/' + controller.id + '/value', {value: controller.value});
 
             };
 
@@ -78,6 +78,7 @@ angular.module('core')
                 load: load,
                 addEdit: addEdit,
                 delete: deleteController,
+                bulkDelete: bulkDelete,
                 changeValue: changeValue
             };
 

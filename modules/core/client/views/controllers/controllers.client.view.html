@@ -37,6 +37,7 @@
       <td>
         <toggle-switch ng-if="controller.type === 'electricity_switcher'"
                        class="switch-mini"
+                       ng-change="toggleElectricitySwitcher(controller)"
                        ng-model="controller.value">
         </toggle-switch>
 
