@@ -30,9 +30,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 controller: 'SensorsController',
                 controllerAs: 'sensorsController'
             })
-            .state('controllers', {
-                url: '/controllers',
-                templateUrl: 'modules/core/client/views/controllers/controllers.client.view.html'
+            .state('actuators', {
+                url: '/actuators',
+                templateUrl: 'modules/core/client/views/actuators/actuators.client.view.html',
+                controller: 'ActuatorsController'
             })
             .state('rules', {
                 url: '/rules',

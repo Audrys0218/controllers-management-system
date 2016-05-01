@@ -96,7 +96,7 @@ exports.update = function (req, res) {
 
     function validateId(next) {
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            next(new httpError.BadRequest('Micro controller id is invalid.'));
+            next(new httpError.BadRequest('Microcontroller id is invalid.'));
         }
         next(null);
     }
@@ -107,7 +107,7 @@ exports.update = function (req, res) {
 
     function checkWasFound(microControllers, next) {
         if (microControllers.length === 0) {
-            return next(new httpError.NotFound('Micro controller was not found.'));
+            return next(new httpError.NotFound('Microcontroller was not found.'));
         }
         next(null, microControllers[0]);
     }

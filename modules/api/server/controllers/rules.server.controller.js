@@ -4,7 +4,7 @@ var path = require('path'),
     mongoose = require('mongoose'),
     Rule = mongoose.model('Rule'),
     Sensor = mongoose.model('Sensor'),
-    Controller = mongoose.model('Controller'),
+    Actuator = mongoose.model('Actuator'),
     async = require('async'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
@@ -34,7 +34,7 @@ var mapToResponseObject = function (dbObject) {
         dbObject.outcomes.forEach(function (item) {
             ret.outcomes.push({
                 id: item._id,
-                controller: item.controller,
+                controller: item.actuator,
                 value: item.value
             });
         });
@@ -184,14 +184,14 @@ exports.sensorsOptions = function (req, res) {
 };
 
 exports.controllersOptions = function (req, res) {
-    Controller.find().deepPopulate('microController.place').exec(function (err, controllers) {
+    Actuator.find().deepPopulate('microController.place').exec(function (err, Actuator) {
         if (err) {
             return res.status(400).json({
                 message: errorHandler.getErrorMessage(err)
             });
         }
 
-        return res.json(controllers.map(function (c) {
+        return res.json(Actuator.map(function (c) {
             return {
                 id: c._id,
                 place: c.microController && c.microController.place ? c.microController.place.title : '',

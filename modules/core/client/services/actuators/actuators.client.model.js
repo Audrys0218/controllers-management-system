@@ -1,50 +1,47 @@
 'use strict';
 
 angular.module('core')
-    .factory('controllersModel',
-        function ($http, addEditService, confirmation, microcontrollersModel, controllersTypesModel, $q, $timeout) {
+    .factory('actuatorsModel',
+        function ($http, addEditService, confirmation, microcontrollersModel, actuatorsTypesModel, $q) {
 
             var model = {
-                controllers: []
+                actuators: []
             };
 
             var load = function () {
                 return $http({
                     method: 'GET',
-                    url: '/api/v1/controllers'
+                    url: '/api/v1/actuator'
                 }).then(function (response) {
-                    model.controllers = response.data;
-                    // $timeout(function () {
-                    //     $('[type="checkbox"]').bootstrapSwitch({size: 'mini'});
-                    // });
+                    model.actuators = response.data;
                 });
             };
 
-            var addEdit = function (controllerId) {
+            var addEdit = function (id) {
                 microcontrollersModel.load().then(callAddEditModal);
 
                 function callAddEditModal() {
                     var dataModel = {
                         microcontrollers: microcontrollersModel.model.microcontrollers,
-                        controllersTypes: controllersTypesModel.model
+                        controllersTypes: actuatorsTypesModel.model
                     };
 
                     addEditService.open({
-                        templateUrl: 'modules/core/client/views/controllers/controllers.add-edit.client.view.html',
-                        apiUrl: '/api/v1/controllers/',
-                        modelId: controllerId,
+                        templateUrl: 'modules/core/client/views/actuators/actuators.add-edit.client.view.html',
+                        apiUrl: '/api/v1/actuator/',
+                        modelId: id,
                         dataModel: dataModel,
-                        editTitle: 'Edit controller',
-                        addTitle: 'Add new controller'
+                        editTitle: 'Edit actuator',
+                        addTitle: 'Add actuator'
                     }).then(load);
                 }
             };
 
-            var deleteController = function (controllerId) {
+            var deleteActuator = function (controllerId) {
                 confirmation.confirm('Warning!', 'Do you really want to delete this item?', function () {
                     $http({
                         method: 'DELETE',
-                        url: '/api/v1/controllers/' + controllerId
+                        url: '/api/v1/actuator/' + controllerId
                     }).then(load);
                 });
             };
@@ -53,13 +50,13 @@ angular.module('core')
                 confirmation.confirm('Warning!', 'Do you really want to delete these items?', function () {
                     var promises = [];
 
-                    model.controllers.forEach(deleteItem);
+                    model.actuators.forEach(deleteItem);
 
-                    function deleteItem(controller) {
-                        if (controller.isSelected) {
+                    function deleteItem(actuator) {
+                        if (actuator.isSelected) {
                             promises.push($http({
                                 method: 'DELETE',
-                                url: '/api/v1/controllers/' + controller.id
+                                url: '/api/v1/actuator/' + actuator.id
                             }));
                         }
                     }
@@ -68,8 +65,8 @@ angular.module('core')
                 });
             };
 
-            var changeValue = function (controller) {
-                return $http.put('/api/v1/controllers/' + controller.id + '/value', {value: controller.value});
+            var changeValue = function (actuator) {
+                return $http.put('/api/v1/actuator/' + actuator.id + '/value', {value: actuator.value});
 
             };
 
@@ -77,7 +74,7 @@ angular.module('core')
                 model: model,
                 load: load,
                 addEdit: addEdit,
-                delete: deleteController,
+                delete: deleteActuator,
                 bulkDelete: bulkDelete,
                 changeValue: changeValue
             };

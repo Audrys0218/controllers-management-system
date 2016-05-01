@@ -4,7 +4,7 @@ var path = require('path'),
     async = require('async'),
     updater = require(path.resolve('./processes/watcher/updaters/updater')),
     mongoose = require('mongoose'),
-    controllersModel = require('../../../modules/api/server/models/controllers.server.model.js'),
+    controllersModel = require('../../../modules/api/server/models/actuator.server.model.js'),
     Controller = mongoose.model('Controller');
 
 var getParallelFunction = function (outcome) {

@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('core').controller('DashboardController', ['$scope', 'sensorsModel', 'controllersModel', 'sensorsTypesModel', 'controllersTypesModel', '$interval',
-    function ($scope, sensorsModel, controllersModel, sensorsTypesModel, controllersTypesModel, $interval) {
+angular.module('core').controller('DashboardController', ['$scope', 'sensorsModel', 'controllersModel', 'sensorsTypesModel', 'actuatorsTypesModel', '$interval',
+    function ($scope, sensorsModel, controllersModel, sensorsTypesModel, actuatorsTypesModel, $interval) {
 
         $scope.sensorsModel = sensorsModel.model;
         $scope.sensorsTypesModel = sensorsTypesModel.model;
 
         $scope.controllersModel = controllersModel.model;
-        $scope.controllersTypesModel = controllersTypesModel.model;
+        $scope.controllersTypesModel = actuatorsTypesModel.model;
 
         function load() {
             sensorsModel.load();

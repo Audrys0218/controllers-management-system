@@ -40,3 +40,8 @@ System:
 *If there's any problem with API methods:
 	http://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/
 	http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api
+
+
+Admin:
+    login: admin
+    password: Admin123456789!

@@ -31,10 +31,10 @@ var RuleOutcomeSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    controller: {
+    actuator: {
         type: Schema.Types.ObjectId,
-        ref: 'Controller',
-        required: 'Controller should be selected'
+        ref: 'Actuator',
+        required: 'Actuator should be selected'
     },
     value: {
         type: Number,

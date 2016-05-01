@@ -1,0 +1,11 @@
+.add-edit-rule .outcome-remove{
+    top: -5px;
+    left: 4px;
+    font-size: 18px;
+}
+
+.add-edit-rule .trigger-remove {
+    left: -29px;
+    top: -1px;
+    font-size: 18px;
+}

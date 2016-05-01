@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core')
-    .factory('controllersTypesModel', [function () {
+    .factory('actuatorsTypesModel', [function () {
 
         var model = {
             'light_dimmer': {

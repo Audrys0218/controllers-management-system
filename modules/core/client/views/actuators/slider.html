@@ -1,0 +1,6 @@
+<slider style="width: 200px"
+        ng-model="actuator.value"
+        min="actuatorsTypesModel[actuator.type].min"
+        step="1"
+        max="actuatorsTypesModel[actuator.type].max"
+        on-stop-slide="onStopSlide($event,value, actuator)"></slider>

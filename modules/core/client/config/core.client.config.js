@@ -10,7 +10,7 @@ angular.module('core').run(['Menus',
         });
 
         Menus.addMenuItem('topbar', {
-            title: 'Micro controllers',
+            title: 'Microcontrollers',
             state: 'microcontrollers',
             roles: ['user']
         });
@@ -22,8 +22,8 @@ angular.module('core').run(['Menus',
         });
 
         Menus.addMenuItem('topbar', {
-            title: 'Controllers',
-            state: 'controllers',
+            title: 'Actuators',
+            state: 'actuators',
             roles: ['user']
         });
 

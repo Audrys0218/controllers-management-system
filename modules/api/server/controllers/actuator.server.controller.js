@@ -2,13 +2,13 @@
 
 var path = require('path'),
     mongoose = require('mongoose'),
-    Controller = mongoose.model('Controller'),
+    Actuator = mongoose.model('Actuator'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     fs = require('fs');
 
 exports.create = function(req, res) {
-    var controller = new Controller(req.body.model);
-    controller.save(function(err) {
+    var actuator = new Actuator(req.body.model);
+    actuator.save(function(err) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
@@ -16,33 +16,33 @@ exports.create = function(req, res) {
         }
 
         res.json({
-            id: controller._id,
-            microController: controller.microController,
-            title: controller.title,
-            type: controller.type,
-            pinNumber: controller.pinNumber
+            id: actuator._id,
+            microController: actuator.microController,
+            title: actuator.title,
+            type: actuator.type,
+            pinNumber: actuator.pinNumber
         });
     });
 };
 
 exports.list = function(req, res) {
-    Controller.find().sort('-created').deepPopulate('microController.place').exec(function(err, controllers) {
+    Actuator.find().sort('-created').deepPopulate('microController.place').exec(function(err, actuators) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(controllers.map(function(controller) {
+            res.json(actuators.map(function(actuator) {
                 return {
-                    id: controller._id,
-                    title: controller.title,
-                    placeTitle: controller.place ? controller.place.title : '',
-                    type: controller.type,
-                    pinNumber: controller.pinNumber,
-                    isActive: controller.isActive,
-                    value: controller.value,
-                    microController: controller.microController ? controller.microController.title : '',
-                    place: controller.microController && controller.microController.place ? controller.microController.place.title : ''
+                    id: actuator._id,
+                    title: actuator.title,
+                    placeTitle: actuator.place ? actuator.place.title : '',
+                    type: actuator.type,
+                    pinNumber: actuator.pinNumber,
+                    isActive: actuator.isActive,
+                    value: actuator.value,
+                    microController: actuator.microController ? actuator.microController.title : '',
+                    place: actuator.microController && actuator.microController.place ? actuator.microController.place.title : ''
                 };
             }));
         }
@@ -55,27 +55,27 @@ exports.read = function(req, res) {
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).send({
-            message: 'Controller is invalid'
+            message: 'Actuator id is invalid'
         });
     }
 
-    Controller.findById(id).exec(function(err, controller) {
+    Actuator.findById(id).exec(function(err, actuator) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
-        } else if (controller) {
+        } else if (actuator) {
             res.json({
-                id: controller._id,
-                title: controller.title,
-                microController: controller.microController,
-                type: controller.type,
-                pinNumber: controller.pinNumber,
-                isActive: controller.isActive
+                id: actuator._id,
+                title: actuator.title,
+                microController: actuator.microController,
+                type: actuator.type,
+                pinNumber: actuator.pinNumber,
+                isActive: actuator.isActive
             });
         } else {
             return res.status(400).send({
-                message: 'Controller is invalid'
+                message: 'Actuator id is invalid'
             });
         }
     });
@@ -86,19 +86,19 @@ exports.update = function(req, res) {
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).send({
-            message: 'Controller is invalid'
+            message: 'Actuator id is invalid'
         });
     }
 
-    Controller.findById(id).exec(function(err, controller) {
+    Actuator.findById(id).exec(function(err, actuator) {
         console.log('update: ' + err);
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
-        } else if (controller) {
-            updateController(controller);
-            controller.save(function() {
+        } else if (actuator) {
+            updateActuator(actuator);
+            actuator.save(function() {
                 if (err) {
                     return res.status(400).send({
                         message: errorHandler.getErrorMessage(err)
@@ -109,16 +109,16 @@ exports.update = function(req, res) {
             });
         } else {
             return res.status(400).send({
-                message: 'Controller is invalid'
+                message: 'Actuator id is invalid'
             });
         }
 
-        function updateController(controller) {
-            controller.title = req.body.model.title;
-            controller.microController = req.body.model.microController;
-            controller.type = req.body.model.type;
-            controller.pinNumber = req.body.model.pinNumber;
-            controller.isActive = req.body.model.isActive;
+        function updateActuator(actuator) {
+            actuator.title = req.body.model.title;
+            actuator.microController = req.body.model.microController;
+            actuator.type = req.body.model.type;
+            actuator.pinNumber = req.body.model.pinNumber;
+            actuator.isActive = req.body.model.isActive;
         }
     });
 };
@@ -128,18 +128,18 @@ exports.delete = function(req, res) {
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).send({
-            message: 'Controller is invalid'
+            message: 'Actuator id is invalid'
         });
     }
 
-    Controller.findById(id).exec(function(err, controller) {
+    Actuator.findById(id).exec(function(err, actuator) {
         if (err) {
             console.log('error');
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
-        } else if (controller) {
-            controller.remove(function(err, removedController) {
+        } else if (actuator) {
+            actuator.remove(function(err, removedController) {
                 if (err) {
                     return res.status(400).send({
                         message: errorHandler.getErrorMessage(err)
@@ -150,7 +150,7 @@ exports.delete = function(req, res) {
             });
         } else {
             return res.status(400).send({
-                message: 'Controller is invalid'
+                message: 'Actuator id is invalid'
             });
         }
     });
@@ -159,15 +159,15 @@ exports.delete = function(req, res) {
 exports.changeValue = function(req, res) {
     var id = req.params.id;
 
-    Controller.findOne({_id: id}, function(err, controller) {
+    Actuator.findOne({_id: id}, function(err, actuator) {
         if (err) {
             return res.status(400).json({
                 message: errorHandler.getErrorMessage(err)
             });
         }
 
-        controller.value = req.body.value;
-        controller.save(function(err) {
+        actuator.value = req.body.value;
+        actuator.save(function(err) {
             if (err) {
                 return res.status(400).json({
                     message: errorHandler.getErrorMessage(err)

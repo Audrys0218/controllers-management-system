@@ -14,7 +14,7 @@ var MicroControllerSchema = new Schema({
     title: {
         type: String,
         default: '',
-        unique: 'Micro controller name should be unique.',
+        unique: 'Microcontroller name should be unique.',
         required: 'Title cannot be blank.',
         trim: true
     },

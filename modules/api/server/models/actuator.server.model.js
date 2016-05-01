@@ -6,7 +6,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var ControllerSchema = new Schema({
+var ActuatorSchema = new Schema({
     created: {
         type: Date,
         default: Date.now
@@ -14,14 +14,14 @@ var ControllerSchema = new Schema({
     title: {
         type: String,
         default: '',
-        unique: 'Controller name should be unique.',
+        unique: 'Actuator name should be unique.',
         required: 'Title cannot be blank.',
         trim: true
     },
     microController: {
         type: Schema.Types.ObjectId,
         ref: 'MicroController',
-        required: 'Micro controller should be selected'
+        required: 'Microcontroller should be selected'
     },
     type: {
         type: String,
@@ -38,7 +38,7 @@ var ControllerSchema = new Schema({
     }
 });
 
-ControllerSchema.plugin(require('mongoose-unique-validator'));
-ControllerSchema.plugin(require('mongoose-deep-populate')(mongoose));
+ActuatorSchema.plugin(require('mongoose-unique-validator'));
+ActuatorSchema.plugin(require('mongoose-deep-populate')(mongoose));
 
-module.exports = mongoose.model('Controller', ControllerSchema);
+module.exports = mongoose.model('Actuator', ActuatorSchema);

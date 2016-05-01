@@ -2,19 +2,19 @@
 
 module.exports = function (app) {
     // Root routing
-    var controllers = require('../controllers/controllers.server.controller'),
+    var actuator = require('../controllers/actuator.server.controller.js'),
         places = require('../controllers/places.server.controller'),
         rules = require('../controllers/rules.server.controller'),
         sensors = require('../controllers/sensors.server.controller'),
         microcontrollers = require('../controllers/microcontrollers.server.controller');
 
-    app.route('/api/v1/controllers').post(controllers.create);
-    app.route('/api/v1/controllers').get(controllers.list);
-    app.route('/api/v1/controllers/:id')
-        .get(controllers.read)
-        .put(controllers.update)
-        .delete(controllers.delete);
-    app.route('/api/v1/controllers/:id/value').put(controllers.changeValue);
+    app.route('/api/v1/actuator').post(actuator.create);
+    app.route('/api/v1/actuator').get(actuator.list);
+    app.route('/api/v1/actuator/:id')
+        .get(actuator.read)
+        .put(actuator.update)
+        .delete(actuator.delete);
+    app.route('/api/v1/actuator/:id/value').put(actuator.changeValue);
 
     app.route('/api/v1/places').post(places.create);
     app.route('/api/v1/places').get(places.list);

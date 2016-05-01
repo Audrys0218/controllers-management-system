@@ -5,7 +5,7 @@
  */
 var mongoose = require('mongoose'),
     path = require('path'),
-    Controller = require(path.resolve('./modules/api/server/models/controllers.server.model')),
+    Actuator = require(path.resolve('./modules/api/server/models/actuator.server.model')),
     Sensor = require(path.resolve('./modules/api/server/models/sensors.server.model')),
     Schema = mongoose.Schema;
 
@@ -25,7 +25,7 @@ var PlaceSchema = new Schema({
 
 PlaceSchema.post('remove', function () {
     Sensor.remove({place: this._id}).exec();
-    Controller.remove({place: this._id}).exec();
+    Actuator.remove({place: this._id}).exec();
 });
 
 PlaceSchema.plugin(require('mongoose-unique-validator'));
