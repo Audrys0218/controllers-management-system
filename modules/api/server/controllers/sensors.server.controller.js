@@ -3,14 +3,16 @@
 var path = require('path'),
     mongoose = require('mongoose'),
     Sensor = mongoose.model('Sensor'),
+    MicroController = mongoose.model('MicroController'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     fs = require('fs'),
     async = require('async'),
-    httpError = require('http-errors');
+    httpError = require('http-errors'),
+    _ = require('lodash');
 
-exports.create = function (req, res) {
+exports.create = function(req, res) {
     var sensor = new Sensor(req.body);
-    sensor.save(function (err, sensor) {
+    sensor.save(function(err, sensor) {
         if (err) {
             return res.status(400).json({
                 message: errorHandler.getErrorMessage(err)
@@ -29,15 +31,15 @@ exports.create = function (req, res) {
     });
 };
 
-exports.list = function (req, res) {
-    Sensor.find().sort('-created').deepPopulate('microController.place').exec(function (err, sensors) {
+exports.list = function(req, res) {
+    Sensor.find().sort('-created').deepPopulate('microController.place').exec(function(err, sensors) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
         }
 
-        return res.json(sensors.map(function (sensor) {
+        return res.json(sensors.map(function(sensor) {
             return {
                 id: sensor._id,
                 title: sensor.title,
@@ -53,10 +55,10 @@ exports.list = function (req, res) {
 };
 
 
-exports.read = function (req, res) {
+exports.read = function(req, res) {
     var id = req.params.id;
 
-    Sensor.findById({_id: id}, function (err, sensor) {
+    Sensor.findById({_id: id}, function(err, sensor) {
         if (err) {
             return res.status(400).json({
                 message: errorHandler.getErrorMessage(err)
@@ -81,7 +83,7 @@ exports.read = function (req, res) {
     });
 };
 
-exports.update = function (req, res) {
+exports.update = function(req, res) {
     var id = req.params.id;
 
     async.waterfall([
@@ -130,7 +132,7 @@ exports.update = function (req, res) {
     }
 };
 
-exports.delete = function (req, res) {
+exports.delete = function(req, res) {
     var id = req.params.id;
 
     async.waterfall([
@@ -146,7 +148,7 @@ exports.delete = function (req, res) {
     }
 
     function removeSensor(next) {
-        Sensor.findByIdAndRemove(id, function (err) {
+        Sensor.findByIdAndRemove(id, function(err) {
             return err ? next(err) : next(null);
         });
     }
@@ -160,4 +162,45 @@ exports.delete = function (req, res) {
 
         return res.json();
     }
+};
+
+exports.valueChanged = function(req, res) {
+    var clientIp = require('request-ip').getClientIp(req).match(/\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b/);
+    if (clientIp.length === 0) {
+        return res.status(400).json({
+            message: 'Unable to parse ip address from request'
+        });
+    }
+
+    MicroController.find({ip: clientIp}).exec(function(err, microcontrollers) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        }
+
+        Sensor.findOne({'$and': [{microController: microcontrollers[0].id}, {pinNumber: req.body.pin}]}).exec(function(err, sensor) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            }
+            if(!sensor){
+                return res.status(404).send({
+                    message: 'Sensor not found'
+                });
+            }
+
+            sensor.value = req.body.value;
+            sensor.save(function(err){
+                if (err) {
+                    return res.status(400).send({
+                        message: errorHandler.getErrorMessage(err)
+                    });
+                }
+
+                return res.json();
+            });
+        });
+    });
 };

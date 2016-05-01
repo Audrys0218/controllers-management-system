@@ -44,7 +44,8 @@
       <th class="col-md-5">Title</th>
       <th class="col-md-2">Microcontroller</th>
       <th class="col-md-2">Place</th>
-      <th class="col-md-2">Type</th>
+      <th class="col-md-1">Type</th>
+      <th class="col-md-1">Value</th>
       <th class="col-md-1">Actions</th>
     </tr>
     </thead>
@@ -72,6 +73,7 @@
         {{sensor.place}}
       </td>
       <td>{{sensorTypesModel[sensor.type].label}}</td>
+      <td>{{sensor.value}}</td>
       <td align="center">
         <button ng-click="addEdit(sensor.id)"
                 type="button"
