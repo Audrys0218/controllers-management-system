@@ -45,7 +45,7 @@ angular.module('core')
                             max = $scope.getMax();
 
                         if(!$scope.trigger.value || $scope.trigger.value < min || $scope.trigger.value > max){
-                            return 'Value should be between ' + min + ' and ' + max
+                            return 'Value should be between ' + min + ' and ' + max;
                         }
 
                         return '';
