@@ -12,7 +12,7 @@ angular.module('core')
                             return {
                                 apiUrl: data.apiUrl,
                                 modelId: data.modelId,
-                                title: data.model ? data.editTitle : data.addTitle,
+                                title: data.modelId ? data.editTitle : data.addTitle,
                                 dataModel: data.dataModel
                             };
                         }

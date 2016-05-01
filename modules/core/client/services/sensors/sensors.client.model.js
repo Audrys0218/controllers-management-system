@@ -31,7 +31,7 @@ angular.module('core')
                     modelId: sensorId,
                     dataModel: dataModel,
                     editTitle: 'Edit sensor',
-                    addTitle: 'Add new sensor'
+                    addTitle: 'Add sensor'
                 }).then(load);
             }
         };
