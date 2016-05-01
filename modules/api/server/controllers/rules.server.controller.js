@@ -34,7 +34,7 @@ var mapToResponseObject = function (dbObject) {
         dbObject.outcomes.forEach(function (item) {
             ret.outcomes.push({
                 id: item._id,
-                controller: item.actuator,
+                actuator: item.actuator,
                 value: item.value
             });
         });
@@ -183,20 +183,20 @@ exports.sensorsOptions = function (req, res) {
     });
 };
 
-exports.controllersOptions = function (req, res) {
-    Actuator.find().deepPopulate('microController.place').exec(function (err, Actuator) {
+exports.actuatorsOptions = function (req, res) {
+    Actuator.find().deepPopulate('microController.place').exec(function (err, actuators) {
         if (err) {
             return res.status(400).json({
                 message: errorHandler.getErrorMessage(err)
             });
         }
 
-        return res.json(Actuator.map(function (c) {
+        return res.json(actuators.map(function (actuator) {
             return {
-                id: c._id,
-                place: c.microController && c.microController.place ? c.microController.place.title : '',
-                controller: c.microController ? c.microController.title + '\\ ' + c.title : '',
-                type: c.type
+                id: actuator._id,
+                place: actuator.microController && actuator.microController.place ? actuator.microController.place.title : '',
+                actuator: actuator.microController ? actuator.microController.title + '\\ ' + actuator.title : '',
+                type: actuator.type
             };
         }));
     });

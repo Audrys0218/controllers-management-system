@@ -11,13 +11,13 @@ angular.module('core')
                 index: '=',
                 outcome: '='
             },
-            controller: function ($scope, controllersOptionsModel) {
+            controller: function ($scope, actuatorsOptionsModel) {
 
-                $scope.controllersOptionsModel = controllersOptionsModel.model;
+                $scope.actuatorsOptionsModel = actuatorsOptionsModel.model;
 
                 $scope.name = 'outcome_name_' + $scope.index;
 
-                controllersOptionsModel.load();
+                actuatorsOptionsModel.load();
             },
             link: function ($scope, element, attr, ctrl) {
                 $scope.form = ctrl;

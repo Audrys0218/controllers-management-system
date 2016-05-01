@@ -26,7 +26,7 @@ module.exports = function (app) {
     app.route('/api/v1/rules').post(rules.create);
     app.route('/api/v1/rules').get(rules.list);
     app.route('/api/v1/rules/sensors-options').get(rules.sensorsOptions);
-    app.route('/api/v1/rules/controllers-options').get(rules.controllersOptions);
+    app.route('/api/v1/rules/actuators-options').get(rules.actuatorsOptions);
     app.route('/api/v1/rules/:id')
         .get(rules.read)
         .put(rules.update)
