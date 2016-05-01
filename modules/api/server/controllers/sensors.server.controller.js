@@ -9,7 +9,7 @@ var path = require('path'),
     httpError = require('http-errors');
 
 exports.create = function (req, res) {
-    var sensor = new Sensor(req.body.model);
+    var sensor = new Sensor(req.body);
     sensor.save(function (err, sensor) {
         if (err) {
             return res.status(400).json({
@@ -110,11 +110,11 @@ exports.update = function (req, res) {
     }
 
     function updateSensor(sensor, next) {
-        sensor.title = req.body.model.title;
-        sensor.type = req.body.model.type;
-        sensor.pinNumber = req.body.model.pinNumber;
-        sensor.isActive = req.body.model.isActive;
-        sensor.microController = req.body.model.microController;
+        sensor.title = req.body.title;
+        sensor.type = req.body.type;
+        sensor.pinNumber = req.body.pinNumber;
+        sensor.isActive = req.body.isActive;
+        sensor.microController = req.body.microController;
 
         sensor.save(next);
     }

@@ -7,7 +7,7 @@ var path = require('path'),
     fs = require('fs');
 
 exports.create = function(req, res) {
-    var actuator = new Actuator(req.body.model);
+    var actuator = new Actuator(req.body);
     actuator.save(function(err) {
         if (err) {
             return res.status(400).send({
@@ -114,11 +114,11 @@ exports.update = function(req, res) {
         }
 
         function updateActuator(actuator) {
-            actuator.title = req.body.model.title;
-            actuator.microController = req.body.model.microController;
-            actuator.type = req.body.model.type;
-            actuator.pinNumber = req.body.model.pinNumber;
-            actuator.isActive = req.body.model.isActive;
+            actuator.title = req.body.title;
+            actuator.microController = req.body.microController;
+            actuator.type = req.body.type;
+            actuator.pinNumber = req.body.pinNumber;
+            actuator.isActive = req.body.isActive;
         }
     });
 };

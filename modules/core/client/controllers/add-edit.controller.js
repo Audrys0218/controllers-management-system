@@ -14,9 +14,9 @@ angular.module('core').controller('AddEditController', ['$scope', '$uibModalInst
     $scope.save = function () {
         $scope.loading = true;
         if ($scope.model.id) {
-            $http.put(data.apiUrl + $scope.model.id, {model: $scope.model}).then(closeModal).finally(removeLoader);
+            $http.put(data.apiUrl + $scope.model.id, $scope.model).then(closeModal).finally(removeLoader);
         } else {
-            $http.post(data.apiUrl, {model: $scope.model}).then(closeModal).finally(removeLoader);
+            $http.post(data.apiUrl, $scope.model).then(closeModal).finally(removeLoader);
         }
 
         function closeModal(response) {

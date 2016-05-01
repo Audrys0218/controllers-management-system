@@ -8,7 +8,7 @@ var path = require('path'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 exports.create = function (req, res) {
-    var place = new Place(req.body.model);
+    var place = new Place(req.body);
 
     place.save(function (err) {
         if (err) {
@@ -103,7 +103,7 @@ exports.update = function (req, res) {
     }
 
     function update(place, next) {
-        place.title = req.body.model.title;
+        place.title = req.body.title;
         place.save(next);
     }
 
