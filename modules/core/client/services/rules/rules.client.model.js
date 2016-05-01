@@ -22,7 +22,7 @@ angular.module('core')
                     model.rules = response.data;
                 }).finally(function(){
                     model.loading = false;
-                })
+                });
             };
 
             var save = function (rule) {

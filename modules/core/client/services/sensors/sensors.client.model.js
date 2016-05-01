@@ -17,7 +17,7 @@ angular.module('core')
                 model.sensors = response.data;
             }).finally(function(){
                 model.loading = false;
-            })
+            });
         };
 
         var addEdit = function (sensorId) {

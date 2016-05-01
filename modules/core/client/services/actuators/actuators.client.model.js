@@ -18,7 +18,7 @@ angular.module('core')
                     model.actuators = response.data;
                 }).finally(function(){
                     model.loading = false;
-                })
+                });
             };
 
             var addEdit = function (id) {
