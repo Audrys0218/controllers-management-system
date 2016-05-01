@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function (app) {
+module.exports = function(app) {
     // Root routing
     var actuator = require('../controllers/actuator.server.controller.js'),
         places = require('../controllers/places.server.controller'),

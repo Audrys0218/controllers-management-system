@@ -19,9 +19,6 @@ angular.module('core')
                 min: 0,
                 max: 100
             },
-            'humidity': {
-                label: 'Humidity'
-            },
             'sound': {
                 label: 'Sound',
                 min: 0,

@@ -11,15 +11,19 @@
                class="col-sm-1 control-label">Title</label>
 
         <div class="col-md-7"
-             ng-class="{ 'has-error': getValidationMessage() !== ''}">
+             ng-class="{ 'has-error': form.title.$error.required && form.title.$touched}">
           <input id="title"
                  type="text"
                  class="form-control"
                  ng-model="rule.title"
                  name="title"
-                 required
-                 uib-tooltip="{{ getValidationMessage() }}"
-          >
+                 required>
+          <div ng-messages="form.title.$error"
+               ng-if="form.title.$touched">
+            <div ng-message="required"
+                 class="help-block with-errors">Required
+            </div>
+          </div>
         </div>
 
         <label for="priority"

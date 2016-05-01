@@ -4,8 +4,8 @@ angular.module('core')
     .factory('actuatorsTypesModel', [function () {
 
         var model = {
-            'light_dimmer': {
-                label: 'Light dimmer',
+            'analog_switch': {
+                label: 'Analog switch',
                 min: 0,
                 max: 100
             },

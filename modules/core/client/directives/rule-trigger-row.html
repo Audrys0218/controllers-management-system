@@ -17,16 +17,16 @@
         </select>
     </div>
 
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-4" ng-class="{ 'has-error': getValidationMessage()}">
         <label>Value</label>
         <input type="number"
                class="form-control"
                ng-model="trigger.value"
                name="{{ name }}"
-               required
                min="{{getMin()}}"
                max="{{getMax()}}"
-               uib-tooltip="{{ getValidationMessage() }}"/>
+               required
+               uib-tooltip="{{getValidationMessage()}}" />
     </div>
 
     <div class="col-md-1">
