@@ -1,3 +1,5 @@
+<span us-spinner="{radius:12, width:4, length: 8}"
+      spinner-on="actuatorsModel.loading"></span>
 <div class="home-module">
   <content-head></content-head>
   <table class="table table-hover">
@@ -11,7 +13,7 @@
       <th class="col-md-1">Actions</th>
     </tr>
     </thead>
-    <tr ng-repeat="actuator in model.actuators | filter: searchText">
+    <tr ng-repeat="actuator in actuatorsModel.actuators | filter: searchText">
       <td class="controller-title">
         <label><input type="checkbox"
                       ng-model="actuator.isSelected"/></label>

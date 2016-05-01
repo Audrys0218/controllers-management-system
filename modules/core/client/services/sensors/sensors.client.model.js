@@ -4,16 +4,20 @@ angular.module('core')
     .factory('sensorsModel', function ($http, addEditService, confirmation, microcontrollersModel, sensorsTypesModel, $q) {
 
         var model = {
-            sensors: []
+            sensors: [],
+            loading: false
         };
 
         var load = function () {
+            model.loading = true;
             return $http({
                 method: 'GET',
                 url: '/api/v1/sensors'
             }).then(function (response) {
                 model.sensors = response.data;
-            });
+            }).finally(function(){
+                model.loading = false;
+            })
         };
 
         var addEdit = function (sensorId) {

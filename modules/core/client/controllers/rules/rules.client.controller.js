@@ -3,7 +3,7 @@
 angular.module('core')
     .controller('RulesController', ['$scope', '$uibModal', 'rulesModel', function ($scope, $uibModal, rulesModel) {
 
-        $scope.model = rulesModel.model;
+        $scope.rulesModel = rulesModel.model;
 
         $scope.addEdit = function (ruleId) {
             var modalInstance = $uibModal.open({

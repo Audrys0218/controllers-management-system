@@ -12,13 +12,17 @@ angular.module('core')
                     triggers: [{}],
                     outcomes: [{}],
                     enabled: true
-                }
+                },
+                loading: false
             };
 
             var load = function () {
+                model.loading = true;
                 return $http.get('/api/v1/rules').then(function (response) {
                     model.rules = response.data;
-                });
+                }).finally(function(){
+                    model.loading = false;
+                })
             };
 
             var save = function (rule) {

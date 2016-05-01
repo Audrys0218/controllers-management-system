@@ -5,16 +5,20 @@ angular.module('core')
         function ($http, addEditService, confirmation, microcontrollersModel, actuatorsTypesModel, $q) {
 
             var model = {
-                actuators: []
+                actuators: [],
+                loading: false
             };
 
             var load = function () {
+                model.loading = true;
                 return $http({
                     method: 'GET',
                     url: '/api/v1/actuator'
                 }).then(function (response) {
                     model.actuators = response.data;
-                });
+                }).finally(function(){
+                    model.loading = false;
+                })
             };
 
             var addEdit = function (id) {

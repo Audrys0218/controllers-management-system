@@ -2,7 +2,7 @@
 
 angular.module('core')
     .controller('ActuatorsController', ['$scope', 'actuatorsModel', 'actuatorsTypesModel', function ($scope, actuatorsModel, actuatorsTypesModel) {
-        $scope.model = actuatorsModel.model;
+        $scope.actuatorsModel = actuatorsModel.model;
 
         $scope.actuatorsTypesModel = actuatorsTypesModel.model;
 

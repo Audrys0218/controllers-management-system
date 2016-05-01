@@ -2,7 +2,7 @@
 
 angular.module('core')
     .controller('SensorsController', function ($scope, sensorsTypesModel, sensorsModel, pingService, $window) {
-        $scope.model = sensorsModel.model;
+        $scope.sensorsModel = sensorsModel.model;
         $scope.showPingResult = false;
         $scope.pingSuccess = false;
 

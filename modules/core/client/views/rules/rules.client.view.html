@@ -1,5 +1,6 @@
-<div ng-controller="RulesController"
-     class="home-module">
+<span us-spinner="{radius:12, width:4, length: 8}"
+      spinner-on="rulesModel.loading"></span>
+<div class="home-module">
   <content-head></content-head>
   <table class="table table-hover">
     <thead>
@@ -10,7 +11,7 @@
       <th class="col-md-1">Actions</th>
     </tr>
     </thead>
-    <tr ng-repeat="rule in model.rules | orderBy: ['-enabled', '-priority'] | filter: searchText">
+    <tr ng-repeat="rule in rulesModel.rules | orderBy: ['-enabled', '-priority'] | filter: searchText">
       <td class="rule-title">
         <label><input type="checkbox"
                       ng-model="rule.isSelected"/></label>

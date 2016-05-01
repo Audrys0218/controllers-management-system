@@ -1,3 +1,5 @@
+<span us-spinner="{radius:12, width:4, length: 8}"
+      spinner-on="sensorsModel.loading"></span>
 <div class="home-module">
   <div class="column">
     <div class="col-sm-3">
@@ -46,7 +48,7 @@
       <th class="col-md-1">Actions</th>
     </tr>
     </thead>
-    <tr ng-repeat="sensor in model.sensors | filter: searchText">
+    <tr ng-repeat="sensor in sensorsModel.sensors | filter: searchText">
       <td>
         <label><input type="checkbox"
                       ng-model="sensor.isSelected"/></label>

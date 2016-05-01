@@ -37,7 +37,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
             })
             .state('rules', {
                 url: '/rules',
-                templateUrl: 'modules/core/client/views/rules/rules.client.view.html'
+                templateUrl: 'modules/core/client/views/rules/rules.client.view.html',
+                controller: 'RulesController'
             })
             .state('home', {
                 url: '/',
