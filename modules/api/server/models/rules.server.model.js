@@ -58,7 +58,7 @@ var RuleSchema = new Schema({
         type: String,
         default: '',
         trim: true,
-        required: 'type cannot be blank'
+        required: 'Type cannot be blank'
     },
     priority: {
         type: Number,

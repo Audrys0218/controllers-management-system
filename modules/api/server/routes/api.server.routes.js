@@ -16,6 +16,8 @@ module.exports = function(app) {
         .delete(actuator.delete);
     app.route('/api/v1/actuator/:id/value').put(actuator.changeValue);
 
+    app.route('/test/url').post(places.tests);
+
     app.route('/api/v1/places').post(places.create);
     app.route('/api/v1/places').get(places.list);
     app.route('/api/v1/places/:id')

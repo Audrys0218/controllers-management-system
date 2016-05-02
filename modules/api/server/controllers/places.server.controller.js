@@ -147,3 +147,10 @@ exports.delete = function (req, res) {
         return res.json();
     }
 };
+
+module.exports.tests = function(req, res){
+    console.log('Mane iskviete');
+    console.log(req.body);
+    console.log(req.params);
+    return res.json();
+};

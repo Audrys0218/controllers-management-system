@@ -4,11 +4,13 @@ var path = require('path'),
     mongoose = require('mongoose'),
     Sensor = mongoose.model('Sensor'),
     MicroController = mongoose.model('MicroController'),
+    Rule = mongoose.model('Rule'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     fs = require('fs'),
     async = require('async'),
     httpError = require('http-errors'),
-    _ = require('lodash');
+    _ = require('lodash'),
+    rulesHandler = require('../services/rulesHandlerService');
 
 exports.create = function(req, res) {
     var sensor = new Sensor(req.body);
@@ -172,35 +174,79 @@ exports.valueChanged = function(req, res) {
         });
     }
 
-    MicroController.find({ip: clientIp}).exec(function(err, microcontrollers) {
+    async.waterfall([
+        findMicrocontroller,
+        checkIfMicrocontrollerFound,
+        findSensor,
+        checkIfSensorFound,
+        updateSensorValue,
+        checkRules
+    ], done);
+
+    function findMicrocontroller(callback) {
+        MicroController.find({ip: clientIp}).exec(callback);
+    }
+
+    function checkIfMicrocontrollerFound(microcontrollers, callback) {
+        console.log(microcontrollers.length);
+        if (microcontrollers.length === 0) {
+            return callback(new httpError.NotFound('Devices was not found by ip'));
+        }
+
+        callback(null, microcontrollers[0]);
+    }
+
+    function findSensor(microcontroller, callback) {
+        Sensor.find({'$and': [{microController: microcontroller.id}, {pinNumber: req.body.pin}]}).exec(callback);
+    }
+
+    function checkIfSensorFound(sensors, callback) {
+        if (sensors.length === 0) {
+            return callback(new httpError.NotFound('Sensor was not found by pin number'));
+        }
+
+        callback(null, sensors[0]);
+    }
+
+    function updateSensorValue(sensor, callback) {
+        sensor.value = req.body.value;
+        sensor.save(function(err){
+            if(err){
+                return callback(err);
+            }
+            return callback(null, sensor);
+        });
+    }
+
+    function checkRules(sensor, callback){
+        Rule.find({
+            triggers: {
+                $elemMatch: {
+                    sensor: sensor._id
+                }
+            }
+        }).sort('priority')
+            .populate('triggers.sensor').populate('outcomes.actuator')
+            .exec(function (err, rules) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    if (rules.length > 0) {
+                        rulesHandler.execute(rules, callback);
+                    } else {
+                        callback(null);
+                    }
+                }
+            });
+    }
+
+    function done(err) {
         if (err) {
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
+            return res.status(err.status || 400).json({
+                message: err.status ? err.message : errorHandler.getErrorMessage(err)
             });
         }
 
-        Sensor.findOne({'$and': [{microController: microcontrollers[0].id}, {pinNumber: req.body.pin}]}).exec(function(err, sensor) {
-            if (err) {
-                return res.status(400).send({
-                    message: errorHandler.getErrorMessage(err)
-                });
-            }
-            if(!sensor){
-                return res.status(404).send({
-                    message: 'Sensor not found'
-                });
-            }
-
-            sensor.value = req.body.value;
-            sensor.save(function(err){
-                if (err) {
-                    return res.status(400).send({
-                        message: errorHandler.getErrorMessage(err)
-                    });
-                }
-
-                return res.json();
-            });
-        });
-    });
+        return res.json();
+    }
 };
