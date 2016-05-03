@@ -7,5 +7,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         if (!$scope.authentication.user) {
             $location.path('authentication/signin');
         }
+
+        $location.path('/places');
     }
 ]);
