@@ -114,6 +114,8 @@ exports.update = function(req, res) {
         }
 
         function updateActuator(actuator) {
+            console.log('pin number');
+            console.log(req.body.pinNumber);
             actuator.title = req.body.title;
             actuator.microController = req.body.microController;
             actuator.type = req.body.type;
@@ -158,25 +160,17 @@ exports.delete = function(req, res) {
 
 exports.changeValue = function(req, res) {
     var id = req.params.id;
+    var outcomExecutor = require('../services/outcomesExecutorService');
+    Actuator.findOne({_id: id}).populate('microController').exec(function(err, actuator) {
+        var outcomes = {};
 
-    Actuator.findOne({_id: id}, function(err, actuator) {
-        if (err) {
-            return res.status(400).json({
-                message: errorHandler.getErrorMessage(err)
-            });
-        }
+        outcomes[actuator._id] = {
+            actuator: actuator,
+            value: req.body.value
+        };
 
-        actuator.value = req.body.value;
-        actuator.save(function(err) {
-            if (err) {
-                return res.status(400).json({
-                    message: errorHandler.getErrorMessage(err)
-                });
-            }
-
+        outcomExecutor.executeOutcomes(outcomes, function(){
             return res.json();
         });
     });
-
-    res.json();
 };

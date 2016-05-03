@@ -197,6 +197,11 @@ module.exports.handleControllerChange = function (id, type, value) {
                 outcomes[controller._id] = {
                     controller: controller,
                     value: value
+                };                var outcomes = {};
+
+                outcomes[controller._id] = {
+                    controller: controller,
+                    value: value
                 };
 
                 outcomesExecutor.executeOutcomes(outcomes, function(){

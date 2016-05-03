@@ -70,8 +70,8 @@ angular.module('core')
             };
 
             var changeValue = function (actuator) {
+                actuator.value = + actuator.value; //converting boolean values to int
                 return $http.put('/api/v1/actuator/' + actuator.id + '/value', {value: actuator.value});
-
             };
 
             return {
