@@ -1,30 +1,30 @@
 'use strict';
 
 angular.module('core')
-    .controller('SensorsController', function($scope, sensorsTypesModel, sensorsModel) {
+    .controller('SensorsController', function($scope, sensorsTypesModel, sensorsModel, confirmation) {
         $scope.sensorsModel = sensorsModel.model;
         $scope.sensorTypesModel = sensorsTypesModel.model;
 
-        $scope.bybis = 'bybs';
-
-        $scope.addEdit = function(sensorId) {
-            sensorsModel.addEdit(sensorId);
-        };
+        $scope.addEdit = sensorsModel.addEdit;
 
         $scope.delete = function(sensorId) {
-            sensorsModel.delete(sensorId);
-        };
-
-        $scope.bulkDelete = sensorsModel.bulkDelete;
-        $scope.bulkDeleteDisabled = function() {
-            return !sensorsModel.model.sensors.some(function(sensor) {
-                return sensor.isSelected;
+            confirmation.confirm('Warning!', 'Do you really want to delete this item?', function() {
+                sensorsModel.delete(sensorId);
             });
         };
 
-        sensorsModel.load().then(function() {
-            sensorsModel.startUpdatingSensorsValues();
-        });
+        $scope.bulkDelete = function(){
+            confirmation.confirm('Warning!', 'Do you really want to delete these items?', function() {
+                sensorsModel.bulkDelete();
+            });
+        };
+        $scope.bulkDeleteDisabled = sensorsModel.bulkDeleteDisabled;
+
+        $scope.load = function() {
+            sensorsModel.load().then(function() {
+                sensorsModel.startUpdatingSensorsValues();
+            });
+        };
 
         $scope.$on('$destroy', function() {
             sensorsModel.stopUpdatingSensorsValues();

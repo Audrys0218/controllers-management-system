@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core')
-    .factory('sensorsModel', function($http, $q, $interval, addEditService, confirmation, microcontrollersModel, sensorsTypesModel) {
+    .factory('sensorsModel', function($http, $q, $interval, addEditService, microcontrollersModel, sensorsTypesModel) {
 
         var model = {
             sensors: [],
@@ -10,10 +10,7 @@ angular.module('core')
 
         var load = function() {
             model.loading = true;
-            return $http({
-                method: 'GET',
-                url: '/api/v1/sensors'
-            }).then(function(response) {
+            return $http.get('/api/v1/sensors').then(function(response) {
                 model.sensors = response.data;
             }).finally(function() {
                 model.loading = false;
@@ -41,39 +38,26 @@ angular.module('core')
         };
 
         var deleteSensor = function(sensorId) {
-            confirmation.confirm('Warning!', 'Do you really want to delete this item?', function() {
-                $http({
-                    method: 'DELETE',
-                    url: '/api/v1/sensors/' + sensorId
-                }).then(load);
-            });
+            $http.delete('/api/v1/sensors/' + sensorId).then(load);
         };
 
         var bulkDelete = function() {
-            confirmation.confirm('Warning!', 'Do you really want to delete these items?', function() {
-                var promises = [];
+            var promises = [];
 
-                model.sensors.forEach(deleteItem);
+            model.sensors.forEach(deleteItem);
 
-                function deleteItem(sensors) {
-                    if (sensors.isSelected) {
-                        promises.push($http({
-                            method: 'DELETE',
-                            url: '/api/v1/sensors/' + sensors.id
-                        }));
-                    }
+            function deleteItem(sensors) {
+                if (sensors.isSelected) {
+                    promises.push($http.delete('/api/v1/sensors/' + sensors.id));
                 }
+            }
 
-                $q.all(promises).then(load);
-            });
+            $q.all(promises).then(load);
         };
 
         var startUpdatingSensorsValues = function() {
             intervalPromise = $interval(function() {
-                return $http({
-                    method: 'GET',
-                    url: '/api/v1/sensors/values'
-                }).then(function(response) {
+                return $http.get('/api/v1/sensors/values').then(function(response) {
                     response.data.forEach(function(sensorValue) {
                         var modelSensor = _.find(model.sensors, ['id', sensorValue.id]);
 
@@ -89,6 +73,12 @@ angular.module('core')
             $interval.cancel(intervalPromise);
         };
 
+        var bulkDeleteDisabled = function() {
+            return !model.sensors.some(function(sensor) {
+                return sensor.isSelected;
+            });
+        };
+
         return {
             model: model,
             load: load,
@@ -96,6 +86,7 @@ angular.module('core')
             delete: deleteSensor,
             bulkDelete: bulkDelete,
             startUpdatingSensorsValues: startUpdatingSensorsValues,
-            stopUpdatingSensorsValues: stopUpdatingSensorsValues
+            stopUpdatingSensorsValues: stopUpdatingSensorsValues,
+            bulkDeleteDisabled: bulkDeleteDisabled
         };
     });

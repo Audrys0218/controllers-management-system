@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core')
-    .factory('placesModel', function($http, $q, addEditService, confirmation ) {
+    .factory('placesModel', function($http, $q, addEditService) {
 
             var model = {
                 places: [],
@@ -10,10 +10,7 @@ angular.module('core')
 
             var load = function() {
                 model.loading = true;
-                return $http({
-                    method: 'GET',
-                    url: '/api/v1/places'
-                }).then(function(response) {
+                return $http.get('/api/v1/places').then(function(response) {
                     model.places = response.data;
                 }).finally(function() {
                     model.loading = false;
@@ -31,31 +28,21 @@ angular.module('core')
             };
 
             var deletePlace = function(placeId) {
-                confirmation.confirm('Warning!', 'Do you really want to delete this item?', function() {
-                    $http({
-                        method: 'DELETE',
-                        url: '/api/v1/places/' + placeId
-                    }).then(load);
-                });
+                $http.delete('/api/v1/places/' + placeId).then(load);
             };
 
             var bulkDelete = function() {
-                confirmation.confirm('Warning!', 'Do you really want to delete these items?', function() {
-                    var promises = [];
+                var promises = [];
 
-                    model.places.forEach(deleteItem);
+                model.places.forEach(deleteItem);
 
-                    function deleteItem(place) {
-                        if (place.isSelected) {
-                            promises.push($http({
-                                method: 'DELETE',
-                                url: '/api/v1/places/' + place.id
-                            }));
-                        }
+                function deleteItem(place) {
+                    if (place.isSelected) {
+                        promises.push($http.delete('/api/v1/places/' + place.id));
                     }
+                }
 
-                    $q.all(promises).then(load);
-                });
+                $q.all(promises).then(load);
             };
 
             var bulkDeleteDisabled = function() {
