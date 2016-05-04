@@ -1,37 +1,32 @@
 'use strict';
 
 angular.module('core')
-    .controller('SensorsController', function ($scope, sensorsTypesModel, sensorsModel, pingService, $window) {
+    .controller('SensorsController', function($scope, sensorsTypesModel, sensorsModel) {
         $scope.sensorsModel = sensorsModel.model;
-        $scope.showPingResult = false;
-        $scope.pingSuccess = false;
-
         $scope.sensorTypesModel = sensorsTypesModel.model;
 
-        $scope.addEdit = function (sensorId) {
+        $scope.bybis = 'bybs';
+
+        $scope.addEdit = function(sensorId) {
             sensorsModel.addEdit(sensorId);
         };
 
-        $scope.delete = function (sensorId) {
+        $scope.delete = function(sensorId) {
             sensorsModel.delete(sensorId);
         };
 
-        $scope.ping = function () {
-            pingService.ping($scope.model.communicationPath).then(function (success) {
-                $scope.pingSuccess = success;
-                $scope.showPingResult = true;
-                $window.$timeout(function () {
-                    $scope.showPingResult = false;
-                }, 3000);
-            });
-        };
-
         $scope.bulkDelete = sensorsModel.bulkDelete;
-        $scope.bulkDeleteDisabled = function () {
-            return !sensorsModel.model.sensors.some(function (sensor) {
+        $scope.bulkDeleteDisabled = function() {
+            return !sensorsModel.model.sensors.some(function(sensor) {
                 return sensor.isSelected;
             });
         };
 
-        sensorsModel.load();
+        sensorsModel.load().then(function() {
+            sensorsModel.startUpdatingSensorsValues();
+        });
+
+        $scope.$on('$destroy', function() {
+            sensorsModel.stopUpdatingSensorsValues();
+        });
     });

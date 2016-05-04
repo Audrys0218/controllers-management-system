@@ -1,26 +1,26 @@
 'use strict';
 
 angular.module('core')
-    .factory('sensorsModel', function ($http, addEditService, confirmation, microcontrollersModel, sensorsTypesModel, $q) {
+    .factory('sensorsModel', function($http, $q, $interval, addEditService, confirmation, microcontrollersModel, sensorsTypesModel) {
 
         var model = {
             sensors: [],
             loading: false
-        };
+        }, intervalPromise;
 
-        var load = function () {
+        var load = function() {
             model.loading = true;
             return $http({
                 method: 'GET',
                 url: '/api/v1/sensors'
-            }).then(function (response) {
+            }).then(function(response) {
                 model.sensors = response.data;
-            }).finally(function(){
+            }).finally(function() {
                 model.loading = false;
             });
         };
 
-        var addEdit = function (sensorId) {
+        var addEdit = function(sensorId) {
             microcontrollersModel.load().then(callAddEditModal);
 
             function callAddEditModal() {
@@ -40,8 +40,8 @@ angular.module('core')
             }
         };
 
-        var deleteSensor = function (sensorId) {
-            confirmation.confirm('Warning!', 'Do you really want to delete this item?', function () {
+        var deleteSensor = function(sensorId) {
+            confirmation.confirm('Warning!', 'Do you really want to delete this item?', function() {
                 $http({
                     method: 'DELETE',
                     url: '/api/v1/sensors/' + sensorId
@@ -49,8 +49,8 @@ angular.module('core')
             });
         };
 
-        var bulkDelete = function () {
-            confirmation.confirm('Warning!', 'Do you really want to delete these items?', function () {
+        var bulkDelete = function() {
+            confirmation.confirm('Warning!', 'Do you really want to delete these items?', function() {
                 var promises = [];
 
                 model.sensors.forEach(deleteItem);
@@ -68,11 +68,34 @@ angular.module('core')
             });
         };
 
+        var startUpdatingSensorsValues = function() {
+            intervalPromise = $interval(function() {
+                return $http({
+                    method: 'GET',
+                    url: '/api/v1/sensors/values'
+                }).then(function(response) {
+                    response.data.forEach(function(sensorValue) {
+                        var modelSensor = _.find(model.sensors, ['id', sensorValue.id]);
+
+                        if (modelSensor) {
+                            modelSensor.value = sensorValue.value;
+                        }
+                    });
+                });
+            }, 1000);
+        };
+
+        var stopUpdatingSensorsValues = function() {
+            $interval.cancel(intervalPromise);
+        };
+
         return {
             model: model,
             load: load,
             addEdit: addEdit,
             delete: deleteSensor,
-            bulkDelete: bulkDelete
+            bulkDelete: bulkDelete,
+            startUpdatingSensorsValues: startUpdatingSensorsValues,
+            stopUpdatingSensorsValues: stopUpdatingSensorsValues
         };
     });
