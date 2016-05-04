@@ -6,7 +6,7 @@
             _$provide_.value('$http', jasmine.createSpyObj('$http', ['post']));
         }));
 
-        var pingService
+        var pingService;
 
         beforeEach(inject(function(_pingService_) {
             pingService = _pingService_;

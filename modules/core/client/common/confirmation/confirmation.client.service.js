@@ -4,7 +4,7 @@ angular.module('common')
     .service('confirmation', ['$uibModal', function ($uibModal) {
 
         this.confirm = function (title, message, callback) {
-            var modalInstance = $uibModal.open({
+            $uibModal.open({
                 templateUrl: 'modules/core/client/common/confirmation/confirmation.client.view.html',
                 controller: 'ConfirmationController',
                 resolve: {
@@ -15,9 +15,7 @@ angular.module('common')
                         };
                     }
                 }
-            });
-
-            modalInstance.result.then(callback);
+            }).result.then(callback);
         };
 
     }]);
