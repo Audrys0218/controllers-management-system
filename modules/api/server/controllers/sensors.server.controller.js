@@ -210,15 +210,15 @@ exports.valueChanged = function(req, res) {
 
     function updateSensorValue(sensor, callback) {
         sensor.value = req.body.value;
-        sensor.save(function(err){
-            if(err){
+        sensor.save(function(err) {
+            if (err) {
                 return callback(err);
             }
             return callback(null, sensor);
         });
     }
 
-    function checkRules(sensor, callback){
+    function checkRules(sensor, callback) {
         Rule.find({
             triggers: {
                 $elemMatch: {
@@ -227,7 +227,7 @@ exports.valueChanged = function(req, res) {
             }
         }).sort('priority')
             .populate('triggers.sensor').populate('outcomes.actuator')
-            .exec(function (err, rules) {
+            .exec(function(err, rules) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -249,4 +249,21 @@ exports.valueChanged = function(req, res) {
 
         return res.json();
     }
+};
+
+exports.sensorsValues = function(req, res) {
+    Sensor.find().exec(function(err, sensors) {
+        if (err) {
+            return res.status(400).json({
+                message: errorHandler.getErrorMessage(err)
+            });
+        }
+
+        return res.json(sensors.map(function(s) {
+            return {
+                id: s._id,
+                value: s.value
+            };
+        }));
+    });
 };

@@ -26,8 +26,8 @@ module.exports = {
                 'public/lib/angular-bootstrap-toggle-switch/angular-toggle-switch.min.js',
                 'public/lib/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js',
                 'public/lib/angular-bootstrap-slider/slider.js',
-                'public/lib/angular-spinner/angular-spinner.js'
-
+                'public/lib/angular-spinner/angular-spinner.js',
+                'public/lib/lodash/dist/lodash.min.js'
             ],
             tests: ['public/lib/angular-mocks/angular-mocks.js']
         },
