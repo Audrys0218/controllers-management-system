@@ -7,7 +7,7 @@ angular.module('core')
             $scope.searchText = '';
             $scope.addEdit = function(microcontrollerId) {
                 placesModel.load().then(function() {
-                    var modalInstance = $uibModal.open({
+                    $uibModal.open({
                         templateUrl: 'modules/core/client/microcontrollers/microcontroller-form/microcontrollers.add-edit.client.view.html',
                         controller: 'AddEditMicrocontrollerController',
                         resolve: {
@@ -24,8 +24,6 @@ angular.module('core')
                             }
                         }
                     });
-
-                    modalInstance.result.then();
                 });
             };
 

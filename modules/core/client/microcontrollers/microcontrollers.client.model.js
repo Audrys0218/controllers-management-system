@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core')
-    .factory('microcontrollersModel', function($http, confirmation, $q) {
+    .factory('microcontrollersModel', function($http, $q) {
 
         var model = {
             microcontrollers: [],

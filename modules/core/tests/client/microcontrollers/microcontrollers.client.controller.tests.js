@@ -3,64 +3,53 @@
 (function() {
     describe('SensorsController', function() {
         beforeEach(module(ApplicationConfiguration.applicationModuleName, function(_$provide_) {
-            _$provide_.value('sensorsModel', jasmine.createSpyObj('sensorsModel', ['addEdit', 'delete', 'bulkDelete', 'bulkDeleteDisabled', 'load', 'startUpdatingSensorsValues', 'stopUpdatingSensorsValues']));
+            _$provide_.value('microcontrollersModel', jasmine.createSpyObj('microcontrollersModel', ['save', 'delete', 'bulkDelete', 'bulkDeleteDisabled', 'load']));
             _$provide_.value('confirmation', jasmine.createSpyObj('confirmation', ['confirm']));
+            _$provide_.value('placesModel', jasmine.createSpyObj('placesModel', ['load']));
         }));
 
         var scope,
-            sensorsModel,
+            microcontrollersModel,
             $q;
 
-        beforeEach(inject(function($rootScope, _$controller_, _sensorsModel_, _$q_) {
+        beforeEach(inject(function($rootScope, _$controller_, _microcontrollersModel_, _$q_) {
             scope = $rootScope.$new();
 
-            sensorsModel = _sensorsModel_;
+            microcontrollersModel = _microcontrollersModel_;
             $q = _$q_;
 
-            _$controller_('SensorsController', {$scope: scope});
+            _$controller_('MicrocontrollersController', {$scope: scope});
 
-            sensorsModel.load.and.returnValue(_$q_.resolve());
+            microcontrollersModel.load.and.returnValue(_$q_.resolve());
         }));
 
-        it('load should call sensorsModel load method and startUpdatingSensorsValues', function() {
-            var deferred = $q.defer();
-            sensorsModel.load.and.returnValue(deferred.promise);
-
-            scope.load();
-            deferred.resolve();
-            scope.$digest();
-
-            expect(sensorsModel.load).toHaveBeenCalledWith();
-            expect(sensorsModel.startUpdatingSensorsValues).toHaveBeenCalledWith();
-        });
-
         it('delete should ask for confirmation', inject(function(confirmation) {
-            var sensorId = 5;
+            var microcontrollerId = 5;
 
-            scope.delete(sensorId);
+            scope.delete(microcontrollerId);
 
             expect(confirmation.confirm).toHaveBeenCalled();
         }));
 
-        it('delete - should ask for confirmation and call sensorsModel.delete with id if confirmed', inject(function(confirmation) {
-            var sensorId = 5;
+        it('delete - should ask for confirmation and call microcontrollersModel.delete with id if confirmed', inject(function(confirmation) {
+            var microcontrollerId = 5;
 
-            scope.delete(sensorId);
+            scope.delete(microcontrollerId);
             var confirmationCallback = confirmation.confirm.calls.argsFor(0)[2];
             confirmationCallback();
 
             expect(confirmation.confirm).toHaveBeenCalled();
-            expect(sensorsModel.delete).toHaveBeenCalledWith(sensorId);
+            expect(microcontrollersModel.delete).toHaveBeenCalledWith(microcontrollerId);
         }));
 
-        it('bulkDelete - should ask for confirmation and call sensorsModel.bulkDelete if confirmed', inject(function(confirmation) {
+        it('bulkDelete - should ask for confirmation and call microcontrollersModel.bulkDelete if confirmed', inject(function(confirmation) {
 
             scope.bulkDelete();
             var confirmationCallback = confirmation.confirm.calls.argsFor(0)[2];
             confirmationCallback();
 
             expect(confirmation.confirm).toHaveBeenCalled();
-            expect(sensorsModel.bulkDelete).toHaveBeenCalledWith();
+            expect(microcontrollersModel.bulkDelete).toHaveBeenCalledWith();
         }));
     });
 }());
