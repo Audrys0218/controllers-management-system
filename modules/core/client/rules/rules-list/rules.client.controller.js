@@ -1,38 +1,37 @@
 'use strict';
 
 angular.module('core')
-    .controller('RulesController', ['$scope', '$uibModal', 'rulesModel', function ($scope, $uibModal, rulesModel) {
+    .controller('RulesController', function($scope, $uibModal, rulesModel, confirmation) {
 
         $scope.rulesModel = rulesModel.model;
 
-        $scope.addEdit = function (ruleId) {
-            var modalInstance = $uibModal.open({
+        $scope.addEdit = function(ruleId) {
+            $uibModal.open({
                 templateUrl: 'modules/core/client/rules/rule-form/rules.add-edit.client.view.html',
                 controller: 'AddEditRuleController',
                 size: 'lg',
                 resolve: {
-                    data: function () {
+                    data: function() {
                         return {
                             modelId: ruleId
                         };
                     }
                 }
             });
-
-            modalInstance.result.then();
-
         };
 
-        $scope.delete = function (ruleId) {
-            rulesModel.delete(ruleId);
-        };
-
-        $scope.bulkDelete = rulesModel.bulkDelete;
-        $scope.bulkDeleteDisabled = function () {
-            return !rulesModel.model.rules.some(function (rule) {
-                return rule.isSelected;
+        $scope.delete = function(ruleId) {
+            confirmation.confirm('Warning!', 'Do you really want to delete this item?', function() {
+                rulesModel.delete(ruleId);
             });
         };
 
-        rulesModel.load();
-    }]);
+        $scope.bulkDelete = function() {
+            confirmation.confirm('Warning!', 'Do you really want to delete these items?', function() {
+                rulesModel.bulkDelete();
+            });
+        };
+        $scope.bulkDeleteDisabled = rulesModel.bulkDeleteDisabled;
+
+        $scope.load = rulesModel.load;
+    });

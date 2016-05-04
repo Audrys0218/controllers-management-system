@@ -2,7 +2,7 @@
 
 angular.module('core')
     .factory('rulesModel',
-        function ($http, confirmation, $q) {
+        function($http, $q) {
             var model = {
                 rules: [],
                 defaultRuleObject: {
@@ -16,16 +16,16 @@ angular.module('core')
                 loading: false
             };
 
-            var load = function () {
+            var load = function() {
                 model.loading = true;
-                return $http.get('/api/v1/rules').then(function (response) {
+                return $http.get('/api/v1/rules').then(function(response) {
                     model.rules = response.data;
-                }).finally(function(){
+                }).finally(function() {
                     model.loading = false;
                 });
             };
 
-            var save = function (rule) {
+            var save = function(rule) {
                 if (rule.id) {
                     return $http.put('/api/v1/rules/' + rule.id, rule).then(load);
                 } else {
@@ -33,35 +33,31 @@ angular.module('core')
                 }
             };
 
-            var get = function (id) {
+            var get = function(id) {
                 return $http.get('/api/v1/rules/' + id);
             };
 
-            var deleteRule = function (ruleId) {
-                confirmation.confirm('Warning!', 'Do you really want to delete this item?', function () {
-                    $http({
-                        method: 'DELETE',
-                        url: '/api/v1/rules/' + ruleId
-                    }).then(load);
-                });
+            var deleteRule = function(ruleId) {
+                $http.delete('/api/v1/rules/' + ruleId).then(load);
             };
 
-            var bulkDelete = function () {
-                confirmation.confirm('Warning!', 'Do you really want to delete these items?', function () {
-                    var promises = [];
+            var bulkDelete = function() {
+                var promises = [];
 
-                    model.rules.forEach(deleteItem);
+                model.rules.forEach(deleteItem);
 
-                    function deleteItem(rule) {
-                        if (rule.isSelected) {
-                            promises.push($http({
-                                method: 'DELETE',
-                                url: '/api/v1/rules/' + rule.id
-                            }));
-                        }
+                function deleteItem(rule) {
+                    if (rule.isSelected) {
+                        promises.push($http.delete('/api/v1/rules/' + rule.id));
                     }
+                }
 
-                    $q.all(promises).then(load);
+                $q.all(promises).then(load);
+            };
+
+            var bulkDeleteDisabled = function() {
+                return !model.rules.some(function(rule) {
+                    return rule.isSelected;
                 });
             };
 
@@ -71,7 +67,8 @@ angular.module('core')
                 save: save,
                 get: get,
                 delete: deleteRule,
-                bulkDelete: bulkDelete
+                bulkDelete: bulkDelete,
+                bulkDeleteDisabled: bulkDeleteDisabled
             };
 
         });

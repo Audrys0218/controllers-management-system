@@ -6,6 +6,7 @@
             _$provide_.value('microcontrollersModel', jasmine.createSpyObj('microcontrollersModel', ['save', 'delete', 'bulkDelete', 'bulkDeleteDisabled', 'load']));
             _$provide_.value('confirmation', jasmine.createSpyObj('confirmation', ['confirm']));
             _$provide_.value('placesModel', jasmine.createSpyObj('placesModel', ['load']));
+            _$provide_.value('$uibModal', jasmine.createSpyObj('$uibModal', ['open']));
         }));
 
         var scope,
@@ -51,5 +52,19 @@
             expect(confirmation.confirm).toHaveBeenCalled();
             expect(microcontrollersModel.bulkDelete).toHaveBeenCalledWith();
         }));
+
+
+        it('addEdit - should load places and call modal', inject(function(placesModel, $uibModal, $rootScope) {
+            var deferred = $q.defer();
+            placesModel.load.and.returnValue(deferred.promise);
+
+            scope.addEdit();
+            deferred.resolve([]);
+            $rootScope.$digest();
+
+            expect(placesModel.load).toHaveBeenCalled();
+            expect($uibModal.open).toHaveBeenCalled();
+        }));
+
     });
 }());
