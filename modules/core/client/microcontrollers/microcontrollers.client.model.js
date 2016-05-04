@@ -1,34 +1,21 @@
 'use strict';
 
 angular.module('core')
-    .factory('microcontrollersModel', function ($http, confirmation, $q) {
+    .factory('microcontrollersModel', function($http, confirmation, $q) {
 
         var model = {
             microcontrollers: [],
             loading: false
         };
 
-        var load = function () {
+        var load = function() {
             model.loading = true;
-            return $http({
-                method: 'GET',
-                url: '/api/v1/microcontroller'
-            }).then(function (response) {
+            return $http.get('/api/v1/microcontroller').then(function(response) {
                 model.microcontrollers = response.data;
             }).finally(removeLoader);
         };
 
-        var deleteController = function (controllerId) {
-            confirmation.confirm('Warning!', 'Do you really want to delete this item?', function () {
-                model.loading = true;
-                $http({
-                    method: 'DELETE',
-                    url: '/api/v1/microcontroller/' + controllerId
-                }).then(load).finally(removeLoader);
-            });
-        };
-
-        var save = function (microcontroller) {
+        var save = function(microcontroller) {
             model.loading = true;
             if (microcontroller.id) {
                 return $http.put('/api/v1/microcontroller/' + microcontroller.id, microcontroller).then(load).finally(removeLoader);
@@ -37,7 +24,7 @@ angular.module('core')
             }
         };
 
-        var get = function (id) {
+        var get = function(id) {
             return $http.get('api/v1/microcontroller/' + id);
         };
 
@@ -45,22 +32,28 @@ angular.module('core')
             model.loading = false;
         }
 
-        var bulkDelete = function () {
-            confirmation.confirm('Warning!', 'Do you really want to delete these items?', function () {
-                var promises = [];
+        var deleteController = function(controllerId) {
+            model.loading = true;
+            $http.delete('/api/v1/microcontroller/' + controllerId).then(load).finally(removeLoader);
+        };
 
-                model.microcontrollers.forEach(deleteItem);
+        var bulkDelete = function() {
+            var promises = [];
 
-                function deleteItem(microcontrollers) {
-                    if (microcontrollers.isSelected) {
-                        promises.push($http({
-                            method: 'DELETE',
-                            url: '/api/v1/microcontroller/' + microcontrollers.id
-                        }));
-                    }
+            model.microcontrollers.forEach(deleteItem);
+
+            function deleteItem(microcontrollers) {
+                if (microcontrollers.isSelected) {
+                    promises.push($http.delete('/api/v1/microcontroller/' + microcontrollers.id));
                 }
+            }
 
-                $q.all(promises).then(load);
+            $q.all(promises).then(load);
+        };
+
+        var bulkDeleteDisabled = function() {
+            return !model.microcontrollers.some(function(microcontroller) {
+                return microcontroller.isSelected;
             });
         };
 
@@ -70,6 +63,7 @@ angular.module('core')
             load: load,
             save: save,
             get: get,
-            bulkDelete: bulkDelete
+            bulkDelete: bulkDelete,
+            bulkDeleteDisabled: bulkDeleteDisabled
         };
     });
