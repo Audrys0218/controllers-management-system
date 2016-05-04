@@ -7,7 +7,7 @@ angular.module('core')
 
         $scope.addEdit = function (ruleId) {
             var modalInstance = $uibModal.open({
-                templateUrl: 'modules/core/client/views/rules/rules.add-edit.client.view.html',
+                templateUrl: 'modules/core/client/rules/rule-form/rules.add-edit.client.view.html',
                 controller: 'AddEditRuleController',
                 size: 'lg',
                 resolve: {

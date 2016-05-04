@@ -31,7 +31,7 @@ angular.module('core')
                     };
 
                     addEditService.open({
-                        templateUrl: 'modules/core/client/views/actuators/actuators.add-edit.client.view.html',
+                        templateUrl: 'modules/core/client/actuators/actuator-form/actuators.add-edit.client.view.html',
                         apiUrl: '/api/v1/actuator/',
                         modelId: id,
                         dataModel: dataModel,

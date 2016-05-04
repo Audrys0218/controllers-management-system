@@ -5,7 +5,7 @@ angular.module('core')
         return {
             restrict: 'E',
             require: '^form',
-            templateUrl: 'modules/core/client/directives/rule-trigger-row.html',
+            templateUrl: 'modules/core/client/rules/rule-form/rule-trigger/rule-trigger-row.html',
             scope: {
                 onRemove: '&',
                 index: '=',

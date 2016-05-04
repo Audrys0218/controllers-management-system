@@ -30,7 +30,7 @@ angular.module('core')
                 };
 
                 addEditService.open({
-                    templateUrl: 'modules/core/client/views/sensors/sensors.add-edit.client.view.html',
+                    templateUrl: 'modules/core/client/sensors/sensors.add-edit.client.view.html',
                     apiUrl: '/api/v1/sensors/',
                     modelId: sensorId,
                     dataModel: dataModel,

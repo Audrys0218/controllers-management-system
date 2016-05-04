@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('core')
+angular.module('common')
     .directive('tbAddEdit', function () {
         return {
             restrict: 'E',
             transclude: true,
             scope: false,
-            templateUrl: 'modules/core/client/directives/tb-add-edit.html'
+            templateUrl: 'modules/core/client/common/add-edit-modal/tb-add-edit.html'
         };
     });

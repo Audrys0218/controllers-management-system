@@ -15,29 +15,29 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
         $stateProvider
             .state('places', {
                 url: '/places',
-                templateUrl: 'modules/core/client/views/places/places.client.view.html',
+                templateUrl: 'modules/core/client/places/places.client.view.html',
                 controller: 'PlacesController'
             })
             .state('microcontrollers', {
                 url: '/microcontrollers',
-                templateUrl: 'modules/core/client/views/microcontrollers/microcontrollers.client.view.html',
+                templateUrl: 'modules/core/client/microcontrollers/microcontrollers-list/microcontrollers.client.view.html',
                 controller: 'MicrocontrollersController',
                 controllerAs: 'microcontrollersController'
             })
             .state('sensors', {
                 url: '/sensors',
-                templateUrl: 'modules/core/client/views/sensors/sensors.client.view.html',
+                templateUrl: 'modules/core/client/sensors/sensors-list/sensors.client.view.html',
                 controller: 'SensorsController',
                 controllerAs: 'sensorsController'
             })
             .state('actuators', {
                 url: '/actuators',
-                templateUrl: 'modules/core/client/views/actuators/actuators.client.view.html',
+                templateUrl: 'modules/core/client/actuators/actuators-list/actuators.client.view.html',
                 controller: 'ActuatorsController'
             })
             .state('rules', {
                 url: '/rules',
-                templateUrl: 'modules/core/client/views/rules/rules.client.view.html',
+                templateUrl: 'modules/core/client/rules/rules-list/rules.client.view.html',
                 controller: 'RulesController'
             })
             .state('home', {

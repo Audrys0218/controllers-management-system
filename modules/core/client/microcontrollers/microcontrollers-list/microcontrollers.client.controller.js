@@ -8,7 +8,7 @@ angular.module('core')
             $scope.addEdit = function (microcontrollerId) {
                 placesModel.load().then(function () {
                     var modalInstance = $uibModal.open({
-                        templateUrl: 'modules/core/client/views/microcontrollers/microcontrollers.add-edit.client.view.html',
+                        templateUrl: 'modules/core/client/microcontrollers/microcontroller-form/microcontrollers.add-edit.client.view.html',
                         controller: 'AddEditMicrocontrollerController',
                         resolve: {
                             data: function () {

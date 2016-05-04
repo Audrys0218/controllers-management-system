@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core')
+angular.module('common')
     .service('addEditService', ['$uibModal', '$q', function ($uibModal, $q) {
         this.open = function (data) {
             var deferred = $q.defer(),

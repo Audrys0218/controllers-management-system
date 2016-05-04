@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core').controller('AddEditController', ['$scope', '$uibModalInstance', '$http', 'data', function ($scope, $uibModalInstance, $http, data) {
+angular.module('common').controller('AddEditController', ['$scope', '$uibModalInstance', '$http', 'data', function ($scope, $uibModalInstance, $http, data) {
 
     $scope.model = {};
     $scope.loading = false;

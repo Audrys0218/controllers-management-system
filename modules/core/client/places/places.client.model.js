@@ -22,7 +22,7 @@ angular.module('core')
 
             var addEdit = function (placeId) {
                 addEditService.open({
-                    templateUrl: 'modules/core/client/views/places/place.add-edit.client.view.html',
+                    templateUrl: 'modules/core/client/places/place.add-edit.client.view.html',
                     apiUrl: '/api/v1/places/',
                     modelId: placeId,
                     editTitle: 'Edit place',
