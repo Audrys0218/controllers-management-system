@@ -1,26 +1,26 @@
 'use strict';
 
 angular.module('core')
-    .factory('placesModel', function ($http, addEditService, confirmation, $q) {
+    .factory('placesModel', function($http, $q, addEditService, confirmation ) {
 
             var model = {
                 places: [],
                 loading: false
             };
 
-            var load = function () {
+            var load = function() {
                 model.loading = true;
                 return $http({
                     method: 'GET',
                     url: '/api/v1/places'
-                }).then(function (response) {
+                }).then(function(response) {
                     model.places = response.data;
-                }).finally(function () {
+                }).finally(function() {
                     model.loading = false;
                 });
             };
 
-            var addEdit = function (placeId) {
+            var addEdit = function(placeId) {
                 addEditService.open({
                     templateUrl: 'modules/core/client/places/place.add-edit.client.view.html',
                     apiUrl: '/api/v1/places/',
@@ -30,8 +30,8 @@ angular.module('core')
                 }).then(load);
             };
 
-            var deletePlace = function (placeId) {
-                confirmation.confirm('Warning!', 'Do you really want to delete this item?', function () {
+            var deletePlace = function(placeId) {
+                confirmation.confirm('Warning!', 'Do you really want to delete this item?', function() {
                     $http({
                         method: 'DELETE',
                         url: '/api/v1/places/' + placeId
@@ -39,8 +39,8 @@ angular.module('core')
                 });
             };
 
-            var bulkDelete = function () {
-                confirmation.confirm('Warning!', 'Do you really want to delete these items?', function () {
+            var bulkDelete = function() {
+                confirmation.confirm('Warning!', 'Do you really want to delete these items?', function() {
                     var promises = [];
 
                     model.places.forEach(deleteItem);
@@ -58,12 +58,19 @@ angular.module('core')
                 });
             };
 
+            var bulkDeleteDisabled = function() {
+                return !model.places.some(function(place) {
+                    return place.isSelected;
+                });
+            };
+
             return {
                 model: model,
                 load: load,
                 addEdit: addEdit,
                 delete: deletePlace,
-                bulkDelete: bulkDelete
+                bulkDelete: bulkDelete,
+                bulkDeleteDisabled: bulkDeleteDisabled
             };
 
         }

@@ -1,24 +1,12 @@
 'use strict';
 
 angular.module('core')
-    .controller('PlacesController', ['$scope', 'placesModel', 'alertService', function ($scope, placesModel) {
+    .controller('PlacesController', function($scope, placesModel) {
         $scope.model = placesModel.model;
         $scope.searchText = '';
-
-        $scope.addEdit = function (placeId) {
-            placesModel.addEdit(placeId);
-        };
-
-        $scope.delete = function (placeId) {
-            placesModel.delete(placeId);
-        };
-
+        $scope.addEdit = placesModel.addEdit;
+        $scope.delete = placesModel.delete;
         $scope.bulkDelete = placesModel.bulkDelete;
-        $scope.bulkDeleteDisabled = function () {
-            return !placesModel.model.places.some(function (place) {
-                return place.isSelected;
-            });
-        };
-
-        placesModel.load();
-    }]);
+        $scope.bulkDeleteDisabled = placesModel.bulkDeleteDisabled;
+        $scope.load = placesModel.load;
+    });
