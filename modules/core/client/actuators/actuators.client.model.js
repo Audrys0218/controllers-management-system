@@ -2,7 +2,7 @@
 
 angular.module('core')
     .factory('actuatorsModel',
-        function ($http, addEditService, confirmation, microcontrollersModel, actuatorsTypesModel, $q) {
+        function ($http, addEditService, microcontrollersModel, actuatorsTypesModel, $q) {
 
             var model = {
                 actuators: [],
@@ -11,10 +11,7 @@ angular.module('core')
 
             var load = function () {
                 model.loading = true;
-                return $http({
-                    method: 'GET',
-                    url: '/api/v1/actuator'
-                }).then(function (response) {
+                return $http.get('/api/v1/actuator').then(function (response) {
                     model.actuators = response.data;
                 }).finally(function(){
                     model.loading = false;
@@ -42,36 +39,34 @@ angular.module('core')
             };
 
             var deleteActuator = function (controllerId) {
-                confirmation.confirm('Warning!', 'Do you really want to delete this item?', function () {
-                    $http({
-                        method: 'DELETE',
-                        url: '/api/v1/actuator/' + controllerId
-                    }).then(load);
-                });
+                $http.delete('/api/v1/actuator/' + controllerId).then(load);
             };
 
             var bulkDelete = function () {
-                confirmation.confirm('Warning!', 'Do you really want to delete these items?', function () {
+
                     var promises = [];
 
                     model.actuators.forEach(deleteItem);
 
                     function deleteItem(actuator) {
                         if (actuator.isSelected) {
-                            promises.push($http({
-                                method: 'DELETE',
-                                url: '/api/v1/actuator/' + actuator.id
-                            }));
+                            promises.push($http.delete('/api/v1/actuator/' + actuator.id));
                         }
                     }
 
                     $q.all(promises).then(load);
-                });
+
             };
 
             var changeValue = function (actuator) {
                 actuator.value = + actuator.value; //converting boolean values to int
                 return $http.put('/api/v1/actuator/' + actuator.id + '/value', {value: actuator.value});
+            };
+
+            var bulkDeleteDisabled = function () {
+                return !model.actuators.some(function (controller) {
+                    return controller.isSelected;
+                });
             };
 
             return {
@@ -80,7 +75,7 @@ angular.module('core')
                 addEdit: addEdit,
                 delete: deleteActuator,
                 bulkDelete: bulkDelete,
-                changeValue: changeValue
+                changeValue: changeValue,
+                bulkDeleteDisabled: bulkDeleteDisabled
             };
-
         });
