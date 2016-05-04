@@ -11,7 +11,6 @@ var getParallelFunction = function (outcome) {
     return function (callback) {
         var result;
         var cb = function(success) {
-            console.log('Updated: ' + result);
             if (success) {
                 Controller.findOneAndUpdate({_id: outcome.controller._id}, {value: outcome.value}, function (err) {
                     if (err) {
@@ -45,7 +44,6 @@ module.exports.executeOutcomes = function (outcomeStates, callback) {
 
     if (Object.keys(parallelObj).length > 0) {
         async.parallel(parallelObj, function(err, results) {
-            console.log(results);
             if (callback) {
                 callback(results);
             }
