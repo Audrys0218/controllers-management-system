@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('core').controller('ConfirmationController', ['$scope', '$uibModalInstance', 'data', function ($scope, $uibModalInstance, data) {
-
+angular.module('common').controller('ConfirmationController', ['$scope', '$uibModalInstance', 'data', function ($scope, $uibModalInstance, data) {
     $scope.title = data.title;
     $scope.message = data.message;
 

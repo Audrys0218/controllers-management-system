@@ -5,6 +5,6 @@ angular.module('common')
         return {
             restrict: 'E',
             scope: false,
-            templateUrl: 'modules/core/client/common/directives/content-head.html'
+            templateUrl: 'modules/core/client/common/content-head/content-head.html'
         };
     });

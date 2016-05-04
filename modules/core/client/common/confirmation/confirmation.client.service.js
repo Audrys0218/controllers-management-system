@@ -5,7 +5,7 @@ angular.module('common')
 
         this.confirm = function (title, message, callback) {
             var modalInstance = $uibModal.open({
-                templateUrl: 'modules/core/client/views/confirmation/confirmation.client.view.html',
+                templateUrl: 'modules/core/client/common/confirmation/confirmation.client.view.html',
                 controller: 'ConfirmationController',
                 resolve: {
                     data: function () {

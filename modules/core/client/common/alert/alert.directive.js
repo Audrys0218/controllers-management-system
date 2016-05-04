@@ -4,7 +4,7 @@ angular.module('common')
     .directive('alerts', function () {
         return {
             restrict: 'A',
-            templateUrl: 'modules/core/client/common/directives/alerts.html',
+            templateUrl: 'modules/core/client/common/alert/alerts.html',
             controller: function ($scope, alertService) {
                 $scope.alertsModel = alertService.model;
 
