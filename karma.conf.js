@@ -14,6 +14,7 @@ module.exports = function (karmaConfig) {
     frameworks: ['jasmine'],
 
     preprocessors: {
+      'modules/*/client/**/*.js': ['coverage'],
       'modules/*/client/views/**/*.html': ['ng-html2js']
     },
 
@@ -25,12 +26,17 @@ module.exports = function (karmaConfig) {
       },
     },
 
+    coverageReporter: {
+      type : 'html',
+      dir : 'coverage/'
+    },
+
     // List of files / patterns to load in the browser
     files: _.union(defaultAssets.client.lib.js, defaultAssets.client.lib.tests, defaultAssets.client.js, testAssets.tests.client, defaultAssets.client.views),
 
     // Test results reporter to use
     // Possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage'],
 
     // Web server port
     port: 9876,
@@ -53,6 +59,14 @@ module.exports = function (karmaConfig) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
+
+    plugins: [
+      'karma-coverage',
+      'karma-jasmine',
+      'karma-ng-html2js-preprocessor',
+      'karma-phantomjs-launcher'
+    ],
+
     browsers: ['PhantomJS'],
 
     // If browser does not capture in given timeout [ms], kill it
