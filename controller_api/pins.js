@@ -21,6 +21,9 @@ module.exports = {
             pins[pinName].pin.write(digitalValue);
             pins[pinName].value = digitalValue;
         }
+    },
+    getStatus: function(){
+        return pins;
     }
 };
 

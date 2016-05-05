@@ -7,7 +7,7 @@ exports.start = function() {
     setInterval(function() {
         request({
             method: 'PUT',
-            url: 'http://192.168.0.102/test',
+            url: 'http://192.168.0.102:3000/test',
             body: getRequest()
         }, function(err) {
             if (err) {
@@ -18,16 +18,17 @@ exports.start = function() {
     }, 3000);
 
     function getRequest() {
-        var request = [];
-        for (var pinName in pins) {
-            if (pins[pinName].mode === 'input') {
-                pins[pinName].value = pins[pinName].pin.read();
+        var request = [],
+            pinsData = pins.getStatus();
+        for (var pinName in pinsData) {
+            if (pinsData[pinName].mode === 'input') {
+                pinsData[pinName].value = pinsData[pinName].pin.read();
             }
 
             request.push({
                 pin: pinName,
-                mode: pins[pinName].mode,
-                value: pins[pinName].value
+                mode: pinsData[pinName].mode,
+                value: pinsData[pinName].value
             })
         }
 
