@@ -2,7 +2,7 @@ var pins = require('./pins'),
     request = require('request');
 
 exports.start = function() {
-    console.log('Notifaction service started...');
+    console.log('Notification service started...');
 
     setInterval(function() {
         request({
@@ -15,6 +15,10 @@ exports.start = function() {
     function getRequest() {
         var request = [];
         for (var pinName in pins) {
+            if(pins[pinName].mode === 'input'){
+                pins[pinName].value = pins[pinName].pin.read();
+            }
+
             request.push({
                 pin: pinName,
                 mode: pins[pinName].mode,

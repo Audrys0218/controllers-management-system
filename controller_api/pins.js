@@ -6,22 +6,21 @@ module.exports = {
 
         pins[pinName] = pins[pinName] || {};
 
-        pins[pinName] = pins[pinName] || new gpio.DigitalOutput(pinName);
+        if (isNaN(digitalValue)) {
+            if (!pins[pinName].pin) {
+                pins[pinName].pin = new gpio.DigitalInput(pinName);
+                pins[pinName].mode = 'input';
+            }
+            //pins[pinName].value = pins[pinName].pin.read();
+        } else {
+            if (!pins[pinName].pin) {
+                pins[pinName].pin = new gpio.DigitalOutput(pinName);
+                pins[pinName].mode = 'output';
+            }
 
-        pins[pinName].mode = 'output';
-
-        if(isNaN(digitalValue)){
-            pins[pinName].output.write(0);
-            return;
+            pins[pinName].pin.write(digitalValue);
+            pins[pinName].value = digitalValue;
         }
-
-        pins[pinName].output.write(digitalValue);
-    },
-
-    setMode: function(pinName, mode){
-        pins[pinName] = pins[pinName] || {};
-        pins[pinName].mode =  mode === 'output' ? 'output' : 'input';
-        pins[pinName].output = mode === 'output' ? new gpio.DigitalOutput(pinName) : new gpio.DigitalInput(pinName);
     }
 };
 
