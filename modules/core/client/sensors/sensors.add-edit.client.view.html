@@ -55,11 +55,10 @@
        ng-class="{ 'has-error': form.pin.$error.required && form.pin.$touched}">
     <label for="pin">Pin number:</label>
     <input name="pin"
-           type="number"
+           type="text"
            class="form-control"
            id="pin"
            ng-model="model.pinNumber"
-           min="0"
            required/>
     <div ng-messages="form.pin.$error"
          ng-if="form.pin.$touched">

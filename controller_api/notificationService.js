@@ -8,10 +8,10 @@ exports.start = function() {
     setInterval(sendStatus, 3000);
 
     function sendStatus() {
-        request({
-            method: 'PUT',
+        request.post({
             url: 'http://192.168.0.101:3000/test',
-            form: getRequest()
+            body: getRequest(),
+            headers: {'Content-Type': 'application/json'}
         }, function(err) {
             if (err) {
                 return console.log(err);

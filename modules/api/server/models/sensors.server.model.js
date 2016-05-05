@@ -30,7 +30,7 @@ var SensorSchema = new Schema({
         required: 'Type cannot be blank.'
     },
     pinNumber: {
-        type: Number,
+        type: String,
         required: 'Pin number cannot be blank'
     },
     isActive: {
