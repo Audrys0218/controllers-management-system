@@ -7,8 +7,10 @@ exports.start = function() {
     setInterval(function() {
         request({
             method: 'PUT',
-            url: 'http//192.168.0.102/log',
+            url: 'http://192.168.0.102/log',
             body: getRequest()
+        }, function(){
+            console.log('State were send from notification service.');
         });
     }, 3000);
 
