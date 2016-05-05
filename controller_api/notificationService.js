@@ -7,9 +7,12 @@ exports.start = function() {
     setInterval(function() {
         request({
             method: 'PUT',
-            url: 'http://192.168.0.102/log',
+            url: 'http://192.168.0.102/test',
             body: getRequest()
-        }, function(){
+        }, function(err) {
+            if (err) {
+                return console.log(err);
+            }
             console.log('State were send from notification service.');
         });
     }, 3000);
@@ -17,7 +20,7 @@ exports.start = function() {
     function getRequest() {
         var request = [];
         for (var pinName in pins) {
-            if(pins[pinName].mode === 'input'){
+            if (pins[pinName].mode === 'input') {
                 pins[pinName].value = pins[pinName].pin.read();
             }
 
