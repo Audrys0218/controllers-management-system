@@ -3,19 +3,22 @@ var pins = require('./pins'),
 
 exports.start = function() {
     console.log('Notification service started...');
+    sendStatus();
 
-    setInterval(function() {
+    setInterval(sendStatus, 3000);
+
+    function sendStatus() {
         request({
             method: 'PUT',
-            url: 'http://192.168.0.102:3000/test',
-            body: getRequest()
+            url: 'http://192.168.0.101:3000/test',
+            form: getRequest()
         }, function(err) {
             if (err) {
                 return console.log(err);
             }
             console.log('State were send from notification service.');
         });
-    }, 3000);
+    };
 
     function getRequest() {
         var request = [],
