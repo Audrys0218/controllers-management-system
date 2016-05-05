@@ -6,8 +6,6 @@ var controller = require('./controller');
 
 var router = Router();
 
-var status = 0;
-
 router.get('/', function(req, res) {
     console.log('alive');
     res.json({
@@ -19,10 +17,11 @@ router.put('/:pin/value/:value', controller.setValue);
 
 raspi.init(function() {
     console.log('initializing GPIO');
+    require('./notificationService').start();
 });
 
 var server = http.createServer(function(req, res) {
-    router(req, res, finalhandler(req, res))
+    router(req, res, finalhandler(req, res));
 });
 
 server.listen(8000);

@@ -174,3 +174,9 @@ exports.changeValue = function(req, res) {
         });
     });
 };
+
+exports.test = function(req, res){
+    console.log(req.body);
+
+    return res.json();
+};

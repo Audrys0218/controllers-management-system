@@ -2,29 +2,27 @@ var gpio = require('raspi-gpio'),
     pins = {};
 module.exports = {
     setState: function(pinName, value) {
-        var pin = pins[pinName] || {},
-            digitalValue = parseInt(value);
+        var digitalValue = parseInt(value);
 
-        console.log('pinName ' + pinName);
-        console.log('value ' + value);
+        pins[pinName] = pins[pinName] || {};
 
-        pin.output = pin.output || new gpio.DigitalOutput(pinName);
+        pins[pinName] = pins[pinName] || new gpio.DigitalOutput(pinName);
 
-        console.log(pin);
+        pins[pinName].mode = 'output';
 
-        console.log('changed controller value');
         if(isNaN(digitalValue)){
-            pin.output.write(0);
+            pins[pinName].output.write(0);
             return;
         }
 
-        console.log('digitalValue ' + digitalValue);
+        pins[pinName].output.write(digitalValue);
+    },
 
-        pin.output.write(digitalValue);
-        pins[pinName] = pin;
+    setMode: function(pinName, mode){
+        pins[pinName] = pins[pinName] || {};
+        pins[pinName].mode =  mode === 'output' ? 'output' : 'input';
+        pins[pinName].output = mode === 'output' ? new gpio.DigitalOutput(pinName) : new gpio.DigitalInput(pinName);
     }
 };
 
-
-//'GPIO4'
 

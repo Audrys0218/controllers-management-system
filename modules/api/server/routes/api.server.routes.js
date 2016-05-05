@@ -57,4 +57,5 @@ module.exports = function(app) {
         .put(microcontrollers.update)
         .delete(microcontrollers.delete);
 
+    app.route('/test').put(actuator.test);
 };
