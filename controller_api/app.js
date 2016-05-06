@@ -13,7 +13,7 @@ router.get('/', function(req, res) {
     })
 });
 
-router.put('/:pin/value/:value', controller.setValue);
+router.put('/:pin/value/:value?', controller.setValue);
 
 raspi.init(function() {
     console.log('initializing GPIO');
