@@ -8,9 +8,6 @@ var async = require('async'),
 
 function getParallelFunction(outcome) {
     return function(callback) {
-
-
-
         if(outcome.actuator.populated('microController')){
             makeRequest(outcome.actuator.microController.ip);
         } else {

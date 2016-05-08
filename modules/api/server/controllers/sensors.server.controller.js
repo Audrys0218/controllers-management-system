@@ -167,90 +167,6 @@ exports.delete = function(req, res) {
     }
 };
 
-exports.valueChanged = function(req, res) {
-    var clientIp = require('request-ip').getClientIp(req).match(/\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b/);
-    if (clientIp.length === 0) {
-        return res.status(400).json({
-            message: 'Unable to parse ip address from request'
-        });
-    }
-
-    async.waterfall([
-        findMicrocontroller,
-        checkIfMicrocontrollerFound,
-        findSensor,
-        checkIfSensorFound,
-        updateSensorValue,
-        checkRules
-    ], done);
-
-    function findMicrocontroller(callback) {
-        MicroController.find({ip: clientIp}).exec(callback);
-    }
-
-    function checkIfMicrocontrollerFound(microcontrollers, callback) {
-        if (microcontrollers.length === 0) {
-            return callback(new httpError.NotFound('Devices was not found by ip'));
-        }
-
-        callback(null, microcontrollers[0]);
-    }
-
-    function findSensor(microcontroller, callback) {
-        Sensor.find({'$and': [{microController: microcontroller.id}, {pinNumber: req.body.pin}]}).exec(callback);
-    }
-
-    function checkIfSensorFound(sensors, callback) {
-        if (sensors.length === 0) {
-            return callback(new httpError.NotFound('Sensor was not found by pin number'));
-        }
-
-        callback(null, sensors[0]);
-    }
-
-    function updateSensorValue(sensor, callback) {
-        sensor.value = req.body.value;
-        sensor.save(function(err) {
-            if (err) {
-                return callback(err);
-            }
-            return callback(null, sensor);
-        });
-    }
-
-    function checkRules(sensor, callback) {
-        Rule.find({
-            triggers: {
-                $elemMatch: {
-                    sensor: sensor._id
-                }
-            }
-        }).sort('priority')
-            .populate('triggers.sensor').populate('outcomes.actuator')
-            .exec(function(err, rules) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    if (rules.length > 0) {
-                        rulesHandler.execute(rules, callback);
-                    } else {
-                        callback(null);
-                    }
-                }
-            });
-    }
-
-    function done(err) {
-        if (err) {
-            return res.status(err.status || 400).json({
-                message: err.status ? err.message : errorHandler.getErrorMessage(err)
-            });
-        }
-
-        return res.json();
-    }
-};
-
 exports.sensorsValues = function(req, res) {
     Sensor.find().exec(function(err, sensors) {
         if (err) {
@@ -313,11 +229,16 @@ exports.test = function(req, res) {
                     sensor.value = currentPinState.value;
                     sensor.save(function() {
                         Rule.find({
-                            triggers: {
-                                $elemMatch: {
-                                    sensor: sensor._id
+                            $and: [
+                                {enabled: true},
+                                {
+                                    triggers: {
+                                        $elemMatch: {
+                                            sensor: sensor._id
+                                        }
+                                    }
                                 }
-                            }
+                            ]
                         }).sort('priority')
                             .populate('triggers.sensor').populate('outcomes.actuator')
                             .exec(function(err, rules) {
@@ -336,7 +257,6 @@ exports.test = function(req, res) {
 
         Actuator.find({microController: microcontroller._id}).populate('microController').exec(function(err, actuators) {
             actuators.forEach(function(actuator) {
-                //console.log(actuator);
                 var currentPinState = _.find(req.body, {'pin': actuator.pinNumber, mode: 'output'});
                 if (!currentPinState || currentPinState.value !== actuator.value) {
                     var outcomes = {};

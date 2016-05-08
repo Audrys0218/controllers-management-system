@@ -158,20 +158,23 @@ exports.delete = function(req, res) {
     });
 };
 
-exports.changeValue = function(req, res) {
+exports.changeValue = function(req , res) {
     var id = req.params.id;
+    console.log(id);
     var outcomExecutor = require('../services/outcomesExecutorService');
     Actuator.findOne({_id: id}).populate('microController').exec(function(err, actuator) {
         var outcomes = {};
+
+        console.log(actuator);
 
         outcomes[actuator._id] = {
             actuator: actuator,
             value: req.body.value
         };
 
-        outcomExecutor.executeOutcomes(outcomes, function(){
-            return res.json();
-        });
+        outcomExecutor.executeOutcomes(outcomes);
+
+        return res.json();
     });
 };
 

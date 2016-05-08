@@ -8,7 +8,7 @@ angular.module('core')
 
             $scope.name = 'outcome_name_' + $scope.index;
 
-            $scope.load = function(){
+            $scope.load = function() {
                 actuatorsOptionsModel.load().then(function() {
                     $scope.outcome.actuator = $scope.outcome.actuator || actuatorsOptionsModel.model.actuatorsOptions[0].id;
 
@@ -36,10 +36,10 @@ angular.module('core')
                         var min = $scope.getMin(),
                             max = $scope.getMax();
 
-                        if (typeof $scope.outcome.value === 'undefined'
-                            || typeof $scope.outcome.value === 'string'
-                            || $scope.outcome.value < min
-                            || $scope.outcome.value > max) {
+                        if (typeof $scope.outcome.value === 'undefined' ||
+                            typeof $scope.outcome.value === 'string' ||
+                            $scope.outcome.value < min ||
+                            $scope.outcome.value > max) {
                             return 'Value should be between ' + min + ' and ' + max;
                         }
 

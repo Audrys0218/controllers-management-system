@@ -26,7 +26,7 @@ exports.start = function() {
         for (var pinName in pinsData) {
             console.log(pinName);
             if (pinsData[pinName].mode === 'input') {
-                pinsData[pinName].value = pinsData[pinName].pin.read();
+                pinsData[pinName].value = pinsData[pinName].pin.read() === 0 ? 1 : 0;
             }
 
             request.push({
@@ -35,8 +35,6 @@ exports.start = function() {
                 value: pinsData[pinName].value
             })
         }
-
-        console.log(JSON.stringify(request));
 
         return JSON.stringify(request);
     }

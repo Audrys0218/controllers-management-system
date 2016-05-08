@@ -41,7 +41,6 @@ module.exports = function(app) {
     app.route('/api/v1/rules/:id/sensors/:sensorId');
 
     app.route('/api/v1/sensors').post(sensors.create);
-    app.route('/api/v1/sensors/value').post(sensors.valueChanged);
     app.route('/api/v1/sensors').get(sensors.list);
     app.route('/api/v1/sensors/values').get(sensors.sensorsValues);
     app.route('/api/v1/sensors/:id')

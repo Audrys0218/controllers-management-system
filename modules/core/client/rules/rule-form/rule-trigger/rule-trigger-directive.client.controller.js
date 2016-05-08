@@ -35,10 +35,10 @@ angular.module('core')
                     var min = $scope.getMin(),
                         max = $scope.getMax();
 
-                    if(typeof $scope.trigger.value === 'undefined'
-                        || typeof $scope.trigger.value === 'string'
-                        || $scope.trigger.value < min
-                        || $scope.trigger.value > max){
+                    if(typeof $scope.trigger.value === 'undefined' ||
+                        typeof $scope.trigger.value === 'string' ||
+                        $scope.trigger.value < min ||
+                        $scope.trigger.value > max){
                         return 'Value should be between ' + min + ' and ' + max;
                     }
 
