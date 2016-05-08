@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('common')
-    .service('confirmation', ['$uibModal', function ($uibModal) {
+    .service('confirmation', function ($uibModal) {
 
         this.confirm = function (title, message, callback) {
             $uibModal.open({
@@ -17,5 +17,4 @@ angular.module('common')
                 }
             }).result.then(callback);
         };
-
-    }]);
+    });
