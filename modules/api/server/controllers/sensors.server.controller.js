@@ -224,35 +224,36 @@ exports.test = function(req, res) {
                         }
                         console.log('Send sensor state to microcontroller');
                     });
-                } else if (typeof currentPinState.value !== 'undefined' && currentPinState.value !== sensor.value) {
-                    console.log('Saving value');
-                    sensor.value = currentPinState.value;
-                    sensor.save(function() {
-                        Rule.find({
-                            $and: [
-                                {enabled: true},
-                                {
-                                    triggers: {
-                                        $elemMatch: {
-                                            sensor: sensor._id
-                                        }
-                                    }
-                                }
-                            ]
-                        }).sort('priority')
-                            .populate('triggers.sensor').populate('outcomes.actuator')
-                            .exec(function(err, rules) {
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    if (rules.length > 0) {
-                                        rulesHandler.execute(rules);
-                                    }
-                                }
-                            });
-                    });
                 }
+                console.log('Saving value');
+                sensor.value = currentPinState.value;
+                sensor.save(function() {
+                    Rule.find({
+                        $and: [
+                            {enabled: true},
+                            {
+                                triggers: {
+                                    $elemMatch: {
+                                        sensor: sensor._id
+                                    }
+                                }
+                            }
+                        ]
+                    }).sort('priority')
+                        .populate('triggers.sensor').populate('outcomes.actuator')
+                        .exec(function(err, rules) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                if (rules.length > 0) {
+                                    rulesHandler.execute(rules);
+                                }
+                            }
+                        });
+                });
             });
+
+            callback(null);
         });
 
         Actuator.find({microController: microcontroller._id}).populate('microController').exec(function(err, actuators) {

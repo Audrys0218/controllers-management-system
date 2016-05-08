@@ -177,9 +177,3 @@ exports.changeValue = function(req , res) {
         return res.json();
     });
 };
-
-exports.test = function(req, res){
-    console.log(req.body);
-
-    return res.json();
-};
