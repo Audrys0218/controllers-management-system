@@ -24,8 +24,8 @@ angular.module('core')
 
         $scope.bulkDeleteDisabled = actuatorsModel.bulkDeleteDisabled;
 
-        $scope.toggleElectricitySwitcher = function(controller) {
-            actuatorsModel.changeValue(controller);
+        $scope.toggleElectricitySwitcher = function(actuator) {
+            actuatorsModel.changeValue(actuator);
         };
 
         $scope.onStopSlide = function($event, value, controller) {

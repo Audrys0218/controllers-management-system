@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('common')
-    .service('addEditService', ['$uibModal', '$q', function ($uibModal, $q) {
+    .service('addEditService', function ($uibModal, $q) {
         this.open = function (data) {
             var deferred = $q.defer(),
                 modalInstance = $uibModal.open({
@@ -27,4 +27,4 @@ angular.module('common')
 
             return deferred.promise;
         };
-    }]);
+    });

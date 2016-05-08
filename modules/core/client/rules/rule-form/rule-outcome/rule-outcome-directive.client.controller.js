@@ -36,12 +36,15 @@ angular.module('core')
                         var min = $scope.getMin(),
                             max = $scope.getMax();
 
-                        if (!$scope.outcome.value || $scope.outcome.value < min || $scope.outcome.value > max) {
+                        if (typeof $scope.outcome.value === 'undefined'
+                            || typeof $scope.outcome.value === 'string'
+                            || $scope.outcome.value < min
+                            || $scope.outcome.value > max) {
                             return 'Value should be between ' + min + ' and ' + max;
                         }
 
                         return '';
                     };
                 });
-            }
+            };
         });

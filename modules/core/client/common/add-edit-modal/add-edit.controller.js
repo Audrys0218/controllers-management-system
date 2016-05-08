@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('common').controller('AddEditController', ['$scope', '$uibModalInstance', '$http', 'data', function ($scope, $uibModalInstance, $http, data) {
+angular.module('common').controller('AddEditController', function ($scope, $uibModalInstance, $http, data) {
 
     $scope.model = {};
     $scope.loading = false;
@@ -39,4 +39,4 @@ angular.module('common').controller('AddEditController', ['$scope', '$uibModalIn
             });
         }
     }
-}]);
+});

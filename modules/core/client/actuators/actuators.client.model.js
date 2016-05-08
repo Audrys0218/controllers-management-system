@@ -38,8 +38,8 @@ angular.module('core')
                 }
             };
 
-            var deleteActuator = function (controllerId) {
-                $http.delete('/api/v1/actuator/' + controllerId).then(load);
+            var deleteActuator = function (id) {
+                $http.delete('/api/v1/actuator/' + id).then(load);
             };
 
             var bulkDelete = function () {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core')
-    .controller('AddEditMicrocontrollerController', ['$scope', '$uibModalInstance', 'microcontrollersModel', 'pingService', 'data',
+    .controller('AddEditMicrocontrollerController',
         function ($scope, $uibModalInstance, microcontrollersModel, pingService, data) {
 
             $scope.microcontroller = {};
@@ -29,4 +29,4 @@ angular.module('core')
             };
 
             $scope.ping = pingService.ping;
-        }]);
+        });

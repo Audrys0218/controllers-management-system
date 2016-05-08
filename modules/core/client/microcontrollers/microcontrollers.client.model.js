@@ -32,7 +32,7 @@ angular.module('core')
             model.loading = false;
         }
 
-        var deleteController = function(controllerId) {
+        var deleteMicrocontroller = function(controllerId) {
             model.loading = true;
             $http.delete('/api/v1/microcontroller/' + controllerId).then(load).finally(removeLoader);
         };
@@ -59,7 +59,7 @@ angular.module('core')
 
         return {
             model: model,
-            delete: deleteController,
+            delete: deleteMicrocontroller,
             load: load,
             save: save,
             get: get,

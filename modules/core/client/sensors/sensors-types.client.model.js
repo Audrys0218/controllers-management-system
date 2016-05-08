@@ -4,6 +4,11 @@ angular.module('core')
     .factory('sensorsTypesModel', [function () {
 
         var model = {
+            'button': {
+                label: 'Button',
+                min: 0,
+                max: 1
+            },
             'light': {
                 label: 'Light',
                 min: 0,
