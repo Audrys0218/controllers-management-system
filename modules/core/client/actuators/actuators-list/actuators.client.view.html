@@ -9,7 +9,8 @@
       <th class="col-md-2">Microcontroller</th>
       <th class="col-md-2">Place</th>
       <th class="col-md-2">Type</th>
-      <th class="col-md-2">Value</th>
+      <th class="col-md-1">Pin</th>
+      <th class="col-md-1">Value</th>
       <th class="col-md-1">Actions</th>
     </tr>
     </thead>
@@ -35,6 +36,7 @@
         {{actuator.place}}
       </td>
       <td>{{actuatorsTypesModel[actuator.type].label}}</td>
+      <td>{{actuator.pinNumber}}</td>
       <td>
         <toggle-switch ng-if="actuator.type === 'electricity_switcher'"
                        class="switch-mini"

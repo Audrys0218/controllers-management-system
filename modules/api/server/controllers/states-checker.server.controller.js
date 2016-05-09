@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
+    path = require('path'),
     Sensor = mongoose.model('Sensor'),
     MicroController = mongoose.model('MicroController'),
     Rule = mongoose.model('Rule'),

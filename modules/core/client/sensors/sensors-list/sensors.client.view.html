@@ -41,10 +41,11 @@
   <table class="table table-hover">
     <thead>
     <tr>
-      <th class="col-md-5">Title</th>
+      <th class="col-md-4">Title</th>
       <th class="col-md-2">Microcontroller</th>
       <th class="col-md-2">Place</th>
       <th class="col-md-1">Type</th>
+      <th class="col-md-1">Pin</th>
       <th class="col-md-1">Value</th>
       <th class="col-md-1">Actions</th>
     </tr>
@@ -73,6 +74,7 @@
         {{sensor.place}}
       </td>
       <td>{{sensorTypesModel[sensor.type].label}}</td>
+      <td>{{sensor.pinNumber}}</td>
       <td>{{sensor.value}}</td>
       <td align="center">
         <button ng-click="addEdit(sensor.id)"
