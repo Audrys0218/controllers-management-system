@@ -6,7 +6,8 @@ module.exports = function(app) {
         places = require('../controllers/places.server.controller'),
         rules = require('../controllers/rules.server.controller'),
         sensors = require('../controllers/sensors.server.controller'),
-        microcontrollers = require('../controllers/microcontrollers.server.controller');
+        microcontrollers = require('../controllers/microcontrollers.server.controller'),
+        statesCheckerController = require('../controllers/states-checker.server.controller');
 
     app.route('/api/v1/actuator').post(actuator.create);
     app.route('/api/v1/actuator').get(actuator.list);
@@ -56,5 +57,5 @@ module.exports = function(app) {
         .put(microcontrollers.update)
         .delete(microcontrollers.delete);
 
-    app.route('/test').post(sensors.test);
+    app.route('/api/v1/states-checker/check').post(statesCheckerController.check);
 };

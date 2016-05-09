@@ -46,7 +46,7 @@ var addVirtualControllerStates = function (outcomes, states) {
     return states;
 };
 
-module.exports.execute = function (rules, callback) {
+module.exports.execute = function (rules) {
     var outcomeStates = {};
 
     for (var i = 0; i < rules.length; i++) {
@@ -67,5 +67,5 @@ module.exports.execute = function (rules, callback) {
         }
     }
 
-    require('./outcomesExecutorService').executeOutcomes(outcomeStates, callback);
+    require('./outcomesExecutorService').executeOutcomes(outcomeStates);
 };
