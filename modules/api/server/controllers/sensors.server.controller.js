@@ -10,8 +10,7 @@ var path = require('path'),
     fs = require('fs'),
     async = require('async'),
     httpError = require('http-errors'),
-    _ = require('lodash'),
-    rulesHandler = require('../services/rulesHandlerService');
+    _ = require('lodash');
 
 exports.create = function(req, res) {
     var sensor = new Sensor(req.body);

@@ -141,7 +141,7 @@ exports.delete = function(req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else if (actuator) {
-            actuator.remove(function(err, removedController) {
+            actuator.remove(function(err) {
                 if (err) {
                     return res.status(400).send({
                         message: errorHandler.getErrorMessage(err)
@@ -161,7 +161,7 @@ exports.delete = function(req, res) {
 exports.changeValue = function(req , res) {
     var id = req.params.id;
     console.log(id);
-    var outcomExecutor = require('../services/outcomesExecutorService');
+    var outcomExecutor = require('../services/outcomes-excutor.server.service');
     Actuator.findOne({_id: id}).populate('microController').exec(function(err, actuator) {
         var outcomes = {};
 

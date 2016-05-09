@@ -9,7 +9,7 @@ var mongoose = require('mongoose'),
     async = require('async'),
     httpError = require('http-errors'),
     _ = require('lodash'),
-    rulesHandler = require('../services/rulesHandlerService');
+    rulesHandler = require('../services/rules-handler.server.service');
 
 
 exports.check = function(req, res) {
@@ -95,7 +95,7 @@ exports.check = function(req, res) {
                         value: actuator.value
                     };
 
-                    require('../services/outcomesExecutorService').executeOutcomes(outcomes);
+                    require('../services/outcomes-excutor.server.service').executeOutcomes(outcomes);
                 }
             });
         });
