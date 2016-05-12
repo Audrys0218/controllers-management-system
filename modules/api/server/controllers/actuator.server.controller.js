@@ -4,10 +4,12 @@ var path = require('path'),
     mongoose = require('mongoose'),
     Actuator = mongoose.model('Actuator'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
-    fs = require('fs');
+    fs = require('fs'),
+    bybis = 0;
 
 exports.create = function(req, res) {
     var actuator = new Actuator(req.body);
+    console.log(req.body);
     actuator.save(function(err) {
         if (err) {
             return res.status(400).send({
@@ -20,7 +22,8 @@ exports.create = function(req, res) {
             microController: actuator.microController,
             title: actuator.title,
             type: actuator.type,
-            pinNumber: actuator.pinNumber
+            pinNumber: actuator.pinNumber,
+            manualControlOn: actuator.manualControlOn
         });
     });
 };
@@ -42,7 +45,8 @@ exports.list = function(req, res) {
                     isActive: actuator.isActive,
                     value: actuator.value,
                     microController: actuator.microController ? actuator.microController.title : '',
-                    place: actuator.microController && actuator.microController.place ? actuator.microController.place.title : ''
+                    place: actuator.microController && actuator.microController.place ? actuator.microController.place.title : '',
+                    manualControlOn: actuator.manualControlOn
                 };
             }));
         }
@@ -71,7 +75,8 @@ exports.read = function(req, res) {
                 microController: actuator.microController,
                 type: actuator.type,
                 pinNumber: actuator.pinNumber,
-                isActive: actuator.isActive
+                isActive: actuator.isActive,
+                manualControlOn: actuator.manualControlOn
             });
         } else {
             return res.status(400).send({
@@ -91,7 +96,6 @@ exports.update = function(req, res) {
     }
 
     Actuator.findById(id).exec(function(err, actuator) {
-        console.log('update: ' + err);
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
@@ -114,13 +118,12 @@ exports.update = function(req, res) {
         }
 
         function updateActuator(actuator) {
-            console.log('pin number');
-            console.log(req.body.pinNumber);
             actuator.title = req.body.title;
             actuator.microController = req.body.microController;
             actuator.type = req.body.type;
             actuator.pinNumber = req.body.pinNumber;
             actuator.isActive = req.body.isActive;
+            actuator.manualControlOn = req.body.manualControlOn;
         }
     });
 };
@@ -169,7 +172,8 @@ exports.changeValue = function(req , res) {
 
         outcomes[actuator._id] = {
             actuator: actuator,
-            value: req.body.value
+            value: req.body.value,
+            manualControlRequest: true
         };
 
         outcomExecutor.executeOutcomes(outcomes);

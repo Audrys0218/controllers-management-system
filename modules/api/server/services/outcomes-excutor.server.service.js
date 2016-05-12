@@ -17,24 +17,28 @@ function getParallelFunction(outcome) {
         }
 
         function makeRequest(ip){
-            require('request').put({
-                url: 'http://' + ip + ':8000/' + outcome.actuator.pinNumber + '/value/' + outcome.value
-            }, function(err) {
-                if (err) {
-                    console.log('Error occur while trying update actuator ' + err);
-                    return callback(err);
-                }
-
-                Actuator.findOneAndUpdate({_id: outcome.actuator._id}, {value: outcome.value}, function(err) {
+            if(!outcome.actuator.manualControlOn || outcome.manualControlRequest){
+                require('request').put({
+                    url: 'http://' + ip + ':8000/' + outcome.actuator.pinNumber + '/value/' + outcome.value
+                }, function(err) {
                     if (err) {
-                        console.log('Controller state saving to db failed! ' + err);
+                        console.log('Error occur while trying update actuator ' + err);
                         return callback(err);
                     }
 
-                    console.log('Controller state saving completed!');
-                    return callback(null);
+                    Actuator.findOneAndUpdate({_id: outcome.actuator._id}, {value: outcome.value}, function(err) {
+                        if (err) {
+                            console.log('Controller state saving to db failed! ' + err);
+                            return callback(err);
+                        }
+
+                        console.log('Controller state saving completed!');
+                        return callback(null);
+                    });
                 });
-            });
+            } else {
+                callback(null);
+            }
         }
     };
 }

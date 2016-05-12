@@ -32,6 +32,10 @@ var ActuatorSchema = new Schema({
         type: String,
         required: 'Pin number cannot be blank'
     },
+    manualControlOn: {
+        type: Boolean,
+        default: false
+    },
     value: {
         type: Number,
         default: 0

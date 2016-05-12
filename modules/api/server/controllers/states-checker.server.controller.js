@@ -81,8 +81,6 @@ exports.check = function(req, res) {
                         });
                 });
             });
-
-            callback(null);
         });
 
         Actuator.find({microController: microcontroller._id}).populate('microController').exec(function(err, actuators) {
