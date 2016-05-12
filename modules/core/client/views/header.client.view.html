@@ -12,7 +12,7 @@
     <a class="navbar-brand">MCMS</a>
   </div>
   <nav class="collapse navbar-collapse"
-       collapse="!isCollapsed"
+       uib-collapse="false"
        role="navigation">
     <ul class="nav navbar-nav"
         ng-if="menu.shouldRender(authentication.user);">
@@ -21,10 +21,10 @@
           ng-switch="item.type"
           ng-class="{ active: $state.includes(item.state), dropdown: item.type === 'dropdown' }"
           class="{{item.class}}"
-          dropdown="item.type === 'dropdown'">
+          uib-dropdown="item.type === 'dropdown'">
         <a ng-switch-when="dropdown"
            class="dropdown-toggle"
-           dropdown-toggle
+           uib-dropdown-toggle
            role="button">{{::item.title}}&nbsp;<span class="caret"></span></a>
         <ul ng-switch-when="dropdown"
             class="dropdown-menu">
@@ -43,9 +43,9 @@
     <ul class="nav navbar-nav navbar-right"
         ng-show="authentication.user">
       <li class="dropdown"
-          dropdown>
+          uib-dropdown>
         <a class="dropdown-toggle user-header-dropdown-toggle"
-           dropdown-toggle
+           uib-dropdown-toggle
            role="button">
           <img ng-src="{{authentication.user.profileImageURL}}"
                alt="{{authentication.user.displayName}}"
