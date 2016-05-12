@@ -39,4 +39,8 @@
     color: #ba0000;
 }
 
+a.btn.disabled, a.btn[disabled], fieldset[disabled] a.btn {
+    cursor: default;
+    pointer-events: auto;
+}
 
