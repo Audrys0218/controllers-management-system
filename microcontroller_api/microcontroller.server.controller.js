@@ -1,7 +1,7 @@
 var pinsStates = require('./pins-states');
 
 module.exports = {
-    setValue: function(req, res){
+    setState: function(req, res){
         pinsStates.setState(req.params.pin, req.params.value);
 
         res.statusCode = 200;
