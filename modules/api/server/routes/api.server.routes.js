@@ -9,51 +9,54 @@ module.exports = function(app) {
         microcontrollers = require('../controllers/microcontrollers.server.controller'),
         statesCheckerController = require('../controllers/states-checker.server.controller');
 
-    app.route('/api/v1/actuator').post(actuator.create);
-    app.route('/api/v1/actuator').get(actuator.list);
+    function isAuthenticated (req, res, next){
+        if(req.isAuthenticated()){
+            return next();
+        }
+        return res.status(400).send({
+            message: 'User is not signed in'
+        });
+    }
+
+    app.route('/api/v1/actuator').post(isAuthenticated, actuator.create);
+    app.route('/api/v1/actuator').get(isAuthenticated, actuator.list);
     app.route('/api/v1/actuator/:id')
-        .get(actuator.read)
-        .put(actuator.update)
-        .delete(actuator.delete);
-    app.route('/api/v1/actuator/:id/value').put(actuator.changeValue);
+        .get(isAuthenticated, actuator.read)
+        .put(isAuthenticated, actuator.update)
+        .delete(isAuthenticated, actuator.delete);
+    app.route('/api/v1/actuator/:id/value').put(isAuthenticated, actuator.changeValue);
 
-    app.route('/api/v1/places').post(places.create);
-    app.route('/api/v1/places').get(places.list);
+    app.route('/api/v1/places').post(isAuthenticated, places.create);
+    app.route('/api/v1/places').get(isAuthenticated, places.list);
     app.route('/api/v1/places/:id')
-        .get(places.read)
-        .put(places.update)
-        .delete(places.delete);
+        .get(isAuthenticated, places.read)
+        .put(isAuthenticated, places.update)
+        .delete(isAuthenticated, places.delete);
 
-    app.route('/api/v1/rules').post(rules.create);
-    app.route('/api/v1/rules').get(rules.list);
-    app.route('/api/v1/rules/sensors-options').get(rules.sensorsOptions);
-    app.route('/api/v1/rules/actuators-options').get(rules.actuatorsOptions);
+    app.route('/api/v1/rules').post(isAuthenticated, rules.create);
+    app.route('/api/v1/rules').get(isAuthenticated, rules.list);
+    app.route('/api/v1/rules/sensors-options').get(isAuthenticated, rules.sensorsOptions);
+    app.route('/api/v1/rules/actuators-options').get(isAuthenticated, rules.actuatorsOptions);
     app.route('/api/v1/rules/:id')
-        .get(rules.read)
-        .put(rules.update)
-        .delete(rules.delete);
+        .get(isAuthenticated, rules.read)
+        .put(isAuthenticated, rules.update)
+        .delete(isAuthenticated, rules.delete);
 
-    app.route('/api/v1/rules/:id/triggers');
-    app.route('/api/v1/rules/:id/triggers/:triggerId');
-
-    app.route('/api/v1/rules/:id/sensors');
-    app.route('/api/v1/rules/:id/sensors/:sensorId');
-
-    app.route('/api/v1/sensors').post(sensors.create);
-    app.route('/api/v1/sensors').get(sensors.list);
-    app.route('/api/v1/sensors/values').get(sensors.sensorsValues);
+    app.route('/api/v1/sensors').post(isAuthenticated, sensors.create);
+    app.route('/api/v1/sensors').get(isAuthenticated, sensors.list);
+    app.route('/api/v1/sensors/values').get(isAuthenticated, sensors.sensorsValues);
     app.route('/api/v1/sensors/:id')
-        .get(sensors.read)
-        .put(sensors.update)
-        .delete(sensors.delete);
+        .get(isAuthenticated, sensors.read)
+        .put(isAuthenticated, sensors.update)
+        .delete(isAuthenticated, sensors.delete);
 
-    app.route('/api/v1/microcontroller').post(microcontrollers.create);
-    app.route('/api/v1/microcontroller/ping').post(microcontrollers.ping);
-    app.route('/api/v1/microcontroller').get(microcontrollers.list);
+    app.route('/api/v1/microcontroller').post(isAuthenticated, microcontrollers.create);
+    app.route('/api/v1/microcontroller/ping').post(isAuthenticated, microcontrollers.ping);
+    app.route('/api/v1/microcontroller').get(isAuthenticated, microcontrollers.list);
     app.route('/api/v1/microcontroller/:id')
-        .get(microcontrollers.read)
-        .put(microcontrollers.update)
-        .delete(microcontrollers.delete);
+        .get(isAuthenticated, microcontrollers.read)
+        .put(isAuthenticated, microcontrollers.update)
+        .delete(isAuthenticated, microcontrollers.delete);
 
-    app.route('/api/v1/states-checker/check').post(statesCheckerController.check);
+    app.route('/api/v1/states-checker/check').post(isAuthenticated, statesCheckerController.check);
 };

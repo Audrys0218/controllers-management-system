@@ -43,9 +43,9 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 url: '/actuators',
                 templateUrl: 'modules/core/client/actuators/actuators-list/actuators.client.view.html',
                 controller: 'ActuatorsController',
-                data: {
-                    roles: ['user']
-                }
+                //data: {
+                //    roles: ['user']
+                //}
             })
             .state('rules', {
                 url: '/rules',
