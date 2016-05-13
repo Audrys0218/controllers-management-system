@@ -67,5 +67,5 @@ module.exports.execute = function (rules) {
         }
     }
 
-    require('./outcomesExecutorService').executeOutcomes(outcomeStates);
+    require('./outcomes-executor.server.service').executeOutcomes(outcomeStates);
 };
