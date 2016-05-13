@@ -2,7 +2,7 @@ var finalhandler = require('finalhandler');
 var http = require('http');
 var Router = require('router');
 var raspi = require('raspi');
-var controller = require('./controller');
+var controller = require('./microcontroller.server.controller');
 
 var router = Router();
 
@@ -17,7 +17,7 @@ router.put('/:pin/value/:value?', controller.setValue);
 
 raspi.init(function() {
     console.log('initializing GPIO');
-    require('./notificationService').start();
+    require('./notification.server.service').start();
 });
 
 var server = http.createServer(function(req, res) {

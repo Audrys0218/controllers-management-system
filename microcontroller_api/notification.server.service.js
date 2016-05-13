@@ -1,4 +1,4 @@
-var pins = require('./pins'),
+var pinsStates = require('./pins-states'),
     request = require('request');
 
 exports.start = function() {
@@ -22,7 +22,7 @@ exports.start = function() {
 
     function getRequest() {
         var request = [],
-            pinsData = pins.getStatus();
+            pinsData = pinsStates.getStates();
         for (var pinName in pinsData) {
             console.log(pinName);
             if (pinsData[pinName].mode === 'input') {
