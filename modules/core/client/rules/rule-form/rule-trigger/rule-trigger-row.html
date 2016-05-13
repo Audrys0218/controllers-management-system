@@ -1,5 +1,5 @@
 <div class="form-inline col-md-12">
-    <div class="form-group col-md-5">
+    <div class="form-group col-md-6">
         <span us-spinner="{radius:5, width:2, length: 4}"
                   spinner-on="sensorsOptionsModel.loading"></span>
         <label>Sensor</label>
@@ -17,7 +17,7 @@
         </select>
     </div>
 
-    <div class="form-group col-md-4" ng-class="{ 'has-error': getValidationMessage()}">
+    <div class="form-group col-md-3" ng-class="{ 'has-error': getValidationMessage()}">
         <label>Value</label>
         <input type="number"
                class="form-control"
@@ -27,11 +27,8 @@
                max="{{getMax()}}"
                required
                uib-tooltip="{{getValidationMessage()}}" />
-    </div>
-
-    <div class="col-md-1">
-                <span class="trigger-remove glyphicon glyphicon-remove-circle"
-                      ng-show="index !== 0"
-                      ng-click="onRemove({index: index})"></span>
+                        <span class="trigger-remove glyphicon glyphicon-remove-circle"
+                              ng-show="index !== 0"
+                              ng-click="onRemove({index: index})"></span>
     </div>
 </div>
