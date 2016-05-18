@@ -168,8 +168,6 @@ exports.changeValue = function(req , res) {
     Actuator.findOne({_id: id}).populate('microController').exec(function(err, actuator) {
         var outcomes = {};
 
-        console.log(actuator);
-
         outcomes[actuator._id] = {
             actuator: actuator,
             value: req.body.value,

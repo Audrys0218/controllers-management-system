@@ -3,7 +3,7 @@
 // Protractor configuration
 exports.config = {
   specs: [
-      'modules/users/tests/e2e/*.js',
-      'modules/core/tests/e2e/*.js'
+      'modules/core/tests/e2e/login.e2e.tests.js',
+      'modules/core/tests/e2e/places.e2e.tests.js'
   ]
 };

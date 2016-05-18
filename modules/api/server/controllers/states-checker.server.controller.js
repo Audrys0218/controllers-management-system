@@ -94,7 +94,7 @@ exports.check = function(req, res) {
                         value: actuator.value
                     };
 
-                    require('../services/outcomes-excutor.server.service').executeOutcomes(outcomes);
+                    require('../services/outcomes-executor.server.service').executeOutcomes(outcomes);
                 }
             });
         });
