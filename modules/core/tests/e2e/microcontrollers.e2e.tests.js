@@ -1,23 +1,21 @@
 'use strict';
 
-describe('Sensors E2E Tests:', function() {
-    describe('Sensors', function() {
+describe('Microcontroller E2E Tests:', function() {
+    describe('Microcontroller', function() {
         it('create', function() {
-            browser.get('http://localhost:3000/sensors');
+            browser.get('http://localhost:3000/microcontrollers');
             element(by.css('[ng-click="addEdit()"]')).click();
-            element(by.model('model.title')).sendKeys('test');
-            element.all(by.options('microcontroller.id as microcontroller.title group by microcontroller.placeTitle for microcontroller in dataModel.microcontrollers')).get(1).click();
-            element.all(by.options('key as value.label for (key , value) in dataModel.sensorsTypes')).get(1).click();
-            element(by.model('model.pinNumber')).sendKeys('GPIO14');
+            element(by.model('microcontroller.title')).sendKeys('test');
+            element(by.css('select option:nth-child(2)')).click();
+            element(by.model('microcontroller.ip')).sendKeys('192.168.0.5');
             element(by.css('[ng-click="save()"]')).click();
 
             browser.sleep(1000);
 
             element(by.css('[ng-click="addEdit()"]')).click();
-            element(by.model('model.title')).sendKeys('test2');
-            element.all(by.options('microcontroller.id as microcontroller.title group by microcontroller.placeTitle for microcontroller in dataModel.microcontrollers')).get(1).click();
-            element.all(by.options('key as value.label for (key , value) in dataModel.sensorsTypes')).get(1).click();
-            element(by.model('model.pinNumber')).sendKeys('GPIO14');
+            element(by.model('microcontroller.title')).sendKeys('test2');
+            element(by.css('select option:nth-child(2)')).click();
+            element(by.model('microcontroller.ip')).sendKeys('192.168.0.5');
             element(by.css('[ng-click="save()"]')).click();
 
             expect(element.all(by.repeater('microcontroller in microcontrollersModel.microcontrollers | filter: searchText')).count()).toBe(2);
@@ -33,7 +31,7 @@ describe('Sensors E2E Tests:', function() {
         });
 
         it('delete', function() {
-            element.all(by.css('[ng-click="delete(sensor.id)"]')).first().click();
+            element.all(by.css('[ng-click="delete(microcontroller.id)"]')).first().click();
             element.all(by.css('[ng-click="ok()"]')).click();
 
             expect(element.all(by.repeater('microcontroller in microcontrollersModel.microcontrollers | filter: searchText')).count()).toBe(1);
