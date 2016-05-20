@@ -4,6 +4,10 @@ var pinsStates = require('./pins-states'),
     config = require('./config.json');
 
 module.exports = {
+    home: function(req, res ){
+        res.sendFile(path.join(__dirname+'/public/host-config-form.html'));
+    },
+
     setState: function(req, res){
         pinsStates.setState(req.params.pin, req.params.value);
         res.send();

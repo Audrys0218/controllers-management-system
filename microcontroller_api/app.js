@@ -8,6 +8,7 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.get('/', microcontrollerController.home);
 app.post('/set-central-server-ip', microcontrollerController.setCentralServerIp);
 app.put('/:pin/value/:value?', microcontrollerController.setState);
 
