@@ -3,7 +3,6 @@ var finalhandler = require('finalhandler'),
     Router = require('router'),
     raspi = require('raspi'),
     microcontrollerController = require('./microcontroller.server.controller');
-
 var router = Router();
 
 router.get('/', function(req, res) {
