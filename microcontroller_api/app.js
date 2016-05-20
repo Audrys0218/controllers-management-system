@@ -2,8 +2,7 @@ var express = require('express'),
     app = express(),
     raspi = require('raspi'),
     bodyParser = require("body-parser"),
-    microcontrollerController = require('./microcontroller.server.controller'),
-    configController = require('./config.server.controller');
+    microcontrollerController = require('./microcontroller.server.controller');
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
