@@ -2,8 +2,9 @@ var finalhandler = require('finalhandler'),
     http = require('http'),
     Router = require('router'),
     raspi = require('raspi'),
-    microcontrollerController = require('./microcontroller.server.controller');
-var router = Router();
+    microcontrollerController = require('./microcontroller.server.controller'),
+    configController = require('./config.server.controller'),
+    router = Router();
 
 router.get('/', function(req, res) {
     console.log('alive');
@@ -11,6 +12,9 @@ router.get('/', function(req, res) {
         message: 'rasberry pi alive'
     })
 });
+
+router.get('/config', configController.getForm);
+router.get('/config/change-host', configController.changeHost);
 
 router.put('/:pin/value/:value?', microcontrollerController.setState);
 
