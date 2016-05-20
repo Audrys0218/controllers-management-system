@@ -1,6 +1,7 @@
 var pinsStates = require('./pins-states'),
     fs = require('fs'),
-    path = require('path');
+    path = require('path'),
+    config = require('./config.json');
 
 module.exports = {
     setState: function(req, res){
