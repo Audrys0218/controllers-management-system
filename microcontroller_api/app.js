@@ -9,7 +9,7 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.post('/set-central-server-ip', configController.setCentralServerIp);
+app.post('/set-central-server-ip', microcontrollerController.setCentralServerIp);
 app.put('/:pin/value/:value?', microcontrollerController.setState);
 
 raspi.init(function() {
