@@ -1,8 +1,8 @@
-var finalhandler = require('finalhandler');
-var http = require('http');
-var Router = require('router');
-var raspi = require('raspi');
-var microcontrollerController = require('./microcontroller.server.controller');
+var finalhandler = require('finalhandler'),
+    http = require('http'),
+    Router = require('router'),
+    raspi = require('raspi'),
+    microcontrollerController = require('./microcontroller.server.controller');
 
 var router = Router();
 

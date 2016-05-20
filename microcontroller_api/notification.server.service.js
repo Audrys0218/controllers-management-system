@@ -1,5 +1,7 @@
 var pinsStates = require('./pins-states'),
-    request = require('request');
+    request = require('request'),
+    config = require('./config.json'),
+    url = 'http://' + config.server + ':' + config.port +'/api/v1/states-checker/check';
 
 exports.start = function() {
     console.log('Notification service started...');
@@ -9,7 +11,7 @@ exports.start = function() {
 
     function sendStatus() {
         request.post({
-            url: 'http://192.168.0.102:3000/test',
+            url: url,
             body: getRequest(),
             headers: {'Content-Type': 'application/json'}
         }, function(err) {
