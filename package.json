@@ -70,12 +70,15 @@
     "webworker-threads": "^0.6.2"
   },
   "devDependencies": {
+    "coveralls": "^2.11.4",
     "gulp": "^3.9.0",
     "gulp-angular-templatecache": "^1.7.0",
     "gulp-autoprefixer": "^2.3.1",
     "gulp-concat": "^2.6.0",
     "gulp-csslint": "~0.1.5",
     "gulp-cssmin": "~0.1.7",
+    "gulp-istanbul": "^0.10.4",
+    "gulp-istanbul-report": "0.0.1",
     "gulp-jshint": "^1.11.2",
     "gulp-karma": "~0.0.4",
     "gulp-less": "^3.0.3",
@@ -86,6 +89,7 @@
     "gulp-nodemon": "^2.0.3",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.0.3",
+    "gulp-shell": "^0.5.2",
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.6",
     "karma": "~0.12.37",
@@ -95,9 +99,9 @@
     "karma-jasmine": "~0.3.6",
     "karma-ng-html2js-preprocessor": "^0.1.2",
     "karma-phantomjs-launcher": "~0.2.0",
+    "protractor-istanbul-plugin": "^2.0.0",
     "run-sequence": "^1.1.1",
     "should": "^7.0.1",
-    "supertest": "^1.0.1",
-    "coveralls": "^2.11.4"
+    "supertest": "^1.0.1"
   }
 }

@@ -246,3 +246,26 @@ gulp.task('debug', function (done) {
 gulp.task('prod', function (done) {
   runSequence('templatecache', 'build', 'env:prod', 'lint', ['nodemon', 'watch'], done);
 });
+
+
+
+gulp.task('results', plugins.shell.task([
+    'istanbul report --include=coverage/*.json'
+]));
+
+gulp.task('coverage-results', function() {
+    //istanbul report --include=coverage/*.json
+    return gulp.src('coverage/*.json')
+        .pipe(plugins.istanbulReport());
+});
+
+gulp.task('copy', function() {
+    return gulp.src('modules/core/client/**/*')
+        .pipe(gulp.dest('test-tmp/'));
+});
+
+gulp.task('instrument', ['copy'], function() {
+    return gulp.src(['modules/core/client/**/*.js'])
+        .pipe(plugins.istanbul({coverageVariable: '__coverage__'}))
+        .pipe(gulp.dest('test-tmp/'));
+});
