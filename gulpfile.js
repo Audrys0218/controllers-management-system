@@ -260,12 +260,12 @@ gulp.task('coverage-results', function() {
 });
 
 gulp.task('copy', function() {
-    return gulp.src('modules/core/client/**/*')
+    return gulp.src('modules/*/!(tests|server)/**/*')
         .pipe(gulp.dest('test-tmp/'));
 });
 
 gulp.task('instrument', ['copy'], function() {
-    return gulp.src(['modules/core/client/**/*.js'])
+    return gulp.src(['modules/*/!(tests|server)/**/*.js'])
         .pipe(plugins.istanbul({coverageVariable: '__coverage__'}))
         .pipe(gulp.dest('test-tmp/'));
 });
