@@ -7,20 +7,7 @@ var config = require('../config'),
     mongoose = require('./mongoose'),
     express = require('./express'),
     chalk = require('chalk'),
-    seed = require('./seed'),
-    cp = require('child_process');
-
-var watcher;
-
-var startWatcher = function () {
-    watcher = cp.fork(__dirname + '../../../processes/watcher/worker.js', [], {execArgv: ['--debug=5859']});
-
-    watcher.on('message', function (m) {
-        console.log('PARENT got message:', m);
-    });
-
-    watcher.send({hello: 'world'});
-};
+    seed = require('./seed');
 
 function seedDB() {
     if (config.seedDB) {
@@ -49,7 +36,6 @@ module.exports.start = function start(callback) {
     var _this = this;
 
     _this.init(function (app, db, config) {
-        // startWatcher();
 
         // Start the app by listening on <port>
         app.listen(config.port, function () {
@@ -73,8 +59,4 @@ module.exports.start = function start(callback) {
 
     });
 
-};
-
-module.exports.getWatcher = function () {
-    return watcher;
 };
