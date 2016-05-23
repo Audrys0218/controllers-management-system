@@ -30,7 +30,7 @@ exports.start = function() {
         for (var pinName in pinsData) {
             console.log(pinName);
             if (pinsData[pinName].mode === 'input') {
-                pinsData[pinName].value = pinsData[pinName].pin.read() === 0 ? 1 : 0;
+                pinsData[pinName].value = pinsData[pinName].pin.read();
             }
 
             request.push({
