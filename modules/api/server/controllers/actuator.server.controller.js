@@ -5,15 +5,29 @@ var path = require('path'),
     Actuator = mongoose.model('Actuator'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     fs = require('fs'),
-    bybis = 0;
+    async = require('async'),
+    httpError = require('http-errors'),
+    validationService = require('../services/validation.server.service'),
+    _ = require('lodash');
 
 exports.create = function(req, res) {
-    var actuator = new Actuator(req.body);
-    console.log(req.body);
-    actuator.save(function(err) {
+    async.waterfall([
+        validate,
+        save,
+    ], done);
+
+    function validate(callback) {
+        validationService.checkPinAvailability(req.body, callback);
+    }
+
+    function save(callback){
+        new Actuator(req.body).save(callback);
+    }
+
+    function done(err, actuator) {
         if (err) {
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
+            return res.status(err.status || 400).json({
+                message: err.status ? err.message : errorHandler.getErrorMessage(err)
             });
         }
 
@@ -25,7 +39,7 @@ exports.create = function(req, res) {
             pinNumber: actuator.pinNumber,
             manualControlOn: actuator.manualControlOn
         });
-    });
+    }
 };
 
 exports.list = function(req, res) {
@@ -89,43 +103,32 @@ exports.read = function(req, res) {
 exports.update = function(req, res) {
     var id = req.params.id;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).send({
-            message: 'Actuator id is invalid'
-        });
+    async.waterfall([
+        validate,
+        update,
+    ], done);
+
+    function validate(callback) {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return callback(new httpError.BadRequest('Actuator id is invalid'));
+        }
+        req.body.id = id;
+        validationService.checkPinAvailability(req.body, callback);
     }
 
-    Actuator.findById(id).exec(function(err, actuator) {
+    function update(callback){
+        Actuator.findOneAndUpdate({_id: id}, req.body).exec(callback);
+    }
+
+    function done(err) {
         if (err) {
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-            });
-        } else if (actuator) {
-            updateActuator(actuator);
-            actuator.save(function() {
-                if (err) {
-                    return res.status(400).send({
-                        message: errorHandler.getErrorMessage(err)
-                    });
-                } else {
-                    res.json();
-                }
-            });
-        } else {
-            return res.status(400).send({
-                message: 'Actuator id is invalid'
+            return res.status(err.status || 400).json({
+                message: err.status ? err.message : errorHandler.getErrorMessage(err)
             });
         }
 
-        function updateActuator(actuator) {
-            actuator.title = req.body.title;
-            actuator.microController = req.body.microController;
-            actuator.type = req.body.type;
-            actuator.pinNumber = req.body.pinNumber;
-            actuator.isActive = req.body.isActive;
-            actuator.manualControlOn = req.body.manualControlOn;
-        }
-    });
+        res.json();
+    }
 };
 
 exports.delete = function(req, res) {
@@ -161,7 +164,7 @@ exports.delete = function(req, res) {
     });
 };
 
-exports.changeValue = function(req , res) {
+exports.changeValue = function(req, res) {
     var id = req.params.id;
     console.log(id);
     var outcomExecutor = require('../services/outcomes-executor.server.service');
