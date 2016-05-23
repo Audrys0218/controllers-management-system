@@ -58,5 +58,5 @@ module.exports = function(app) {
         .put(isAuthenticated, microcontrollers.update)
         .delete(isAuthenticated, microcontrollers.delete);
 
-    app.route('/api/v1/states-checker/check').post(isAuthenticated, statesCheckerController.check);
+    app.route('/api/v1/states-checker/check').post(statesCheckerController.check);
 };

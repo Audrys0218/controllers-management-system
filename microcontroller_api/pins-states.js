@@ -2,7 +2,8 @@ var gpio = require('raspi-gpio'),
     states = {};
 module.exports = {
     setState: function(pinName, value) {
-        console.log('Setting pin state pinName ' + pinName + ' value ' + value);
+        //console.log('Setting pin state pinName ' + pinName + ' value ' + value);
+
         var digitalValue = parseInt(value);
 
         states[pinName] = states[pinName] || {};
@@ -14,11 +15,13 @@ module.exports = {
                     pullResistor: gpio.PULL_UP
                 });
                 states[pinName].mode = 'input';
+                console.log(pinName + ' was opened as input');
             }
         } else {
             if (!states[pinName].pin) {
                 states[pinName].pin = new gpio.DigitalOutput(pinName);
                 states[pinName].mode = 'output';
+                console.log(pinName + ' was opened as output');
             }
 
             states[pinName].pin.write(digitalValue);

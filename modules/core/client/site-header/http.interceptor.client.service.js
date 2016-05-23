@@ -1,4 +1,4 @@
-'use strict';
+    'use strict';
 
 angular.module('core').factory('httpInterceptor', ['$q', '$injector', 'alertService',
     function ($q, $injector, alertService) {

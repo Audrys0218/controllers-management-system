@@ -53,33 +53,34 @@ exports.check = function(req, res) {
                         }
                         console.log('Send sensor state to microcontroller');
                     });
-                }
-                console.log('Saving value');
-                sensor.value = currentPinState.value;
-                sensor.save(function() {
-                    Rule.find({
-                        $and: [
-                            {enabled: true},
-                            {
-                                triggers: {
-                                    $elemMatch: {
-                                        sensor: sensor._id
+
+                } else {
+                    sensor.value = currentPinState.value;
+                    sensor.save(function() {
+                        Rule.find({
+                            $and: [
+                                {enabled: true},
+                                {
+                                    triggers: {
+                                        $elemMatch: {
+                                            sensor: sensor._id
+                                        }
                                     }
                                 }
-                            }
-                        ]
-                    }).sort('priority')
-                        .populate('triggers.sensor').populate('outcomes.actuator')
-                        .exec(function(err, rules) {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                if (rules.length > 0) {
-                                    rulesHandler.execute(rules);
+                            ]
+                        }).sort('priority')
+                            .populate('triggers.sensor').populate('outcomes.actuator')
+                            .exec(function(err, rules) {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    if (rules.length > 0) {
+                                        rulesHandler.execute(rules);
+                                    }
                                 }
-                            }
-                        });
-                });
+                            });
+                    });
+                }
             });
         });
 
