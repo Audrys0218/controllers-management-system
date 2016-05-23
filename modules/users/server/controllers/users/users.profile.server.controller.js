@@ -57,6 +57,7 @@ exports.changeProfilePicture = function (req, res) {
 
     if (user) {
         fs.writeFile('./modules/users/client/img/profile/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+            console.log(uploadError);
             if (uploadError) {
                 return res.status(400).send({
                     message: 'Error occurred while uploading profile picture'

@@ -28,7 +28,6 @@ exports.start = function() {
         var request = [],
             pinsData = pinsStates.getStates();
         for (var pinName in pinsData) {
-            console.log(pinName);
             if (pinsData[pinName].mode === 'input') {
                 pinsData[pinName].value = pinsData[pinName].pin.read();
             }

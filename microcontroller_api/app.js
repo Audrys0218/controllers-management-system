@@ -13,7 +13,7 @@ app.post('/set-central-server-ip', microcontrollerController.setCentralServerIp)
 app.put('/:pin/value/:value?', microcontrollerController.setState);
 
 raspi.init(function() {
-    console.log('initializing GPIO');
+    console.log('Initializing GPIO');
     require('./notification.server.service').start();
 });
 
