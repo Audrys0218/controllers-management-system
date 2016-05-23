@@ -2,7 +2,6 @@ var gpio = require('raspi-gpio'),
     states = {};
 module.exports = {
     setState: function(pinName, value) {
-        //console.log('Setting pin state pinName ' + pinName + ' value ' + value);
 
         var digitalValue = parseInt(value);
 

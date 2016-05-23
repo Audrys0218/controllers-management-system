@@ -10,17 +10,17 @@ exports.start = function() {
     setInterval(sendStatus, 1000);
 
     function sendStatus() {
-        var request = getRequest();
+        var requestBody = getRequest();
         request.post({
             url: url,
-            body: request,
+            body: requestBody,
             headers: {'Content-Type': 'application/json'}
         }, function(err) {
             if (err) {
                 return console.log(err);
             }
             console.log('State were send from notification service.\n');
-            console.log(request);
+            console.log(requestBody);
         });
     };
 
