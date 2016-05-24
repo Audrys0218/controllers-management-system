@@ -29,7 +29,7 @@ exports.start = function() {
             pinsData = pinsStates.getStates();
         for (var pinName in pinsData) {
             if (pinsData[pinName].mode === 'input') {
-                pinsData[pinName].value = pinsData[pinName].pin.read();
+                pinsData[pinName].value = pinsData[pinName].pin.read() === 1 ? 0 : 1;
             }
 
             request.push({
