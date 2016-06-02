@@ -2,7 +2,7 @@
     <div class="form-group col-md-6">
         <span us-spinner="{radius:5, width:2, length: 4}"
               spinner-on="controllersOptionsModel.loading"></span>
-        <label>Controller</label>
+        <label>Actuator</label>
         <select class="form-control"
                 ng-model="outcome.actuator"
                 ng-options="actuator.id as actuator.actuator group by actuator.place for actuator in actuatorsOptionsModel.actuatorsOptions">

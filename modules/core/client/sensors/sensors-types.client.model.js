@@ -9,16 +9,6 @@ angular.module('core')
                 min: 0,
                 max: 1
             },
-            'light': {
-                label: 'Light',
-                min: 0,
-                max: 100
-            },
-            'motion': {
-                label: 'Motion',
-                min: 0,
-                max: 1
-            },
             'temperature': {
                 label: 'Temperature',
                 min: 0,
