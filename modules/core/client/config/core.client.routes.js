@@ -2,10 +2,10 @@
 
 // Setting up route
 angular.module('core').config(['$stateProvider', '$urlRouterProvider',
-    function ($stateProvider, $urlRouterProvider) {
+    function($stateProvider, $urlRouterProvider) {
 
         // Redirect to 404 when route not found
-        $urlRouterProvider.otherwise(function ($injector) {
+        $urlRouterProvider.otherwise(function($injector) {
             $injector.get('$state').transitionTo('not-found', null, {
                 location: false
             });
@@ -14,7 +14,7 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
         // Home state routing
         $stateProvider
             .state('places', {
-                url: '/places',
+                url: '/',
                 templateUrl: 'modules/core/client/places/places.client.view.html',
                 controller: 'PlacesController',
                 data: {
@@ -43,9 +43,9 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 url: '/actuators',
                 templateUrl: 'modules/core/client/actuators/actuators-list/actuators.client.view.html',
                 controller: 'ActuatorsController',
-                //data: {
-                //    roles: ['user']
-                //}
+                data: {
+                    roles: ['user']
+                }
             })
             .state('rules', {
                 url: '/rules',
@@ -54,10 +54,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
                 data: {
                     roles: ['user']
                 }
-            })
-            .state('home', {
-                url: '/',
-                templateUrl: 'modules/core/client/views/home.client.view.html'
             })
             .state('not-found', {
                 url: '/not-found',

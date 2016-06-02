@@ -1,7 +1,12 @@
 'use strict';
 
 angular.module('core')
-    .controller('PlacesController', function($scope, placesModel, confirmation) {
+    .controller('PlacesController', function($scope, placesModel, confirmation, $location, Authentication) {
+        $scope.authentication = Authentication;
+        if (!$scope.authentication.user) {
+            $location.path('authentication/signin');
+        }
+
         $scope.model = placesModel.model;
         $scope.searchText = '';
         $scope.addEdit = placesModel.addEdit;
